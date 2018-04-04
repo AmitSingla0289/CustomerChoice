@@ -16,7 +16,7 @@ class ServiceRecord(object):
         self.website_name = website_name
 
     def save(self):
-        response = final_json[self.service_name]["Response"]
+        response = final_json[self.service_name]["response"]
         response.addRecord(self);
 
     def str11(self):
@@ -32,7 +32,7 @@ class ServiceRecord(object):
             "category": self.category,
             "service_name": self.service_name,
             "review_text": self.reviews[0],
-            "img_src": self.img_src,
+            "picture_urls": self.img_src,
             "website_name":self.website_name}
         #return json.dumps(store_data_dict["review"]).replace("/", "\\/")
 if __name__ == '__main__':

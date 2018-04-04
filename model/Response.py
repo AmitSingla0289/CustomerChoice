@@ -1,13 +1,18 @@
 import json
 class Response():
     def __init__(self,buisnessType):
-        self.Service_Name = None
-        self.URL = None
-        self.Category = None
-        self.Sub_Category = None
-        self.Image = None
+        self.Service_Name = ""
+        self.URL = ""
+        self.Category = ""
+        self.Sub_Category = ""
+        self.Image = []
         self.serviceRecord = []
         self.buisnessType = buisnessType
+        self.original_price =  ""
+        self.sale_price = ""
+        self.availability = ""
+        self.specifications = []
+        self.description = ""
 
     @property
     def Service_Name(self):
@@ -55,6 +60,45 @@ class Response():
     def buisnessType(self, value):
         self._buisnessType = value
 
+    @property
+    def original_price(self):
+        return self._original_price
+
+    @buisnessType.setter
+    def original_price(self, value):
+        self._original_price = value
+
+    @property
+    def specifications(self):
+        return self._specifications
+
+    @buisnessType.setter
+    def specifications(self, value):
+        self._specifications = value
+
+    @property
+    def availability(self):
+        return self._availability
+
+    @availability.setter
+    def availability(self, value):
+        self._availability = value
+
+    @property
+    def sale_price(self):
+        return self._sale_price
+
+    @sale_price.setter
+    def sale_price(self, value):
+        self._sale_price = value
+
+    @property
+    def description(self):
+        return self._description
+
+    @sale_price.setter
+    def description(self, value):
+        self._description = value
 
     def addRecord(self,serviceRecordd):
         self.serviceRecord.append(serviceRecordd)
@@ -65,30 +109,29 @@ class Response():
         for item in self.serviceRecord:
             string1.append(item.str11())
             #str(item)
-        return {
-            "url": self._URL,
+        return {"business_item_data": {
+            "business_type":self._buisnessType,
+            "absolute_url": self._URL,
             "category": self._Category,
+            "name": self._Service_Name +"-" +self._Category,
             "sub_category": self._Sub_Category,
-            "image_src": self._Image,
-            "reviews": string1}
+            "picture_urls": self._Image,
+            "original_price": self._original_price,
+            "sale_price": self._sale_price,
+            "availability": self._availability,
+            "specifications": self._specifications,
+            "website_name": self._Service_Name,
+            "description": self._description
+        },
+            "reviews": string1
+
+        }
+
+
+
 
         #Sreturn json.dumps(store_data_dict).replace("/", "\\/")
 
-    def __repr__(self):
-        store_data_dict = {}
-        string1 = ""
-        for item in self.serviceRecord:
-            string1 = string1 + item.str()
-            #str(item)
-        store_data_dict[self.Service_Name] = {"business_item_data": {
-            "business_type":self.business_type,
-            "absolute_url": self._URL,
-            "category": self._Category,
-            "name":self.Service_Name,
-            "sub_category": self._Sub_Category,
-            "picture_urls": self._Image},
-            "reviews": string1}
-        return json.dumps(store_data_dict)
 
 
 

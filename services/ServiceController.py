@@ -15,6 +15,7 @@ from services.SiteJabberCrawler import SiteJabberCrawler
 from services.WhoIsHostingCrawler import WhoIsHostingCrawler
 from model.Servicemodel import final_json
 import json
+from restapis import Login
 final_dict_reviews= {}
 dict_url={}
 
@@ -31,17 +32,21 @@ class ServiceController(scrapy.Spider):
             response.Service_Name = service_name
             response.Category = category
             response.URL = link["url"]
-            final_json[service_name]={"Response":response}
+            final_json[service_name]={"response":response}
     def closed(self, reason):
         #with open("reviews.json","w") as f:
         #    json.dump(final_json,f)
         str1 = ""
         dictionary = {}
+        buisness_units = []
         for k, v in final_json.items():
-            dictionary[k]={"Response":v["Response"].dump()}
-
+            responselist = []
+            responselist.append(v["response"].dump())
+            dictionary[k]={"scrapping_website_name":k,"scrapping_website_url":v["response"].URL,"response":responselist}
+            buisness_units.append(dictionary[k])
+        Login.postReview({"business_units":buisness_units})
         with open("reviews.json","w") as f:
-            json.dump(dictionary,f)
+            json.dump({"business_units":buisness_units},f)
     def parse(self, response):
         self.log('I just visited: ' + response.url)
         dict_reviews = {}
