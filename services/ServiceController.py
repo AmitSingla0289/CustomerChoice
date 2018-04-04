@@ -20,16 +20,18 @@ dict_url={}
 
 class ServiceController(scrapy.Spider):
     start_urls = []
-    def __init__(self,url,category):
-        #with open("temp.txt", 'r') as f:
-        self.start_urls.append(url)
-
-        response = Response("Service");
-        response.Service_Name = category["ServiceName"]
-        response.Category = category["Category"]
-        response.URL = self.start_urls
-        final_json[""]={"Response":response}
-
+    def __init__(self,url):
+        for link in url:
+            self.start_urls.append(link["url"])
+            category = link["Category"];
+            service_name = link["ServiceName"]
+            dict_url[link["url"]]={"Category":category,
+                      "Service Name":service_name}
+            response = Response("Service");
+            response.Service_Name = service_name
+            response.Category = category
+            response.URL = link["url"]
+            final_json[service_name]={"Response":response}
     def closed(self, reason):
         #with open("reviews.json","w") as f:
         #    json.dump(final_json,f)
@@ -79,12 +81,12 @@ class ServiceController(scrapy.Spider):
         else:
             print ("kuch nhi mila")
 
-        crawler.crawl(response, "", "")
+        crawler.crawl(response, dict_url[response.url]["Category"], dict_url[response.url]["Service Name"])
             
     
-def crawl_services(urls,category):
+def crawl_services(urls):
    process = CrawlerProcess(get_project_settings())
-   process.crawl(ServiceController,urls,category)
+   process.crawl(ServiceController,urls)
    process.start()
    #print final_dict_reviews
 
