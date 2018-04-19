@@ -16,8 +16,7 @@ class BestVPN():
         ratings = "8.2"
         dates = response.xpath("//div[@class='comment-metadata']/time/text()").extract()
         authors = response.xpath("//div[@class='comment-author vcard']/b/text()").extract()
-        img_src = response.xpath(
-            "//div[@class='review-excerpt row']/div[@class='col-lg-6'][1]/a/img[@class='logo']/@src").extract()
+        img_src = response.xpath("//div[@class='review-excerpt row']/div[@class='col-lg-6'][1]/a/img[@class='logo']/@src").extract()
 
         for item in range(1, len(reviews)):
             servicename1 = ServiceRecord(response.url, ratings,None, dates[item], authors[item], category,
