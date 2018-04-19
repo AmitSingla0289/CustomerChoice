@@ -2,12 +2,18 @@ from services.ServiceController import crawl_services
 from product import ProductController
 if __name__ == '__main__':
     urls = [];
+<<<<<<< HEAD
     urls.append({"ServiceName":"Bluehost",
                 "Category":"Hosting Service",
                 "url": "https://www.whoishostingthis.com/hosting-reviews/bluehost/"})
     urls.append({"ServiceName":"zoosk.compy",
                 "Category":"Dating site",
                 "url": "https://www.sitejabber.com/reviews/zoosk.com"})
+=======
+    urls.append({"ServiceName": "Bluehost",
+                 "Category": "Hosting Service",
+                 "url": "https://www.whoishostingthis.com/hosting-reviews/bluehost/"})
+>>>>>>> origin/master
     urls.append({"ServiceName": "Hostgator",
                  "Category": "Hosting Service",
                  "url": "https://hostingfacts.com/hosting-reviews/hostgator-wordpress-managed/"})
@@ -29,6 +35,7 @@ if __name__ == '__main__':
     urls.append({"ServiceName": "Binance",
                  "Category": "Cryptocurrency Excahnges",
                  "url": "https://www.forexbrokerz.com/brokers/binance-review"})
+
     urls.append({"ServiceName": "Expressvpn",
                  "Category": "VPN Service",
                  "url": "https://www.sitejabber.com/reviews/expressvpn.com"})
@@ -53,4 +60,5 @@ if __name__ == '__main__':
     urls.append({"ServiceName": "Expressvpn",
                  "Category": "VPN Service",
                  "url": "https://www.thewebmaster.com/web-hosting/shared/justhost-reviews/"})
+
     crawl_services(urls)

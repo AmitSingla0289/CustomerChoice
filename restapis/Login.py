@@ -1,6 +1,8 @@
 import requests
 import json
 
+from services.ServiceController import crawl_services
+
 param = {
   "email": "data_miner@example.com",
   "password": "ATBdm9",
@@ -16,9 +18,17 @@ def login():
 
 def postReview(review):
   data =login()
-  print(data['data']['token']['access_token'])
   header = {'Content-Type':'application/json','Authorization':'bearer '+data['data']['token']['access_token']}
-  print(header)
   r = requests.post(base_url+"data_miner/store_data",data=json.dumps(review),headers=header)
-  if(r.status_code ==  SUCCESS_STATUS):
-    print(r.text)
+
+def getUrl():
+  data = login()
+  header = {'Authorization': 'bearer ' + data['data']['token']['access_token']}
+  response_website = requests.get(base_url + "scrapping_websites", headers=header)
+  website_data = response_website.json()
+  website_list = []
+  for element in (website_data['data']['scrapping_websites']):
+    website_list.append({"ServiceName": "Bluehost",
+                 "Category": "Hosting Service",
+                 "url": element['url']})
+  crawl_services(website_list)

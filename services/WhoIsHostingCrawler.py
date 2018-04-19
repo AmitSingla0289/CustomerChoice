@@ -15,8 +15,9 @@ class WhoIsHostingCrawler():
         dates = response.xpath("//div[@class='user-info pure-u-1']/time[@class='published']/text()").extract()
         authors = response.xpath("//div[@class='author']/span[@class='name']/text()").extract()
         img_src = response.xpath("//div[@class='host-info wcc']/a[1]/img[@class=' logo']/@src").extract()
+        website_name = response.xpath("//div[@class='mobile']/a[@class='home']/img[@class='logo']/@alt").extract()
         for item in range(1, len(reviews)):
 
             servicename1 = ServiceRecord(response.url, ratings[item], None, None, authors[item], category,
-                          servicename, reviews[item],img_src,"");
+                          servicename, reviews[item],img_src,website_name);
             servicename1.save()
