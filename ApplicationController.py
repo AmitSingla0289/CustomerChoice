@@ -2,18 +2,13 @@ from services.ServiceController import crawl_services
 from product import ProductController
 if __name__ == '__main__':
     urls = [];
-<<<<<<< HEAD
     urls.append({"ServiceName":"Bluehost",
                 "Category":"Hosting Service",
                 "url": "https://www.whoishostingthis.com/hosting-reviews/bluehost/"})
     urls.append({"ServiceName":"zoosk.compy",
                 "Category":"Dating site",
                 "url": "https://www.sitejabber.com/reviews/zoosk.com"})
-=======
-    urls.append({"ServiceName": "Bluehost",
-                 "Category": "Hosting Service",
-                 "url": "https://www.whoishostingthis.com/hosting-reviews/bluehost/"})
->>>>>>> origin/master
+
     urls.append({"ServiceName": "Hostgator",
                  "Category": "Hosting Service",
                  "url": "https://hostingfacts.com/hosting-reviews/hostgator-wordpress-managed/"})
