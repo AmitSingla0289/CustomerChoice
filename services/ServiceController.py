@@ -38,17 +38,8 @@ from services.ThewebmasterCrawler import ThewebmasterCrawler
 from model.Servicemodel import final_json
 import restapis.Login
 import json
-<<<<<<< HEAD
 
 final_dict_reviews= {}
-dict_url={}
-=======
-from restapis import Login
-
-final_dict_reviews = {}
-dict_url = {}
-
->>>>>>> upstream/master
 
 class ServiceController(scrapy.Spider):
     start_urls = []
@@ -78,7 +69,6 @@ class ServiceController(scrapy.Spider):
             dictionary[k] = {"scrapping_website_name": k, "scrapping_website_url": v["response"].URL,
                              "response": responselist}
             buisness_units.append(dictionary[k])
-<<<<<<< HEAD
             # restapis.Login.postReview({"business_units":buisness_units})
         with open("reviews.json","w") as f:
             json.dump({"business_units":buisness_units},f)
@@ -87,19 +77,7 @@ class ServiceController(scrapy.Spider):
         dict_reviews = {}
         reviews= []
         print("xpath     ", response.xpath)
-        if(response.xpath('//div[@class="user-review-content"]')):
-=======
-        #Login.postReview({"business_units": buisness_units})
-        with open("reviews.json", "w") as f:
-            json.dump({"business_units": buisness_units}, f)
-
-    def parse(self, response):
-        self.log('I just visited: ' + response.url)
-        dict_reviews = {}
-        reviews = []
-        crawler = None
         '''if (response.xpath('//div[@class="user-review-content"]')):
->>>>>>> upstream/master
             crawler = HostingFactsCrawler()
         elif (response.xpath('//div[@class="review-summary"]')):
             crawler = HostAdviceCrawler()
@@ -116,73 +94,7 @@ class ServiceController(scrapy.Spider):
             crawler = CapterraCrawler()
         elif (response.xpath('//div[@class="review_top"]/p')):
             crawler = ForexbrokerzCrawler()
-<<<<<<< HEAD
 
-        elif(response.xpath('//div[@class="comments_user_comment"]')):
-            print("Reviews from webshosting")
-            crawler = webshostingFatcow()
-
-        elif (response.xpath('//div[@class="comment-text"]')):
-            print("Reviews from bestvpnforyou.com")
-            crawler = bestVPNForYou()
-
-        elif (response.xpath('//div[@class="review-main"]')):
-            print("Reviews from whtop.com")
-            crawler = whtop()
-
-
-        elif (response.xpath(
-                "//div[@class='left-col col-lg-8 col-lg']/div[@id='reviews']/ul[@class='no-list list-review']/li/span/div[@class='description']")):
-            crawler = HighYaCrawler()
-
-        elif (response.xpath(
-                "//div[@class='campaign-reviews__regular-container js-campaign-reviews__regular-container']/div/div[@class='rvw-bd ca-txt-bd-2']/p")):
-            crawler = consumerAffairsCrawler()
-
-        elif ('yelp.com' in response.url):
-            crawler = yelpCrawler()
-
-        elif ('thewebmaster.com' in response.url):
-            crawler = ThewebmasterCrawler()
-
-        elif('/top11hosting.com' in response.url):
-            crawler = top11Hosting()
-
-        elif(response.xpath('//div[@class="review-one-all"]')):
-            crawler = hostingCharges()
-
-        elif (response.xpath('//div[@class="textHolder"]')):
-            crawler = hostAdvisor()
-
-        elif (response.xpath('//div[@class="customer-review"]')):
-            crawler = webHostingmedia()
-
-        elif (response.xpath('//div[@id="thecomments"]')):
-            crawler = affPaying()
-
-        elif (response.xpath('//div[@class="commentmetadata"]')):
-            crawler = restorePrivacy()
-
-        elif (response.xpath('//div[@class="review-item style_prevu_kit "]')):
-            crawler = vpnMentor()
-
-        elif (response.xpath('//div[@class="comment-body"]')):
-            crawler = vpnRanks()
-
-
-
-        else:
-            print ("kuch nhi mila")
-        print(dict_url)
-        print(response.url)
-        return crawler.crawl(response, dict_url[response.url]["Category"], dict_url[response.url]["Service Name"])
-            
-    
-def crawl_services(urls):
-   process = CrawlerProcess(get_project_settings())
-   process.crawl(ServiceController,urls)
-   process.start()
-=======
         elif(response.xpath("//div[@class='left-col col-lg-8 col-lg']/div[@id='reviews']/ul[@class='no-list list-review']/li/span/div[@class='description']")):
             crawler = HighYaCrawler()
         if(response.xpath("//div[@class='campaign-reviews__regular-container js-campaign-reviews__regular-container']/div/div[@class='rvw-bd ca-txt-bd-2']/p")):
@@ -212,4 +124,3 @@ def crawl_services(urls):
     # with open("reviews.json","w") as f:
     #          json.dump(final_dict_reviews,f)
     # print("Writing json file")
->>>>>>> upstream/master

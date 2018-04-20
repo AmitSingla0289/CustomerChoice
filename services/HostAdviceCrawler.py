@@ -14,7 +14,6 @@ class HostAdviceCrawler(Spider):
         reviews = []
         print("Hostadvice.com")
         # https://hostadvice.com/hosting-company/godaddy-reviews/
-<<<<<<< HEAD
 
         for node in response.xpath('//div[@class="review-summary"]'):
             reviews.append(node.xpath('string()').extract());
@@ -29,14 +28,6 @@ class HostAdviceCrawler(Spider):
                     authors.append(element.text)
                 else:
                     authors.append(element.xpath("//a/strong")[0].text)
-=======
-        for node in response.xpath("//div[@id='reviews']/ul[@class='no-list list-review']/li/span/div[@class='description']"):
-            reviews.append(node.xpath('string()').extract());
-        ratings = response.xpath("//div[@class='review-rating clearfix']/span[@class='review-score']/text()").extract()
-        headings = response.xpath("//div[@class='review-content']/h3[@class='review_header']/text()").extract()
-        authors = response.xpath("//div[@class='review-author']/strong/text()").extract()
-
->>>>>>> upstream/master
         img_src = response.xpath(
             "//div[@class='col-md-offset-1 col-md-5 col-xs-6']/img[ @class='attachment-post-thumbnail size-post-thumbnail wp-post-image']/@src").extract()
         website_name = response.xpath(
