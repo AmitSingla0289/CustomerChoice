@@ -69,7 +69,7 @@ class ServiceController(scrapy.Spider):
             dictionary[k] = {"scrapping_website_name": k, "scrapping_website_url": v["response"].URL,
                              "response": responselist}
             buisness_units.append(dictionary[k])
-            # restapis.Login.postReview({"business_units":buisness_units})
+            restapis.Login.postReview({"business_units":buisness_units})
         with open("reviews.json","w") as f:
             json.dump({"business_units":buisness_units},f)
     def parse(self, response):
@@ -77,7 +77,7 @@ class ServiceController(scrapy.Spider):
         dict_reviews = {}
         reviews= []
         print("xpath     ", response.xpath)
-        '''if (response.xpath('//div[@class="user-review-content"]')):
+        if (response.xpath('//div[@class="user-review-content"]')):
             crawler = HostingFactsCrawler()
         elif (response.xpath('//div[@class="review-summary"]')):
             crawler = HostAdviceCrawler()
