@@ -7,11 +7,10 @@ class HostAdvisorCrawler():
 
     def crawl(self, response, category, servicename):
         reviews = []
-        # https://hostadvice.com/hosting-company/godaddy-reviews/
+        # https://www.hostadvisor.com/reviews/vpn/nordvpn
         for node in :
             reviews.append(node.xpath('string()').extract());
         ratings =
-        headings =  response.xpath("//div[@class='contents']/div[@class='textHolder']/h5/text()").extract()
         dates =
         authors =
         website_name =

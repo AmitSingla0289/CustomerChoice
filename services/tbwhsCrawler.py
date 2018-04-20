@@ -5,7 +5,6 @@ class tbwhsCrawler():
         pass
     def crawl(self, response,category,servicename):
         reviews = []
-        print("review from HighYa.com")
         # https://tbwhs.com/fatcow-web-hosting-reviews/
         for node in response.xpath(''):
             reviews.append(node.xpath('string()').extract());

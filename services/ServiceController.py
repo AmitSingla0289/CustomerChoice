@@ -20,6 +20,7 @@ from services.affgadgetsCrawler import AffgadgetsCrawler
 from services.ProductreviewCrawler import ProductreviewCrawler
 from services.ReviewDatingSitesCrawler import ReviewDatingSitesCrawler
 from services.ThewebmasterCrawler import ThewebmasterCrawler
+from services.TheVPNlabCrawler import TheVPNlanCrawler
 from model.Servicemodel import final_json
 import json
 from restapis import Login
@@ -96,6 +97,8 @@ class ServiceController(scrapy.Spider):
             crawler = ReviewDatingSitesCrawler()
         elif('thewebmaster.com' in response.url):
             crawler = ThewebmasterCrawler()
+        elif('thevpnlab.com' in response.url):
+            crawler = TheVPNlanCrawler()
         else:
             print("kuch nhi mila")
         if(crawler!=None):
