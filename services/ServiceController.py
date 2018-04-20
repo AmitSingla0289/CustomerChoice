@@ -3,6 +3,21 @@ import scrapy
 from scrapy.crawler import CrawlerProcess
 from scrapy.utils.project import get_project_settings
 
+from services.vpnRanks import vpnRanks
+from services.vpnMentor import vpnMentor
+from services.restorePrivacy import restorePrivacy
+from services.affPaying import affPaying
+from services.webHostingmedia import webHostingmedia
+from services.hostAdvisor import hostAdvisor
+from services.hostingCharges import hostingCharges
+from services.top11Hosting import top11Hosting
+from services.ThewebmasterCrawler import ThewebmasterCrawler
+from services.yelpCrawler import yelpCrawler
+from services.consumerAffairsCrawler import consumerAffairsCrawler
+from services.HighYaCrawler import HighYaCrawler
+from services.whtop import whtop
+from services.bestVPNForYou import bestVPNForYou
+from services.webshostingFatcow import webshostingFatcow
 from services.BestVPN import BestVPN
 from services.CapterraCrawler import CapterraCrawler
 from services.ForexbrokerzCrawler import ForexbrokerzCrawler
@@ -22,12 +37,10 @@ from services.ReviewDatingSitesCrawler import ReviewDatingSitesCrawler
 from services.ThewebmasterCrawler import ThewebmasterCrawler
 from services.TheVPNlabCrawler import TheVPNlanCrawler
 from model.Servicemodel import final_json
+import restapis.Login
 import json
-from restapis import Login
 
-final_dict_reviews = {}
-dict_url = {}
-
+final_dict_reviews= {}
 
 class ServiceController(scrapy.Spider):
     start_urls = []
@@ -57,16 +70,15 @@ class ServiceController(scrapy.Spider):
             dictionary[k] = {"scrapping_website_name": k, "scrapping_website_url": v["response"].URL,
                              "response": responselist}
             buisness_units.append(dictionary[k])
-        #Login.postReview({"business_units": buisness_units})
-        with open("reviews.json", "w") as f:
-            json.dump({"business_units": buisness_units}, f)
-
+            restapis.Login.postReview({"business_units":buisness_units})
+        with open("reviews.json","w") as f:
+            json.dump({"business_units":buisness_units},f)
     def parse(self, response):
         self.log('I just visited: ' + response.url)
         dict_reviews = {}
-        reviews = []
-        crawler = None
-        '''if (response.xpath('//div[@class="user-review-content"]')):
+        reviews= []
+        print("xpath     ", response.xpath)
+        if (response.xpath('//div[@class="user-review-content"]')):
             crawler = HostingFactsCrawler()
         elif (response.xpath('//div[@class="review-summary"]')):
             crawler = HostAdviceCrawler()
@@ -83,6 +95,7 @@ class ServiceController(scrapy.Spider):
             crawler = CapterraCrawler()
         elif (response.xpath('//div[@class="review_top"]/p')):
             crawler = ForexbrokerzCrawler()
+
         elif(response.xpath("//div[@class='left-col col-lg-8 col-lg']/div[@id='reviews']/ul[@class='no-list list-review']/li/span/div[@class='description']")):
             crawler = HighYaCrawler()
         if(response.xpath("//div[@class='campaign-reviews__regular-container js-campaign-reviews__regular-container']/div/div[@class='rvw-bd ca-txt-bd-2']/p")):

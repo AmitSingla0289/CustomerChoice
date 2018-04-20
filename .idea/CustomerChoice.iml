@@ -5,7 +5,11 @@
       <excludeFolder url="file://$MODULE_DIR$/venv" />
       <excludeFolder url="file://$MODULE_DIR$/venv1" />
     </content>
+<<<<<<< HEAD
+    <orderEntry type="jdk" jdkName="Python 2.7 (CustomerChoice)" jdkType="Python SDK" />
+=======
     <orderEntry type="jdk" jdkName="Python 3.6 (CustomerChoice)" jdkType="Python SDK" />
+>>>>>>> upstream/master
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
   <component name="TestRunnerService">
