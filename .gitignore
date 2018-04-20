@@ -1,2 +1,9 @@
 /venv/
 reviews.json
+/.idea/
+/model/__pycache__/
+/product/__pycache__/
+/product/amazon/__pycache__/
+/restapis/__pycache__/
+/test.py
+/utils/__pycache__/
