@@ -1,1 +1,4 @@
+<<<<<<< HEAD
 {"business_units": [{"response": [{"reviews": [], "business_item_data": {"category": "Hosting Service", "sub_category": "", "original_price": "", "specifications": [], "website_name": "Bluehost", "availability": "", "picture_urls": [], "business_type": "Service", "name": "Bluehost-Hosting Service", "absolute_url": "https://www.vpnranks.com/nordvpn-review/", "description": "", "sale_price": ""}}], "scrapping_website_url": "https://www.vpnranks.com/nordvpn-review/", "scrapping_website_name": "Bluehost"}]}
+=======
+>>>>>>> upstream/master
