@@ -22,15 +22,10 @@ class consumerAffairsCrawler():
         ratings.pop(0)
         temp_dates = response.xpath("//div[@class='rvw-bd ca-txt-bd-2']/span[@class='ca-txt-cpt ca-txt--clr-gray']/text()").extract()
         dates = []
-        dates.append(date.split(":")[1])
+        for date in temp_dates:
+            dates.append(date.split(":")[1])
         authors =  response.xpath("//div[@class='rvw-aut']/div[@class='rvw-aut__inf']/strong[@class='rvw-aut__inf-nm']/text()").extract()
         website_name = response.xpath("//html/head/meta[3]/@content").extract()
-        print(" Ratings ", len(ratings), ratings)
-        print("dates ", len(dates), dates)
-        print(" Reviews ", len(reviews), reviews)
-        # print(" headings ", len(headings), headings)
-        print(" authors ", len(authors), authors)
-        print(" website_name ", len(website_name), website_name)
         for item in range(0, len(reviews)):
             servicename1 = ServiceRecord(response.url, None, None, dates[item], authors[item], category, servicename,
                                          reviews[item], None, website_name)

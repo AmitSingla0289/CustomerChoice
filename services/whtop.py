@@ -2,12 +2,13 @@ from model.Servicemodel import ServiceRecord
 from scrapy import Spider, Request
 from lxml import etree
 
-class whtop(Spider):
+class whtop():
     def __init__(self):
         pass
     def parsing(self, response):
         return self.crawl(response,self.category,self.servicename)
 
+#TODO rating pending and header not found
     def crawl(self, response, category, servicename):
         reviews = []
         self.category = category
@@ -19,7 +20,6 @@ class whtop(Spider):
         print("dates  ", dates, len(dates))
         website_name = response.xpath("//div[@id='line']/a[1]/img/@alt").extract()
         # headings = response.xpath("//div[@class='review-content']/span[1]/b/i").extract()
-        print("headings  ", headings, len(headings))
         ratings1 = response.xpath("//div[@class='user-info pure-u-1']/img[@class='stars overall']/@alt").extract()
         if len(ratings1) == 0 :
             ratings1 = response.xpath("//div[@class='rating pure-u-1 pure-u-lg-1-3']/img[@class='stars overall']/@alt").extract()
