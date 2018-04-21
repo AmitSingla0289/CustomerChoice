@@ -2,39 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ef96845b-99bf-43f0-8861-3a1ee6bd658d" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/CustomerChoice.iml" afterPath="$PROJECT_DIR$/.idea/CustomerChoice.iml" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" afterPath="$PROJECT_DIR$/.idea/modules.xml" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/reviews.json" afterPath="$PROJECT_DIR$/reviews.json" />
-      <change beforePath="$PROJECT_DIR$/services/CapterraCrawler.py" afterPath="$PROJECT_DIR$/services/CapterraCrawler.py" />
-      <change beforePath="$PROJECT_DIR$/services/HighYaCrawler.py" afterPath="$PROJECT_DIR$/services/HighYaCrawler.py" />
-      <change beforePath="$PROJECT_DIR$/services/HostAdviceCrawler.py" afterPath="$PROJECT_DIR$/services/HostAdviceCrawler.py" />
-      <change beforePath="$PROJECT_DIR$/services/HostAdvisorCrawler.py" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/services/HostingFactsCrawler.py" afterPath="$PROJECT_DIR$/services/HostingFactsCrawler.py" />
-      <change beforePath="$PROJECT_DIR$/services/PickuphostCrawler.py" afterPath="$PROJECT_DIR$/services/PickuphostCrawler.py" />
-      <change beforePath="$PROJECT_DIR$/services/ProductreviewCrawler.py" afterPath="$PROJECT_DIR$/services/ProductreviewCrawler.py" />
-      <change beforePath="$PROJECT_DIR$/services/ResellerRatingCrawler.py" afterPath="$PROJECT_DIR$/services/ResellerRatingCrawler.py" />
-      <change beforePath="$PROJECT_DIR$/services/ReviewDatingSitesCrawler.py" afterPath="$PROJECT_DIR$/services/ReviewDatingSitesCrawler.py" />
-      <change beforePath="$PROJECT_DIR$/services/ServiceController.py" afterPath="$PROJECT_DIR$/services/ServiceController.py" />
-      <change beforePath="$PROJECT_DIR$/services/TheVPNlabCrawler.py" afterPath="$PROJECT_DIR$/services/TheVPNlabCrawler.py" />
-      <change beforePath="$PROJECT_DIR$/services/ThewebmasterCrawler.py" afterPath="$PROJECT_DIR$/services/ThewebmasterCrawler.py" />
-      <change beforePath="$PROJECT_DIR$/services/VPNpickCrawler.py" afterPath="$PROJECT_DIR$/services/VPNpickCrawler.py" />
-      <change beforePath="$PROJECT_DIR$/services/affPaying.py" afterPath="$PROJECT_DIR$/services/affPaying.py" />
-      <change beforePath="$PROJECT_DIR$/services/affgadgetsCrawler.py" afterPath="$PROJECT_DIR$/services/affgadgetsCrawler.py" />
-      <change beforePath="$PROJECT_DIR$/services/bestVPNForYou.py" afterPath="$PROJECT_DIR$/services/bestVPNForYou.py" />
-      <change beforePath="$PROJECT_DIR$/services/consumerAffairsCrawler.py" afterPath="$PROJECT_DIR$/services/consumerAffairsCrawler.py" />
-      <change beforePath="$PROJECT_DIR$/services/hostAdvisor.py" afterPath="$PROJECT_DIR$/services/hostAdvisor.py" />
-      <change beforePath="$PROJECT_DIR$/services/hostingCharges.py" afterPath="$PROJECT_DIR$/services/hostingCharges.py" />
-      <change beforePath="$PROJECT_DIR$/services/tbwhsCrawler.py" afterPath="$PROJECT_DIR$/services/tbwhsCrawler.py" />
-      <change beforePath="$PROJECT_DIR$/services/top11Hosting.py" afterPath="$PROJECT_DIR$/services/top11Hosting.py" />
-      <change beforePath="$PROJECT_DIR$/services/vpnMentor.py" afterPath="$PROJECT_DIR$/services/vpnMentor.py" />
-      <change beforePath="$PROJECT_DIR$/services/webHostingmedia.py" afterPath="$PROJECT_DIR$/services/webHostingmedia.py" />
-      <change beforePath="$PROJECT_DIR$/services/webhostinggeeksCrawler.py" afterPath="$PROJECT_DIR$/services/webhostinggeeksCrawler.py" />
-      <change beforePath="$PROJECT_DIR$/services/webshostingFatcow.py" afterPath="$PROJECT_DIR$/services/webshostingFatcow.py" />
-      <change beforePath="$PROJECT_DIR$/services/whTopCrawler.py" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/services/whtop.py" afterPath="$PROJECT_DIR$/services/whtop.py" />
       <change beforePath="$PROJECT_DIR$/venv/pip-selfcheck.json" afterPath="$PROJECT_DIR$/venv/pip-selfcheck.json" />
     </list>
     <list id="91cd4136-4d56-4e15-bbd1-f4cca01d0c3c" name="application controller" comment="">
@@ -49,104 +17,7 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="FileEditorManager">
-    <leaf>
-      <file leaf-file-name="ApplicationController.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/ApplicationController.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="42">
-              <caret line="7" column="45" lean-forward="false" selection-start-line="7" selection-start-column="37" selection-end-line="7" selection-end-column="45" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="webshostingFatcow.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/services/webshostingFatcow.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="204">
-              <caret line="12" column="32" lean-forward="true" selection-start-line="12" selection-start-column="32" selection-end-line="12" selection-end-column="32" />
-              <folding>
-                <element signature="e#0#44#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="WhoIsHostingCrawler.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/services/WhoIsHostingCrawler.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="68">
-              <caret line="4" column="18" lean-forward="false" selection-start-line="4" selection-start-column="6" selection-end-line="4" selection-end-column="18" />
-              <folding>
-                <element signature="e#0#44#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="url.txt" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/url.txt">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="281">
-              <caret line="87" column="40" lean-forward="true" selection-start-line="87" selection-start-column="40" selection-end-line="87" selection-end-column="40" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="reviews.json" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/reviews.json">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="78">
-              <caret line="0" column="50450" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="50942" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="whtop.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/services/whtop.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="86">
-              <caret line="10" column="41" lean-forward="false" selection-start-line="10" selection-start-column="41" selection-end-line="10" selection-end-column="41" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="yelpCrawler.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/services/yelpCrawler.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="527">
-              <caret line="31" column="20" lean-forward="false" selection-start-line="31" selection-start-column="20" selection-end-line="31" selection-end-column="20" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="webHostingmedia.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/services/webHostingmedia.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="51">
-              <caret line="3" column="8" lean-forward="false" selection-start-line="3" selection-start-column="8" selection-end-line="3" selection-end-column="8" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ServiceController.py" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/services/ServiceController.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="110">
-              <caret line="74" column="13" lean-forward="false" selection-start-line="74" selection-start-column="13" selection-end-line="74" selection-end-column="13" />
-              <folding>
-                <element signature="e#24#37#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
+    <leaf />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -387,7 +258,14 @@
       <option name="project" value="LOCAL" />
       <updated>1524215130102</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="TODO: Commit to server">
+      <created>1524302840471</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1524302840471</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TodoView">
@@ -482,7 +360,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Merge remote-tracking branch 'origin/master'&#10;&#10;# Conflicts:&#10;#&#9;ApplicationController.py&#10;#&#9;reviews.json&#10;#&#9;services/BestVPN.py&#10;#&#9;services/HostAdviceCrawler.py&#10;#&#9;venv/pip-selfcheck.json&#10;#&#9;venv/pyvenv.cfg" />
     <MESSAGE value="File added" />
-    <option name="LAST_COMMIT_MESSAGE" value="File added" />
+    <MESSAGE value="TODO: Commit to server" />
+    <option name="LAST_COMMIT_MESSAGE" value="TODO: Commit to server" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -555,13 +434,6 @@
     </watches-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/venv/Lib/site-packages/lxml/html/__init__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="130">
-          <caret line="737" column="0" lean-forward="false" selection-start-line="737" selection-start-column="0" selection-end-line="737" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/venv/Lib/site-packages/parsel/selector.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="122">
@@ -943,14 +815,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/reviews.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="78">
-          <caret line="0" column="50450" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="50942" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/services/yelpCrawler.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="527">
@@ -966,6 +830,22 @@
           <folding>
             <element signature="e#24#37#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/venv/pip-selfcheck.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/reviews.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="78">
+          <caret line="0" column="50450" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="50942" />
+          <folding />
         </state>
       </provider>
     </entry>
