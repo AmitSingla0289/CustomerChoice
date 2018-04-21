@@ -7,7 +7,7 @@ class webshostingFatcow(Spider):
         pass
     def parsing(self, response):
         return self.crawl(response,self.category,self.servicename)
-
+#TODO rating pending
     def crawl(self, response, category, servicename):
         reviews = []
         self.category = category

@@ -5,6 +5,7 @@ class VPNpickCrawler():
     def __init__(self):
         pass
 
+ #TODO author and review count mismatch
     def crawl(self, response, category, servicename):
         reviews = []
         # https://vpnpick.com/reviews/expressvpn/
@@ -14,7 +15,7 @@ class VPNpickCrawler():
         authors =  response.xpath("//div[@class='comment-author vcard']/span[@class='fn']/span/text()").extract()
         img_src =  response.xpath("//div[@class='thecontent']/p[1]/img[@class='alignright wp-image-3155']/@src").extract()
         website_name =  response.xpath("/html/head/meta[6]/@content").extract()
-        for item in range(1, len(reviews)):
+        for item in range(0, len(reviews)):
             servicename1 = ServiceRecord(response.url, None, None, dates[item], authors[item], category,
                           servicename, reviews[item],img_src,website_name);
             servicename1.save()

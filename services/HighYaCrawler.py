@@ -17,14 +17,15 @@ class HighYaCrawler():
         ratings = response.xpath("//div[@id='reviews']/ul[@class='no-list list-review']/li/span/span[@class='review']/meta[@itemprop='ratingValue']/@content").extract()
         dates =  response.xpath("//div[@id='reviews']/ul[@class='no-list list-review']/li/span/ul[@class='list-line options']/li[last()-1]/text()").extract()
         headings = response.xpath("//div[@id='reviews']/ul[@class='no-list list-review']/li/span/h3[@class='title']/text()").extract()
+        #TODO some times auther name structure differ not anchor tag need to check
         authors = response.xpath("//div[@id='reviews']/ul[@class='no-list list-review']/li/span/ul[@class='list-line options']/li[1]/a/span/text()").extract()
         website_name =  response.xpath("//html/head/meta[7]/@content").extract()
-        print(" Ratings ", len(ratings), ratings)
-        print("dates ", len(dates), dates)
-        print(" Reviews ", len(reviews), reviews)
-        print(" headings ", len(headings), headings)
-        print(" authors ", len(authors), authors)
-        print(" website_name ", len(website_name), website_name)
+        #print(" Ratings ", len(ratings), ratings)
+        #print("dates ", len(dates), dates)
+        #print(" Reviews ", len(reviews), reviews)
+        #print(" headings ", len(headings), headings)
+        #print(" authors ", len(authors), authors)
+        #print(" website_name ", len(website_name), website_name)
         for item in range(0, len(reviews)):
             servicename1 = ServiceRecord(response.url, ratings[item], headings[item], dates[item], authors[item],
                                          category, servicename, reviews[item], None, website_name)

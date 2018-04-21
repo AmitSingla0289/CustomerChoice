@@ -2,7 +2,7 @@ from model.Servicemodel import ServiceRecord
 from scrapy import Spider, Request
 from lxml import etree
 
-class bestVPNForYou(Spider):
+class bestVPNForYou():
 
     def __init__(self):
         pass
@@ -13,20 +13,18 @@ class bestVPNForYou(Spider):
         reviews = []
         self.category = category
         self.servicename = servicename
-        print("Reviews from bestvpnforyou.com")
         authors = response.xpath("//div[@class='comment-meta commentmetadata']/cite[@class='fn']/text()").extract()
         dates = response.xpath("//div[@class='comment-time']/a/time/text()").extract()
-
-        print("Authors   ", authors)
-        print("dates   ", dates)
+        #print("Authors   ", authors)
+        #print("dates   ", dates)
         for node in response.xpath("//div[@class='comment-text']/span"):
             reviews.append(node.xpath('string()').extract());
         print("reviews ", reviews)
         img_src = response.xpath("//div[@class='vcard-wrap']/img[@class='avatar avatar-100 wp-user-avatar wp-user-avatar-100 photo avatar-default']/@src").extract()
         # ratings = response.xpath("//div[@class='star_rating']/@title").extract()
         website_name = response.xpath("///html/head/title/text()").extract()
-        print("img_src   ", img_src)
-        print("websitesName   ", website_name)
+        #print("img_src   ", img_src)
+        #print("websitesName   ", website_name)
         for item in range(0, len(reviews)):
             servicename1 =ServiceRecord(response.url, None, None,  dates[item], authors[item], category,
                           servicename, reviews[item],  img_src, website_name);

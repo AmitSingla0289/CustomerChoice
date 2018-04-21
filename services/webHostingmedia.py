@@ -11,7 +11,7 @@ class webHostingmedia():
         self.category = category
         self.servicename = servicename
         print("review from webHostingmedia.com")
-        # https://www.highya.com/coinbase-reviews
+        # https://webhostingmedia.net/bluehost-reviews/
         for node in response.xpath("//div[@class='testimonial']"):
             reviews.append(node.xpath('string()').extract());
         ratings = response.xpath("//div[@class='rateit']/@data-rateit-value").extract()
@@ -19,12 +19,6 @@ class webHostingmedia():
         # headings = response.xpath("//div[@class='width64 floatleft']/h4[3]").extract()
         authors = response.xpath("//div[@class='wpcr_fl wpcr_rname']/span/span/strong/text()").extract()
         # website_name = response.xpath("//div[@class='wpcr3_item_name']/a/text()").extract()
-        print(" Ratings ", len(ratings), ratings)
-        print("dates ", len(dates), dates)
-        print(" Reviews ", len(reviews), reviews)
-        # print(" headings ", len(headings), headings)
-        print(" authors ", len(authors), authors)
-        # print(" website_name ", len(website_name), website_name)
         for item in range(0, len(reviews)):
             servicename1 = ServiceRecord(response.url, None, None, dates[item], authors[item],
                                          category, servicename, reviews[item], None, None)

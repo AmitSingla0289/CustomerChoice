@@ -9,6 +9,7 @@ class ProductreviewCrawler():
         reviews = []
         print("Product Review")
         # https://www.productreview.com.au/p/smart-fares.html
+        #TODO date missing
         for node in response.xpath("//div[@class='review-overall']"):
             reviews.append(node.xpath('string()').extract());
         ratings =  response.xpath("//div[@class='rating-md']/p/span/span[@itemprop='ratingValue']/@content").extract()
@@ -16,7 +17,7 @@ class ProductreviewCrawler():
         authors = response.xpath("//div[@class='review-author']/h6/a/text()").extract()
         img_src =  response.xpath("//div[@class='item-header-img']/span[@class='item-header-img-container']/img/@src").extract()
         website_name =  response.xpath("/html/head/meta[7]/@content").extract()
-        for item in range(1, len(reviews)):
+        for item in range(0, len(reviews)):
             servicename1 = ServiceRecord(response.url, ratings[item], headings[item], None, authors[item], category,
                           servicename, reviews[item],img_src,website_name);
             servicename1.save()

@@ -14,7 +14,7 @@ class ReviewDatingSitesCrawler():
         ratings =  response.xpath("//div[@class='col-md-9']/h4[@class='m-t-0']/span[@class='stars']/span[@itemprop='ratingValue']/@content").extract()
         authors =   response.xpath("//div[@class='media-body text-center']/div/strong/a[@itemprop='author']/text()").extract()
         website_name = response.xpath("//html/body/div[1]/meta[1]/@content").extract()
-        for item in range(1, len(reviews)):
+        for item in range(0, len(reviews)):
             servicename1 = ServiceRecord(response.url, ratings[item], None, None, authors[item], category,
                           servicename, reviews[item],"",website_name);
             servicename1.save()

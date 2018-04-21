@@ -3,6 +3,7 @@ import scrapy
 from scrapy.crawler import CrawlerProcess
 from scrapy.utils.project import get_project_settings
 
+from services.VPNpickCrawler import VPNpickCrawler
 from services.vpnRanks import vpnRanks
 from services.vpnMentor import vpnMentor
 from services.restorePrivacy import restorePrivacy
@@ -12,6 +13,7 @@ from services.hostAdvisor import hostAdvisor
 from services.hostingCharges import hostingCharges
 from services.top11Hosting import top11Hosting
 from services.ThewebmasterCrawler import ThewebmasterCrawler
+from services.webhostinggeeksCrawler import webhostinggeeksCrawler
 from services.yelpCrawler import yelpCrawler
 from services.consumerAffairsCrawler import consumerAffairsCrawler
 from services.HighYaCrawler import HighYaCrawler
@@ -41,7 +43,7 @@ import restapis.Login
 import json
 
 final_dict_reviews= {}
-
+dict_url = {}
 class ServiceController(scrapy.Spider):
     start_urls = []
 
@@ -70,39 +72,39 @@ class ServiceController(scrapy.Spider):
             dictionary[k] = {"scrapping_website_name": k, "scrapping_website_url": v["response"].URL,
                              "response": responselist}
             buisness_units.append(dictionary[k])
-            restapis.Login.postReview({"business_units":buisness_units})
+            #Todo need to uncomment
+          #  restapis.Login.postReview({"business_units":buisness_units})
         with open("reviews.json","w") as f:
             json.dump({"business_units":buisness_units},f)
     def parse(self, response):
         self.log('I just visited: ' + response.url)
         dict_reviews = {}
         reviews= []
-        print("xpath     ", response.xpath)
-        if (response.xpath('//div[@class="user-review-content"]')):
+
+        if ('hostingfacts.com' in response.url):
             crawler = HostingFactsCrawler()
-        elif (response.xpath('//div[@class="review-summary"]')):
+        elif ('hostadvice.com' in response.url):
             crawler = HostAdviceCrawler()
-        elif (response.xpath('//div[@class="comment pure-u-1 wcc"]')):
+        elif ('whoishostingthis.com' in response.url):
             crawler = WhoIsHostingCrawler()
-        elif (response.xpath('//div[@class="review "]/p')):
+        elif ('sitejabber.com' in response.url):
             # sitejabber
             crawler = SiteJabberCrawler()
         elif (response.xpath('//div[@class="comment-content"]')):
             crawler = BestVPN()
-        elif (response.xpath('//p[@class="review-body"]')):
+        elif ('resellerratings.com' in response.url):
             crawler = ResellerRatingCrawler()
-        elif (response.xpath('//div[@class="review-comments  color-text"]')):
+        elif ('capterra.com' in response.url):
             crawler = CapterraCrawler()
-        elif (response.xpath('//div[@class="review_top"]/p')):
+        elif ('forexbrokerz.com' in response.url):
             crawler = ForexbrokerzCrawler()
-
-        elif(response.xpath("//div[@class='left-col col-lg-8 col-lg']/div[@id='reviews']/ul[@class='no-list list-review']/li/span/div[@class='description']")):
+        elif('highya.com' in response.url):
             crawler = HighYaCrawler()
-        if(response.xpath("//div[@class='campaign-reviews__regular-container js-campaign-reviews__regular-container']/div/div[@class='rvw-bd ca-txt-bd-2']/p")):
+        elif(response.xpath("//div[@class='campaign-reviews__regular-container js-campaign-reviews__regular-container']/div/div[@class='rvw-bd ca-txt-bd-2']/p")):
             crawler = consumerAffairsCrawler()
         elif('yelp.com' in response.url):
-            crawler = yelpCrawler()'''
-        if('affgadgets.com' in response.url):
+            crawler = yelpCrawler()
+        elif('affgadgets.com' in response.url):
             crawler = AffgadgetsCrawler()
         elif('productreview.com' in response.url):
             crawler = ProductreviewCrawler()
@@ -112,10 +114,36 @@ class ServiceController(scrapy.Spider):
             crawler = ThewebmasterCrawler()
         elif('thevpnlab.com' in response.url):
             crawler = TheVPNlanCrawler()
+        elif ('affpaying.com' in response.url):
+            crawler = affPaying()
+        elif ('bestvpnforyou.com' in response.url):
+            crawler = bestVPNForYou()
+        elif ('hostadvisor.com' in response.url):
+            crawler = hostAdvisor()
+        elif ('hostingcharges.in' in response.url):
+            crawler = hostingCharges()
+        elif ('restoreprivacy.com' in response.url):
+            crawler = restorePrivacy()
+        elif ('top11hosting.com' in response.url):
+            crawler = top11Hosting()
+        elif ('vpnmentor.com' in response.url):
+            crawler = vpnMentor()
+        elif ('vpnpick.com' in response.url):
+            crawler = VPNpickCrawler()
+        elif ('webhostingmedia.net' in response.url):
+            crawler = webHostingmedia()
+        elif ('webhostinggeeks.com' in response.url):
+            crawler = webhostinggeeksCrawler()
+        elif ('webshosting.review' in response.url):
+            crawler = webshostingFatcow()
+        elif ('whtop.com' in response.url):
+            crawler = whtop()
+        elif ('whtop.com' in response.url):
+            crawler = yelpCrawler()
         else:
             print("kuch nhi mila")
         if(crawler!=None):
-            crawler.crawl(response, dict_url[response.url]["Category"], dict_url[response.url]["Service Name"])
+            return crawler.crawl(response, dict_url[response.url]["Category"], dict_url[response.url]["Service Name"])
 
 
 def crawl_services(urls):

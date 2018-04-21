@@ -9,6 +9,7 @@ class TheVPNlanCrawler():
         reviews = []
         dates= []
         authors= []
+        #TODO raiting negative
         # https://www.thevpnlab.com/reviews/nordvpn-review/#subur
         for node in response.xpath("//div[@class='ur-inner']/div[@class='user-review']"):
             reviews.append(node.xpath('string()').extract());
@@ -20,7 +21,7 @@ class TheVPNlanCrawler():
         img_src =  response.xpath("//div[@class='introvoerview']/div[@id='introimg']/img/@src").extract()
         temp_data = response.xpath("//html/head/script[4]/text()").extract()
         website_name =  temp_data[0].split(",")[3].split(":")[1]
-        for item in range(1, len(reviews)):
+        for item in range(0, len(reviews)):
             servicename1 = ServiceRecord(response.url, ratings[item], None,dates[item], authors[item], category,
                           servicename, reviews[item],img_src,website_name);
             servicename1.save()

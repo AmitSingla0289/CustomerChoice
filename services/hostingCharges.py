@@ -18,6 +18,7 @@ class hostingCharges():
         dates = response.xpath("//div[@class='review-mid']/p/text()").extract()
         data = response.xpath("//div[@class='review-cntnr']").extract()
         headings = []
+        #TODO code pending giving error
         for content in data:
             #root = etree.fromstring(content)
             print(content)
@@ -26,11 +27,11 @@ class hostingCharges():
         authors = response.xpath("//div[@class='review-mid']/h4/text()").extract()
         website_name = response.xpath("//div[@class='wpcr3_item_name']/a/text()").extract()
         # print(" Ratings ", len(ratings), ratings)
-        print("dates ", len(dates), dates)
-        print(" Reviews ", len(reviews), reviews)
-        print(" headings ", len(headings), headings)
-        print(" authors ", len(authors), authors)
-        print(" website_name ", len(website_name), website_name)
+        #print("dates ", len(dates), dates)
+        #print(" Reviews ", len(reviews), reviews)
+        #print(" headings ", len(headings), headings)
+        #print(" authors ", len(authors), authors)
+        #print(" website_name ", len(website_name), website_name)
         for item in range(0, len(reviews)):
             servicename1 = ServiceRecord(response.url, None, headings[item], dates[item], authors[item],
                                          category, servicename, reviews[item], img_src, website_name)

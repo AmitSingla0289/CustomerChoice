@@ -19,15 +19,10 @@ class ThewebmasterCrawler():
         dates = response.xpath("//div[@class='usrv-Header_Content']/p[@class='usrv-Header_Text']/time[@class='usrv-Header_Time']/text()").extract()
         authors = response.xpath("//div[@class='usrv-Header_Content']/h4[@class='usrv-Header_Title']/text()").extract()
         website_name =  response.xpath("/html/head/meta[15]/@content").extract()
-        print(" Ratings ", len(ratings), ratings)
-        print("dates ", len(dates), dates)
-        print(" Reviews ", len(reviews), reviews)
         # print(" headings ", len(headings), headings)
-        print(" authors ", len(authors), authors)
-        print(" website_name ", len(website_name), website_name)
         for item in range(0, len(reviews)):
             servicename1 = ServiceRecord(response.url, ratings[item], None,dates[item], authors[item], category,
-                          servicename, reviews[item],None,website_name);
+                          servicename, reviews[item],None,website_name)
             servicename1.save()
         next_page = response.xpath(
                "//div[ @class ='pgn-Inner'] / a[@ class ='pgn-Next pgn-Prev-disabled']/@href").extract()
