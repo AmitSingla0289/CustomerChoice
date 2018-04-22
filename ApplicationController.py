@@ -5,7 +5,7 @@ if __name__ == '__main__':
     urls = [];
     urls.append({"ServiceName": "NordVPN",
                  "Category": "Hosting Service",
-                 "url": "https://www.yelp.com/biz/fatcow-burlington"})
+                 "url": "https://www.resellerratings.com/store/Nordvpn_com"})
     '''urls.append({"ServiceName": "NordVPN",
                  "Category": "VPN Service",
                 "Category":"Hosting Service",
