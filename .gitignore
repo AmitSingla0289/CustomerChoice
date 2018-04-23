@@ -1,10 +1,4 @@
-<<<<<<< HEAD
-/.idea
-/venv
-/venv1
-=======
-/venv/
-/venv1/
->>>>>>> upstream/master
-reviews.json
-/.idea/workspace.xml
+.idea
+venv
+venv1
+review.json
