@@ -11,7 +11,6 @@ from restapis.Login import getUrl
 import json
 from functools import wraps
 
-
 app = Flask(__name__)
 
 
@@ -62,6 +61,7 @@ def do_schedule():
         time = request['Time']
         crontime = request['Crontime']
         resp = Response(status="ok", message=cronjob(time, crontime) , code = 200, mimetype='application/json')
+
 
 
 @app.route('/schedule', methods=['GET'])
