@@ -1,8 +1,19 @@
 # -*- coding: utf-8 -*-
 import scrapy
+from scrapy import Request
 from scrapy.crawler import CrawlerProcess
 from scrapy.utils.project import get_project_settings
 
+from services.TotallyOnlineDating import TotallyOnlineDating
+from services.BestDatingReviews import BestDatingReviews
+from services.SeniorDatingSites import SeniorDatingSites
+from services.BlackPeopleMeet_PissedConsumer import BlackPeopleMeet_PissedConsumer
+from services.Yscam import Yscam
+from services.BestOnline import BestOnline
+from services.CompariTech import CompariTech
+from services.MacUpdate import MacUpdate
+from services.SecureThoughts import SecureThoughts
+from services.WebHostingHero import WebHostingHero
 from services.VPNpickCrawler import VPNpickCrawler
 from services.vpnRanks import vpnRanks
 from services.vpnMentor import vpnMentor
@@ -12,11 +23,7 @@ from services.webHostingmedia import webHostingmedia
 from services.hostAdvisor import hostAdvisor
 from services.hostingCharges import hostingCharges
 from services.top11Hosting import top11Hosting
-from services.ThewebmasterCrawler import ThewebmasterCrawler
 from services.webhostinggeeksCrawler import webhostinggeeksCrawler
-from services.yelpCrawler import yelpCrawler
-from services.consumerAffairsCrawler import consumerAffairsCrawler
-from services.HighYaCrawler import HighYaCrawler
 from services.whtop import whtop
 from services.bestVPNForYou import bestVPNForYou
 from services.webshostingFatcow import webshostingFatcow
@@ -60,6 +67,10 @@ class ServiceController(scrapy.Spider):
             response.URL = link["url"]
             final_json[service_name] = {"response": response}
 
+    def start_requests(self):
+        headers = {'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64; rv:48.0) Gecko/20100101 Firefox/48.0'}
+        for url in self.start_urls:
+            yield Request(url, headers=headers)
     def closed(self, reason):
         # with open("reviews.json","w") as f:
         #    json.dump(final_json,f)
@@ -80,7 +91,6 @@ class ServiceController(scrapy.Spider):
         self.log('I just visited: ' + response.url)
         dict_reviews = {}
         reviews= []
-
         if ('hostingfacts.com' in response.url):
             crawler = HostingFactsCrawler()
         elif ('hostadvice.com' in response.url):
@@ -90,7 +100,7 @@ class ServiceController(scrapy.Spider):
         elif ('sitejabber.com' in response.url):
             # sitejabber
             crawler = SiteJabberCrawler()
-        elif (response.xpath('//div[@class="comment-content"]')):
+        elif ('bestvpn.com' in response.url):
             crawler = BestVPN()
         elif ('resellerratings.com' in response.url):
             crawler = ResellerRatingCrawler()
@@ -138,11 +148,36 @@ class ServiceController(scrapy.Spider):
             crawler = webshostingFatcow()
         elif ('whtop.com' in response.url):
             crawler = whtop()
-        elif ('whtop.com' in response.url):
+        elif 'whtop.com' in response.url:
             crawler = yelpCrawler()
+        elif 'vpnranks.com' in response.url:
+            crawler = vpnRanks()
+        elif 'webhostinghero.com' in response.url:
+            crawler = WebHostingHero()
+        elif 'securethoughts.com' in response.url:
+            crawler = SecureThoughts()
+        elif 'macupdate.com' in response.url:
+            crawler = MacUpdate()
+        elif 'comparitech.com' in response.url:
+             crawler = CompariTech()
+        elif '10bestonline.com' in response.url:
+            crawler = BestOnline()
+        elif 'yscam.com' in response.url:
+            crawler = Yscam()
+        elif 'blackpeoplemeet.pissedconsumer.com' in response.url:
+            crawler = BlackPeopleMeet_PissedConsumer()
+        elif 'top20seniordatingsites.com' in response.url:
+            crawler = SeniorDatingSites()
+        elif 'bestdatingreviews.org' in response.url:
+            crawler = BestDatingReviews()
+        elif 'totallyonlinedating.com' in response.url:
+            crawler = TotallyOnlineDating()
+        elif 'seniordatingexpert.com' in response.url:
+            crawler = SeniorDatingSites()
+
         else:
             print("kuch nhi mila")
-        if(crawler!=None):
+        if crawler != None:
             return crawler.crawl(response, dict_url[response.url]["Category"], dict_url[response.url]["Service Name"])
 
 
