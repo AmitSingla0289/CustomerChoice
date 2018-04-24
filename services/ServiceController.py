@@ -3,38 +3,62 @@ import scrapy
 from scrapy.crawler import CrawlerProcess
 from scrapy.utils.project import get_project_settings
 
+from services.vpnRanks import vpnRanks
+from services.vpnMentor import vpnMentor
+from services.restorePrivacy import restorePrivacy
+from services.affPaying import affPaying
+from services.webHostingmedia import webHostingmedia
+from services.hostAdvisor import hostAdvisor
+from services.hostingCharges import hostingCharges
+from services.top11Hosting import top11Hosting
+from services.ThewebmasterCrawler import ThewebmasterCrawler
+from services.yelpCrawler import yelpCrawler
+from services.consumerAffairsCrawler import consumerAffairsCrawler
+from services.HighYaCrawler import HighYaCrawler
+from services.whtop import whtop
+from services.bestVPNForYou import bestVPNForYou
+from services.webshostingFatcow import webshostingFatcow
 from services.BestVPN import BestVPN
 from services.CapterraCrawler import CapterraCrawler
 from services.ForexbrokerzCrawler import ForexbrokerzCrawler
 # from scrapy.selector import HtmlXPathSelector
+from services.HighYaCrawler import HighYaCrawler
 from services.HostAdviceCrawler import HostAdviceCrawler
 from services.HostingFactsCrawler import HostingFactsCrawler
 from services.ResellerRatingCrawler import ResellerRatingCrawler
 from model.Response import Response
 from services.SiteJabberCrawler import SiteJabberCrawler
 from services.WhoIsHostingCrawler import WhoIsHostingCrawler
+from services.consumerAffairsCrawler import consumerAffairsCrawler
+from services.yelpCrawler import yelpCrawler
+from services.affgadgetsCrawler import AffgadgetsCrawler
+from services.ProductreviewCrawler import ProductreviewCrawler
+from services.ReviewDatingSitesCrawler import ReviewDatingSitesCrawler
+from services.ThewebmasterCrawler import ThewebmasterCrawler
 from model.Servicemodel import final_json
+import restapis.Login
 import json
-from restapis import Login
+
 final_dict_reviews= {}
-dict_url={}
 
 class ServiceController(scrapy.Spider):
     start_urls = []
-    def __init__(self,url):
+
+    def __init__(self, url):
         for link in url:
             self.start_urls.append(link["url"])
             category = link["Category"];
             service_name = link["ServiceName"]
-            dict_url[link["url"]]={"Category":category,
-                      "Service Name":service_name}
+            dict_url[link["url"]] = {"Category": category,
+                                     "Service Name": service_name}
             response = Response("Service");
             response.Service_Name = service_name
             response.Category = category
             response.URL = link["url"]
-            final_json[service_name]={"response":response}
+            final_json[service_name] = {"response": response}
+
     def closed(self, reason):
-        #with open("reviews.json","w") as f:
+        # with open("reviews.json","w") as f:
         #    json.dump(final_json,f)
         str1 = ""
         dictionary = {}
@@ -42,59 +66,61 @@ class ServiceController(scrapy.Spider):
         for k, v in final_json.items():
             responselist = []
             responselist.append(v["response"].dump())
-            dictionary[k]={"scrapping_website_name":k,"scrapping_website_url":v["response"].URL,"response":responselist}
+            dictionary[k] = {"scrapping_website_name": k, "scrapping_website_url": v["response"].URL,
+                             "response": responselist}
             buisness_units.append(dictionary[k])
-        Login.postReview({"business_units":buisness_units})
+            restapis.Login.postReview({"business_units":buisness_units})
         with open("reviews.json","w") as f:
             json.dump({"business_units":buisness_units},f)
     def parse(self, response):
         self.log('I just visited: ' + response.url)
         dict_reviews = {}
         reviews= []
-        if(response.xpath('//div[@class="user-review-content"]')):
+        print("xpath     ", response.xpath)
+        if (response.xpath('//div[@class="user-review-content"]')):
             crawler = HostingFactsCrawler()
-        elif(response.xpath('//div[@class="review-summary"]')):
+        elif (response.xpath('//div[@class="review-summary"]')):
             crawler = HostAdviceCrawler()
-        elif(response.xpath('//div[@class="comment pure-u-1 wcc"]')):
+        elif (response.xpath('//div[@class="comment pure-u-1 wcc"]')):
             crawler = WhoIsHostingCrawler()
-        elif(response.xpath('//div[@class="review "]/p')):
-#sitejabber
+        elif (response.xpath('//div[@class="review "]/p')):
+            # sitejabber
             crawler = SiteJabberCrawler()
-        elif(response.xpath('//div[@class="comment-content"]')):
+        elif (response.xpath('//div[@class="comment-content"]')):
             crawler = BestVPN()
-
-            #bestvpn
-        elif(response.xpath('//p[@class="review-body"]')):
+        elif (response.xpath('//p[@class="review-body"]')):
             crawler = ResellerRatingCrawler()
-
-            #resellerrating
-
-        elif(response.xpath('//div[@class="review-comments  color-text"]')):
+        elif (response.xpath('//div[@class="review-comments  color-text"]')):
             crawler = CapterraCrawler()
-
-            #capterrra
-
-
-        elif(response.xpath('//div[@class="review_top"]/p')):
-            print("Reviews from Forexbrokerz.com")
-            #forexbrokerz
+        elif (response.xpath('//div[@class="review_top"]/p')):
             crawler = ForexbrokerzCrawler()
 
-
-
-
+        elif(response.xpath("//div[@class='left-col col-lg-8 col-lg']/div[@id='reviews']/ul[@class='no-list list-review']/li/span/div[@class='description']")):
+            crawler = HighYaCrawler()
+        if(response.xpath("//div[@class='campaign-reviews__regular-container js-campaign-reviews__regular-container']/div/div[@class='rvw-bd ca-txt-bd-2']/p")):
+            crawler = consumerAffairsCrawler()
+        elif('yelp.com' in response.url):
+            crawler = yelpCrawler()'''
+        if('affgadgets.com' in response.url):
+            crawler = AffgadgetsCrawler()
+        elif('productreview.com' in response.url):
+            crawler = ProductreviewCrawler()
+        elif('reviewsdatingsites.com' in response.url):
+            crawler = ReviewDatingSitesCrawler()
+        elif('thewebmaster.com' in response.url):
+            crawler = ThewebmasterCrawler()
         else:
-            print ("kuch nhi mila")
+            print("kuch nhi mila")
+        if(crawler!=None):
+            crawler.crawl(response, dict_url[response.url]["Category"], dict_url[response.url]["Service Name"])
 
-        crawler.crawl(response, dict_url[response.url]["Category"], dict_url[response.url]["Service Name"])
-            
-    
+
 def crawl_services(urls):
-   process = CrawlerProcess(get_project_settings())
-   process.crawl(ServiceController,urls)
-   process.start()
-   #print final_dict_reviews
+    process = CrawlerProcess(get_project_settings())
+    process.crawl(ServiceController, urls)
+    process.start()
+    # print final_dict_reviews
 
-   # with open("reviews.json","w") as f:
-   #          json.dump(final_dict_reviews,f)
-   # print("Writing json file")
+    # with open("reviews.json","w") as f:
+    #          json.dump(final_dict_reviews,f)
+    # print("Writing json file")

@@ -110,18 +110,18 @@ class Response():
             string1.append(item.str11())
             #str(item)
         return {"business_item_data": {
-            "business_type":self._buisnessType,
-            "absolute_url": self._URL,
-            "category": self._Category,
-            "name": self._Service_Name +"-" +self._Category,
-            "sub_category": self._Sub_Category,
-            "picture_urls": self._Image,
-            "original_price": self._original_price,
-            "sale_price": self._sale_price,
-            "availability": self._availability,
-            "specifications": self._specifications,
-            "website_name": self._Service_Name,
-            "description": self._description
+            "business_type":self.buisnessType,
+            "absolute_url": self.URL,
+            "category": self.Category,
+            "name": self.Service_Name +"-" +self.Category,
+            "sub_category": self.Sub_Category,
+            "picture_urls": self.Image,
+            "original_price": self.original_price,
+            "sale_price": self.sale_price,
+            "availability": self.availability,
+            "specifications": self.specifications,
+            "website_name": self.Service_Name,
+            "description": self.description
         },
             "reviews": string1
 

@@ -1,8 +1,6 @@
 import requests
 import json
-
 from services.ServiceController import crawl_services
-
 param = {
   "email": "data_miner@example.com",
   "password": "ATBdm9",
