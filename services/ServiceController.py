@@ -38,6 +38,8 @@ from services.ProductreviewCrawler import ProductreviewCrawler
 from services.ReviewDatingSitesCrawler import ReviewDatingSitesCrawler
 from services.ThewebmasterCrawler import ThewebmasterCrawler
 from services.TheVPNlabCrawler import TheVPNlanCrawler
+from services.WebHostingHeroCrawler import WebHostingHeroCrawler
+from services.BestVPNZCrawler import BestVPNZCrawler
 from model.Servicemodel import final_json
 import restapis.Login
 import json
@@ -90,7 +92,7 @@ class ServiceController(scrapy.Spider):
         elif ('sitejabber.com' in response.url):
             # sitejabber
             crawler = SiteJabberCrawler()
-        elif (response.xpath('//div[@class="comment-content"]')):
+        elif ('bestvpn.com'in response.url):
             crawler = BestVPN()
         elif ('resellerratings.com' in response.url):
             crawler = ResellerRatingCrawler()
@@ -140,6 +142,10 @@ class ServiceController(scrapy.Spider):
             crawler = whtop()
         elif ('whtop.com' in response.url):
             crawler = yelpCrawler()
+        elif('webhostinghero.com' in response.url):
+            crawler = WebHostingHeroCrawler()
+        elif('bestvpnz.com' in response.url):
+            crawler =  BestVPNZCrawler()
         else:
             print("kuch nhi mila")
         if(crawler!=None):
