@@ -19,6 +19,7 @@ class SeniorDatingExpert():
         img_src =  response.xpath("//div[@class='item-header-img']/span[@class='item-header-img-container']/img/@src").extract()
         website_name =  response.xpath("/html/head/meta[7]/@content").extract()
         dates = response.xpath("//div[@class='review-content']/div[@class='rating-md']/p/meta/@content").extract()
+        authors = map(lambda foo: foo.replace(u'Submitted By ', u''), authors)
         print("dates ", len(dates), dates)
         print(" Reviews ", len(reviews), reviews)
         print(" headings ", len(headings), headings)

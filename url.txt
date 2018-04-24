@@ -86,3 +86,16 @@ urls.append({"ServiceName": "NordVPN",
 urls.append({"ServiceName": "NordVPN",A
          "Category": "Hosting Service",
          "url": "https://www.yelp.com/biz/fatcow-burlington"})
+
+urls.append({"ServiceName": "NordVPN",
+                 "Category": "Hosting Service",
+                 "url": "http://www.yscam.com/blackpeoplemeet-com-08"})
+    urls.append({"ServiceName": "NordVPN",
+                 "Category": "Hosting Service",
+                 "url": "https://www.productreview.com.au/p/elite-singles.html"})
+    urls.append({"ServiceName": "NordVPN",
+                 "Category": "Hosting Service",
+                 "url": "http://www.totallyonlinedating.com/usa-online-dating-services/senior-dating-sites/seniorpeoplemeet.com-review.html"}),
+    urls.append({"ServiceName": "NordVPN",
+         "Category": "Hosting Service",
+         "url": "https://www.10bestonline.com/top_10_best_online_dating_reviews/SilverSingles_customer_reviews/"})
