@@ -11,7 +11,7 @@ class Yscam():
         reviews = []
         self.category = category
         self.servicename = servicename
-        print("review from yscam.com")
+        #print("review from yscam.com")
         for node in response.xpath("//body/section[@class='row body inside']/section[@class='comments-block']/section[@class='commentblock  ']/div[@class='comment  ']/div"):
             reviews.append(node.xpath('string()').extract());
         reviews = [[s.strip() for s in nested] for nested in reviews]
@@ -31,11 +31,11 @@ class Yscam():
         # authors = response.xpath("//div[@class='cust_review']/table/tbody/tr[3]/td[@class='customer']").extract()
         website_name = response.xpath("//div[@class='wpcr3_item_name']/a/text()").extract()
         # img_src = response.xpath("//div[@id='comments']/ul[@class='comment-list']/li/article/footer[@class='comment-meta']/div[@class='comment-author vcard']/img[@class='avatar avatar-74 photo']/@src").extract()
-        print("Reviews ", len(reviews), reviews)
+        #print("Reviews ", len(reviews), reviews)
         # print("Headings ", len(headings), headings)
         # print("Authors ", len(authors), authors)
-        print("Rating ", len(ratings), ratings)
-        print("Dates ", len(dates), dates)
+        #print("Rating ", len(ratings), ratings)
+        #print("Dates ", len(dates), dates)
         # print("Img_src ", len(img_src), img_src)
         for item in range(0, len(reviews)):
             servicename1 = ServiceRecord(response.url, ratings[item], None, dates[item], None,
@@ -46,8 +46,8 @@ class Yscam():
         if next_page is not None:
             next_page_url = "".join(next_page)
             if next_page_url and next_page_url.strip():
-                print(type(next_page_url))
-                print(next_page_url)
+                #print(type(next_page_url))
+                #print(next_page_url)
                 # yield Request(url=next_page_url, callback=self.parse, dont_filter=True)
                 yield response.follow(next_page_url, callback=self.parsing)
 

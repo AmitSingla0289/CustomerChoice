@@ -19,6 +19,11 @@ class ResellerRatingCrawler():
         authors =  response.xpath("//div[@class='user-column']/a[@class='rr-purple show-for-large']/text()").extract()
         website_name = response.xpath("//html/head/meta[15]/@content").extract()
         for item in range(0, len(reviews)):
-            servicename1 = ServiceRecord(response.url, ratings[item],headings[item], dates[item], authors[item], category,
+            if(len(headings)==0):
+                servicename1 = ServiceRecord(response.url, ratings[item],None, dates[item], authors[item],
+                                             category,
+                                             servicename, reviews[item], website_name);
+            else:
+                servicename1 = ServiceRecord(response.url, ratings[item],headings[item], dates[item], authors[item], category,
                           servicename, reviews[item], website_name);
             servicename1.save()

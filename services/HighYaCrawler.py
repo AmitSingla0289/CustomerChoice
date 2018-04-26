@@ -11,7 +11,7 @@ class HighYaCrawler():
         reviews = []
         self.category = category
         self.servicename = servicename
-        print("review from HighYa.com")
+        #print("review from HighYa.com")
         # https://www.highya.com/coinbase-reviews
         for node in  response.xpath("//div[@class='left-col col-lg-8 col-lg']/div[@id='reviews']/ul[@class='no-list list-review']/li/span/div[@class='description']"):
             reviews.append(node.xpath('string()').extract());
@@ -23,9 +23,9 @@ class HighYaCrawler():
         authors1 = response.xpath("//div[@id='reviews']/ul[@class='no-list list-review']/li/span/ul[@class='list-line options']/li[1]").extract()
         authors = []
         for content in authors1:
-            print(content)
+            #print(content)
             root = etree.fromstring(content)
-            print("rootttttt    ", root.text)
+            #print("rootttttt    ", root.text)
             break
 
             # if (root.text == None):

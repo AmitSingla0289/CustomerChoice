@@ -10,7 +10,7 @@ class vpnRanks():
         reviews = []
         self.category = category
         self.servicename = servicename
-        print("review from vpnranks.com")
+        #print("review from vpnranks.com")
         # https://www.highya.com/coinbase-reviews
         for node in response.xpath("//div[@class='comment-body']"):
             reviews.append(node.xpath('string()').extract());

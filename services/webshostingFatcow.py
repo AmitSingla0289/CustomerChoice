@@ -13,7 +13,7 @@ class webshostingFatcow(Spider):
         reviews = []
         self.category = category
         self.servicename = servicename
-        print("webshostingFatcow.com")
+        #print("webshostingFatcow.com")
         authors = response.xpath("//div[@class='comment-user-left name']/text()").extract()
         dates = response.xpath("//div[@class='comment-user-left date']/text()").extract()
         website_name = response.xpath("//div[@id='line']/a[1]/img/@alt").extract()

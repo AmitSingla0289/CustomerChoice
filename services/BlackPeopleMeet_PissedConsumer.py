@@ -20,11 +20,11 @@ class BlackPeopleMeet_PissedConsumer():
         # authors = response.xpath("//div[@class='cust_review']/table/tbody/tr[3]/td[@class='customer']").extract()
         website_name = response.xpath("//div[@class='wpcr3_item_name']/a/text()").extract()
         # img_src = response.xpath("//div[@id='comments']/ul[@class='comment-list']/li/article/footer[@class='comment-meta']/div[@class='comment-author vcard']/img[@class='avatar avatar-74 photo']/@src").extract()
-        print("Reviews ", len(reviews), reviews)
+        #print("Reviews ", len(reviews), reviews)
         # print("Headings ", len(headings), headings)
         # print("Authors ", len(authors), authors)
-        print("Rating ", len(ratings), ratings)
-        print("Dates ", len(dates), dates)
+        #print("Rating ", len(ratings), ratings)
+        #print("Dates ", len(dates), dates)
         # print("Img_src ", len(img_src), img_src)
         for item in range(0, len(reviews)):
             servicename1 = ServiceRecord(response.url, ratings[item], None, dates[item], None,
