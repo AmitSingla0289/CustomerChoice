@@ -16,7 +16,7 @@ class SeniorDatingSites():
             reviews.append(node.xpath('string()').extract());
         ratings = response.xpath("//div[@id='main-inner']/ul[@id='user-reviews']/li/div[@class='userrev']/div[@class='user-stars']/img/@src").extract()
         i = 0
-        while i < len(ratings):git
+        while i < len(ratings):
             star = getStarts(ratings[i])
 
             i = i + 1
@@ -25,7 +25,7 @@ class SeniorDatingSites():
         # img_src = response.xpath("//div[@class='logo-profile']/img/@src").extract()
         authors = response.xpath("//div[@id='main-inner']/ul[@id='user-reviews']/li/div[@class='userrev']/div[@class='user-name']/text()").extract()
         website_name = response.xpath("//div[@id='container']/div[@id='header']/div[@class='left eight columns']/div/a[@class='logo']/img/@title").extract()
-        print(" Ratings ", len(ratings1), ratings1)
+        print(" Ratings ", len(ratings), ratings)
         # print("dates ", len(dates), dates)
         print(" Reviews ", len(reviews), reviews)
         # print(" headings ", len(headings), headings)

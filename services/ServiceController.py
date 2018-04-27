@@ -4,6 +4,9 @@ from scrapy import Request
 from scrapy.crawler import CrawlerProcess
 from scrapy.utils.project import get_project_settings
 
+from services.FreeDatingHelper import FreeDatingHelper
+from services.DatingWise import DatingWise
+from services.ReviewOpedia import ReviewOpedia
 from services.TotallyOnlineDating import TotallyOnlineDating
 from services.BestDatingReviews import BestDatingReviews
 from services.SeniorDatingSites import SeniorDatingSites
@@ -180,6 +183,12 @@ class ServiceController(scrapy.Spider):
             crawler = TotallyOnlineDating()
         elif 'seniordatingexpert.com' in response.url:
             crawler = SeniorDatingSites()
+        elif 'reviewopedia.com' in response.url:
+           crawler = ReviewOpedia()
+        elif 'datingwise.com' in response.url:
+            crawler = DatingWise()
+        elif 'freedatinghelper.com' in response.url:
+            crawler = FreeDatingHelper()
 
         else:
             print("kuch nhi mila")
