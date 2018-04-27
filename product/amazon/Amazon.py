@@ -31,13 +31,13 @@ def ParseReviews(url):
     XPATH_AGGREGATE = '//span[@id="acrCustomerReviewText"]'
     XPATH_REVIEW_SECTION_1 = '//div[contains(@id,"reviews-summary")]'
     XPATH_REVIEW_SECTION_2 = '//div[@data-hook="review"]'
-
     XPATH_AGGREGATE_RATING = '//table[@id="histogramTable"]//tr'
     XPATH_PRODUCT_NAME = '//h1//span[@id="productTitle"]//text()'
     XPATH_PRODUCT_PRICE = '//span[@id="priceblock_ourprice"]/text()'
     XPATH_PRODUCT_AVAILABILITY = '//div[@id="availability"]/span/text()'
     XPATH_PRODUCT_CATEGORY = '//div[@id="wayfinding-breadcrumbs_feature_div"]/ul[@class="a-unordered-list a-horizontal a-size-small"]/li[1]/span[@class="a-list-item"]/a[@class="a-link-normal a-color-tertiary"]/text()'
     XPATH_PRODUCT_LIST_PRICE = '//span[@class="a-text-strike"]/text()'
+    XPATH_PRODUCT_BRAND = '//div[@class="a-section a-spacing-none"]/a[@id="bylineInfo"]/text()'
 
     raw_product_price = parser.xpath(XPATH_PRODUCT_PRICE)
     product_price = ''.join(raw_product_price).replace(',', '')
@@ -52,6 +52,7 @@ def ParseReviews(url):
     if (category):
         category = (category)[0].strip()
     list_price = parser.xpath(XPATH_PRODUCT_LIST_PRICE)
+    product_brand = parser.xpath(XPATH_PRODUCT_BRAND)
     reviews = parser.xpath(XPATH_REVIEW_SECTION_1)
     if not reviews:
         reviews = parser.xpath(XPATH_REVIEW_SECTION_2)
@@ -79,6 +80,7 @@ def ParseReviews(url):
         XPATH_REVIEW_COMMENTS = './/span[@data-hook="review-comment"]//text()'
         XPATH_AUTHOR = './/span[contains(@class,"profile-name")]//text()'
         XPATH_REVIEW_TEXT_3 = './/div[contains(@id,"dpReviews")]/div/text()'
+
 
         raw_review_author = review.xpath(XPATH_AUTHOR)
         raw_review_rating = review.xpath(XPATH_RATING)
@@ -132,7 +134,8 @@ def ParseReviews(url):
         'name': product_name,
         'availability': availability,
         'category': category,
-        'list price': list_price
+        'list price': list_price,
+        'brand' : product_brand
     }
 
     return data
