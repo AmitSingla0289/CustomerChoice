@@ -6,6 +6,6 @@ if __name__ == '__main__':
     urls=[]
     urls.append({"ServiceName": "Expressvpn",
                  "Category": "VPN Service",
-                 "url": "http://www.whtop.com/review/networksolutions.com"})
+                 "url": "https://webhostinggeeks.com/providers/hostgator?product=shared"})
     crawl_services(urls)
     #crawlAmazon("https://www.amazon.com/Bluetooth-Headphones-Sweatproof-Earphones-Cancelling/dp/B076V4H8BR/ref=sr_1_25?s=aht&ie=UTF8&qid=1524751368&sr=1-25")
