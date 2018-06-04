@@ -1,0 +1,88 @@
+urls.append({"ServiceName": "Expressvpn",
+             "Category": "VPN Service",
+             "url": "http://affgadgets.com/binance"})
+
+urls.append({"ServiceName": "Expressvpn",
+             "Category": "VPN Service",
+             "url": "http://www.affpaying.com/hotspot-shield-affiliate-program"})
+
+urls.append({"ServiceName": "Expressvpn",
+             "Category": "VPN Service",
+             "url": "https://www.bestvpn.com/expressvpn-review/"})
+
+urls.append({"ServiceName": "Expressvpn",
+             "Category": "VPN Service",
+             "url": "https://www.bestvpnforyou.com/vpn-reviews/expressvpn-review/"})
+urls.append({"ServiceName": "Expressvpn",
+             "Category": "VPN Service",
+             "url": "https://www.consumeraffairs.com/internet/godaddy.html"})
+urls.append({"ServiceName": "Binance",
+             "Category": "Cryptocurrency Excahnges",
+             "url": "https://www.forexbrokerz.com/brokers/binance-review"})
+urls.append({"ServiceName": "Expressvpn",
+             "Category": "VPN Service",
+             "url": "https://www.highya.com/coinbase-reviews"})
+urls.append({"ServiceName": "GoDaddy.com",
+             "Category": "Hosting Service",
+             "url": "https://hostadvice.com/hosting-company/godaddy-reviews/"})
+
+urls.append({"ServiceName": "Hostgator",
+             "Category": "Hosting Service",
+             "url": "https://hostingfacts.com/hosting-reviews/hostgator-wordpress-managed/"})
+
+urls.append({"ServiceName": "Expressvpn",
+             "Category": "VPN Service",
+             "url": "https://www.productreview.com.au/p/smart-fares.html"})
+
+urls.append({"ServiceName": "NordVPN",
+             "Category": "VPN Service",
+             "url": "https://www.resellerratings.com/store/Nordvpn_com"})
+
+urls.append({"ServiceName": "NordVPN",
+             "Category": "VPN Service",
+             "url": "https://restoreprivacy.com/expressvpn-review/"})
+urls.append({"ServiceName": "NordVPN",
+             "Category": "VPN Service",
+             "url": "http://reviewsdatingsites.com/site/elitesingles"})
+urls.append({"ServiceName": "NordVPN",
+             "Category": "VPN Service",
+             "url": "https://www.sitejabber.com/reviews/zoosk.com"})
+
+urls.append({"ServiceName": "NordVPN",
+             "Category": "VPN Service",
+             "url": "https://www.thevpnlab.com/reviews/nordvpn-review/#subur"})
+urls.append({"ServiceName": "NordVPN",
+             "Category": "VPN Service",
+             "url": "https://www.thewebmaster.com/web-hosting/shared/justhost-reviews/"})
+urls.append({"ServiceName": "NordVPN",
+             "Category": "VPN Service",
+             "url": "https://top11hosting.com/hostgator-review/"})
+urls.append({"ServiceName": "NordVPN",
+             "Category": "VPN Service",
+             "url": "https://www.vpnmentor.com/reviews/expressvpn/"})
+urls.append({"ServiceName": "NordVPN",
+             "Category": "VPN Service",
+             "url": "https://vpnpick.com/reviews/expressvpn/"})
+urls.append({"ServiceName": "NordVPN",
+             "Category": "VPN Service",
+             "url": "https://www.vpnranks.com/nordvpn-review/"})
+urls.append({"ServiceName": "NordVPN",
+             "Category": "VPN Service"
+             "url": "https://webhostinggeeks.com/providers/hostgator?product=shared"})
+
+urls.append({"ServiceName": "NordVPN",
+             "Category": "VPN Service",
+             "url": "https://webhostingmedia.net/bluehost-reviews/"})
+urls.append({"ServiceName": "NordVPN",
+             "Category": "VPN Service",
+             "url": "https://www.webshosting.review/fatcow-reviews"})
+urls.append({"ServiceName": "NordVPN",,
+            "Category":"Hosting Service",
+            "url": "https://www.whoishostingthis.com/hosting-reviews/bluehost/"})
+urls.append({"ServiceName": "NordVPN",
+         "Category": "VPN Service",
+         "Category": "Hosting Service",
+         "url": "http://www.whtop.com/review/bluehost.com"})
+urls.append({"ServiceName": "NordVPN",A
+         "Category": "Hosting Service",
+         "url": "https://www.yelp.com/biz/fatcow-burlington"})

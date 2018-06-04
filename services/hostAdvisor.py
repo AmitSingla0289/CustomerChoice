@@ -12,8 +12,7 @@ class hostAdvisor():
         reviews = []
         self.category = category
         self.servicename = servicename
-        print("review from hostadvisor.com")
-        # https://www.highya.com/coinbase-reviews
+        # https://www.hostadvisor.com/reviews/shared-web-hosting/bluehost
         for node in response.xpath("//div[@class='textHolder']/div[2]/p"):
             reviews.append(node.xpath('string()').extract());
         ratings = response.xpath("//div[@class='textHolder']/div/span/meta[@itemprop='ratingValue']/@content").extract()
@@ -24,19 +23,12 @@ class hostAdvisor():
         website_name = response.xpath("//div[@class='wpcr3_item_name']/a/text()").extract()
         authors = map(lambda s: s.strip(), authors)
         authors = list(filter(None, authors))
-        print(" Ratings ", len(ratings), ratings)
-        # print("dates ", len(dates), dates)
-        print(" Reviews ", len(reviews), reviews)
-        print(" headings ", len(headings), headings)
-        print(" authors ", len(authors), authors)
-        print(" website_name ", len(website_name), website_name)
         for item in range(0, len(reviews)):
             servicename1 = ServiceRecord(response.url, ratings[item], headings[item], None, authors[item],
                                          category, servicename, reviews[item], img_src, website_name)
             servicename1.save()
 
-        next_page = response.xpath(
-            "//div[@class='reviewBlock']/nav[@class='text-center']/ul[@class='pagination']/li[21]/a/@href").extract()
+        next_page = response.xpath("//div[@class='reviewBlock']/nav[@class='text-center']/ul[@class='pagination']/li[21]/a/@href").extract()
         if next_page is not None:
             next_page_url = "".join(next_page)
             if next_page_url and next_page_url.strip():
