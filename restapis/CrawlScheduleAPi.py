@@ -8,10 +8,12 @@ import threading
 
 from flask import Flask, Response
 from flask import Flask, flash, redirect, render_template, request, session, abort, jsonify
-
 from restapis.Login import MyThread
 import json
 from functools import wraps
+import os
+
+from threading import Thread
 
 from utils.GoogleSearch import search
 
@@ -63,6 +65,7 @@ def crawl():
     thread = MyThread("","")
     thread.start()
     resp = "Schedule Success"
+
     return resp
 
 

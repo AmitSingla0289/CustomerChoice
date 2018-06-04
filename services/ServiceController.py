@@ -55,15 +55,15 @@ from services.WebHostingHeroCrawler import WebHostingHeroCrawler
 from services.BestVPNZCrawler import BestVPNZCrawler
 from services.BuyBitcoinsWithCreditCardCrawler import BuyBitcoinsWithCreditCardCrawler
 from services.FreeDatingHelperCrawler import FreeDatingHelperCrawler
-from DatingSitesReviewsCrawler import DatingSitesReviewsCrawler
-from AnblikCrawler import AnblikCrawler
-from BestVPNProvidersCrawler import BestVPNProvidersCrawler
-from CoinJabberCrawler import CoinJabberCrawler
-from DatingSitesReviewsCrawler import DatingSitesReviewsCrawler
+from services.DatingSitesReviewsCrawler import DatingSitesReviewsCrawler
+from services.AnblikCrawler import AnblikCrawler
+from services.BestVPNProvidersCrawler import BestVPNProvidersCrawler
+from services.CoinJabberCrawler import CoinJabberCrawler
+from services.DatingSitesReviewsCrawler import DatingSitesReviewsCrawler
 from model.Servicemodel import final_json
-from JoomlaHostingReviewsCrawler import JoomlaHostingReviews
-from ReviewCentreCrawler import ReviewCentreCrawler
-from RevexCrawler import RevexCrawler
+from services.JoomlaHostingReviewsCrawler import JoomlaHostingReviews
+from services.ReviewCentreCrawler import ReviewCentreCrawler
+from services.RevexCrawler import RevexCrawler
 import restapis.Login
 import json
 
