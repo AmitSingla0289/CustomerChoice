@@ -22,15 +22,14 @@ headers = {
 allowed_params = ["node", "rh", "page"]
 
 # Proxies
-proxies = [
-        
-    # your list of proxy IP addresses goes here
-    # check out https://proxybonanza.com/?aff_id=629
-    # for a quick, easy-to-use proxy service
-]
+proxies = []
 proxy_user = ""
 proxy_pass = ""
 proxy_port = ""
+
+def updateProxies(proxyList):
+    global  proxies
+    proxies = proxyList
 
 # Crawling Logic
 start_file = os.path.join(current_dir, "start-urls.txt")

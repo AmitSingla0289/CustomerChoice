@@ -3,25 +3,25 @@ from utils.utils import getStarts
 from scrapy import Spider, Request
 from lxml import etree
 
+
 class webshostingFatcow(Spider):
     def __init__(self):
         pass
     def parsing(self, response):
         return self.crawl(response,self.category,self.servicename)
-#TODO rating pending
+#TODO rating pending: could not get which website is this ask amit
     def crawl(self, response, category, servicename):
         reviews = []
         self.category = category
         self.servicename = servicename
-        print("webshostingFatcow.com")
+        #print("webshostingFatcow.com")
         authors = response.xpath("//div[@class='comment-user-left name']/text()").extract()
         dates = response.xpath("//div[@class='comment-user-left date']/text()").extract()
         website_name = response.xpath("//div[@id='line']/a[1]/img/@alt").extract()
         headings = response.xpath("//div[@class='comments_user_comment']/a/text()").extract()
         ratings1 = response.xpath("//div[@class='comment_user_star_rate']/div[@class='comment_user_stars']/img/@src").extract()
         if len(ratings1) == 0:
-            ratings1 = response.xpath(
-                "//div[@class='rating pure-u-1 pure-u-lg-1-3']/img[@class='stars overall']/@alt").extract()
+            ratings1 = response.xpath("//div[@class='rating pure-u-1 pure-u-lg-1-3']/img[@class='stars overall']/@alt").extract()
         ratings = []
         while i < len(ratings1):
             ratings.append(getStarts(ratings1[i]))

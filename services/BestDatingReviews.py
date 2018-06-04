@@ -62,19 +62,12 @@ class BestDatingReviews():
                 sum = sum + int(ratings[i])
         c = sum / 5.0
         ratings2.append(str(round(c,2)))
-        print("Reviews ", len(reviews), reviews)
-        print("Headings ", len(headings), headings)
-        print("Authors ", len(authors), authors)
-        print("Rating ", len(ratings2), ratings2)
-        print("Dates ", len(dates2), dates2)
-        # print("Img_src ", len(img_src), img_src)
         for item in range(0, len(reviews)):
             servicename1 = ServiceRecord(response.url, ratings2[item], headings[item], dates2[item], authors[item],
                                          category, servicename, reviews[item], None, website_name)
             servicename1.save()
 
-        next_page = response.xpath(
-            "//div[@class='mid_left']/div[@class='mid_left_site']/div[@class='viciao']/div[@class='page_cut']/a[@class='cur_pageva']/@href").extract()
+        next_page = response.xpath("//div[@class='mid_left']/div[@class='mid_left_site']/div[@class='viciao']/div[@class='page_cut']/a[@class='cur_pageva']/@href").extract()
         if next_page is not None:
             next_page_url = "".join(next_page)
             if next_page_url and next_page_url.strip():

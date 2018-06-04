@@ -11,7 +11,7 @@ class WebHostingHero():
         reviews = []
         self.category = category
         self.servicename = servicename
-        print("review from webhostinghero.com")
+        #print("review from webhostinghero.com")
         for node in response.xpath("//div[@class='box col-12 review-detail']"):
             reviews.append(node.xpath('string()').extract());
         ratings1 = response.xpath("//div[@class='box col-12 review-title']/meta[@itemprop='ratingValue']/@content").extract()
@@ -24,12 +24,12 @@ class WebHostingHero():
         for i in range(len(ratings1)):
             c= int(ratings1[i])/2.0
             ratings.append(str(c))
-        print("Reviews ", len(reviews), reviews)
-        print("Headings ", len(headings), headings)
-        print("Authors ", len(authors), authors)
-        print("Rating ", len(ratings), ratings)
-        print("Dates ", len(dates), dates)
-        print("Img_src ", len(img_src), img_src)
+        #print("Reviews ", len(reviews), reviews)
+        #print("Headings ", len(headings), headings)
+        #print("Authors ", len(authors), authors)
+        #print("Rating ", len(ratings), ratings)
+        #print("Dates ", len(dates), dates)
+        #print("Img_src ", len(img_src), img_src)
         for item in range(0, len(reviews)):
             servicename1 = ServiceRecord(response.url, ratings[item], headings[item], dates[item], authors[item],
                                          category, servicename, reviews[item], img_src, website_name)

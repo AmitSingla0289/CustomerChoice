@@ -10,9 +10,4 @@ reviews.json
 /restapis/__pycache__/
 /test.py
 /utils/__pycache__/
-=======
-.idea
-venv
-venv1
-review.json
->>>>>>> origin/master
+venv2

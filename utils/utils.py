@@ -1,9 +1,10 @@
 
 from dateutil.parser import parse
+#Todo resolve this import and uncomment it
 import re
 
 def convertDate(date):
-    if (date != None):
+    if (date != None and date != ''):
         date = parse(date)
         date = date.strftime('%d/%m/%Y')
     return date
@@ -13,6 +14,8 @@ def getStarts(stars):
     return stars
 
 def find_numbers(string, ints=True):
+    if(string == ''):
+        return
     numexp = re.compile(r'[-]?\d[\d,]*[\.]?[\d{2}]*')  # optional - in front
     numbers = numexp.findall(string)
     numbers = [x.replace(',', '') for x in numbers]

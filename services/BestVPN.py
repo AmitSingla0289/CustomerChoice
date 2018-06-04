@@ -9,7 +9,7 @@ class BestVPN():
 
     def crawl(self, response, category, servicename):
         reviews = []
-        print("Reviews from bestvpn.com")
+
         # https://www.bestvpn.com/expressvpn-review/
         for node in response.xpath('//div[@class="comment-content"]'):
             reviews.append(node.xpath('string()').extract());
