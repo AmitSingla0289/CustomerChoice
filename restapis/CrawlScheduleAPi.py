@@ -4,15 +4,20 @@
 # * 'gtrp' and 'gtr' create a GET request with or without query parameters;
 # * 'ptr' and 'ptrp' create a POST request with a simple or parameter-like body;
 # * 'mptr' and 'fptr' create a POST request to submit a form with a text or file field (multipart/form-data);
+import threading
 
 from flask import Flask, Response
 from flask import Flask, flash, redirect, render_template, request, session, abort, jsonify
-from restapis.Login import getUrl
+from restapis.Login import MyThread
 import json
 from functools import wraps
+import os
+
+from threading import Thread
+
+from utils.GoogleSearch import search
 
 app = Flask(__name__)
-
 
 def check_auth(auth):
     return auth == 'bearer crawl token'
@@ -53,22 +58,48 @@ def do_admin_login():
         return resp
         return jsonify(request.json['message'])
 
-@app.route('/schedule', methods=['POST'])
-@requires_auth
-def do_schedule():
-    if request.headers['Content-Type'] == 'application/json':
-        requests =  jsonify(request.json)
-        time = request['Time']
-        crontime = request['Crontime']
-        resp = Response(status="ok", message=cronjob(time, crontime) , code = 200, mimetype='application/json')
-
-
 
 @app.route('/schedule', methods=['GET'])
 @requires_auth
 def crawl():
-    getUrl()
-    resp = Response(status="ok", message="Crawling Scheduled" , code = 200, mimetype='application/json')
+    thread = MyThread("","")
+    thread.start()
+    resp = "Schedule Success"
+
     return resp
+
+
+@app.route('/schedule', methods=['POST'])
+@requires_auth
+def crawlSite():
+    request_json = request.get_json()
+    url = request_json.get("url")
+    responseURL = request_json.get("responseURL")
+    thread = MyThread(url,responseURL)
+    thread.start()
+
+    resp = "Schedule Success"
+    return resp
+
+
+@app.route('/categories/search_websites', methods=['GET'])
+@requires_auth
+def searchGoogle():
+    id = request.args.get('id')
+    categoryName =request.args.get('name')
+    categoryKeywords = request.args.getlist('keywords')
+    callback_url = request.args.get('callback_url')
+    print(categoryKeywords , categoryName, callback_url , id)
+    t1 = threading.Thread(target=search,args=(id,categoryName,categoryKeywords,callback_url))
+    t1.start()
+    response ="Searching Scheduled"
+    return response
+
+
+@app.route('/categories/search_websites', methods=['POST'])
+def searchGoogle1():
+    print(request.data)
+    return ""
+
 if __name__ == "__main__":
-    #app.run()
+    app.run(host='0.0.0.0',port="5001")

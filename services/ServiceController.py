@@ -1,12 +1,21 @@
 # -*- coding: utf-8 -*-
+from multiprocessing import Process, Queue
+
 import scrapy
 from scrapy import Request
-from scrapy.crawler import CrawlerProcess
+from scrapy.crawler import CrawlerProcess, CrawlerRunner
+from scrapy.utils.log import configure_logging
 from scrapy.utils.project import get_project_settings
+from twisted.internet import reactor
+
 
 from services.FreeDatingHelper import FreeDatingHelper
 from services.DatingWise import DatingWise
 from services.ReviewOpedia import ReviewOpedia
+
+from services.PickuphostCrawler import PickuphostCrawler
+from services.SeniorDatingExpert import SeniorDatingExpert
+
 from services.TotallyOnlineDating import TotallyOnlineDating
 from services.BestDatingReviews import BestDatingReviews
 from services.SeniorDatingSites import SeniorDatingSites
@@ -50,7 +59,17 @@ from services.ThewebmasterCrawler import ThewebmasterCrawler
 from services.TheVPNlabCrawler import TheVPNlanCrawler
 from services.WebHostingHeroCrawler import WebHostingHeroCrawler
 from services.BestVPNZCrawler import BestVPNZCrawler
+from services.BuyBitcoinsWithCreditCardCrawler import BuyBitcoinsWithCreditCardCrawler
+from services.FreeDatingHelperCrawler import FreeDatingHelperCrawler
+from services.DatingSitesReviewsCrawler import DatingSitesReviewsCrawler
+from services.AnblikCrawler import AnblikCrawler
+from services.BestVPNProvidersCrawler import BestVPNProvidersCrawler
+from services.CoinJabberCrawler import CoinJabberCrawler
+from services.DatingSitesReviewsCrawler import DatingSitesReviewsCrawler
 from model.Servicemodel import final_json
+from services.JoomlaHostingReviewsCrawler import JoomlaHostingReviews
+from services.ReviewCentreCrawler import ReviewCentreCrawler
+from services.RevexCrawler import RevexCrawler
 import restapis.Login
 import json
 
@@ -59,26 +78,26 @@ dict_url = {}
 class ServiceController(scrapy.Spider):
     start_urls = []
 
-    def __init__(self, url):
-        for link in url:
-            self.start_urls.append(link["url"])
-            category = link["Category"];
-            service_name = link["ServiceName"]
-            dict_url[link["url"]] = {"Category": category,
-                                     "Service Name": service_name}
-            response = Response("Service");
-            response.Service_Name = service_name
-            response.Category = category
-            response.URL = link["url"]
-            final_json[service_name] = {"response": response}
+    def __init__(self, link):
+        if (len(self.start_urls) > 0):
+            self.start_urls.pop(0)
+        self.start_urls.append(link["url"])
+        category = link["Category"];
+        service_name = link["ServiceName"]
+        dict_url[link["url"]] = {"Category": category,
+                                 "Service Name": service_name}
+        response = Response("Service");
+        response.Service_Name = service_name
+        response.Category = category
+        response.URL = link["url"]
+        final_json[service_name] = {"response": response}
 
     def start_requests(self):
         headers = {'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64; rv:48.0) Gecko/20100101 Firefox/48.0'}
         for url in self.start_urls:
-            yield Request(url, headers=headers)
+            yield Request(url, headers=headers,meta={'dont_merge_cookies': True})
     def closed(self, reason):
-        # with open("reviews.json","w") as f:
-        #    json.dump(final_json,f)
+
         str1 = ""
         dictionary = {}
         buisness_units = []
@@ -88,8 +107,7 @@ class ServiceController(scrapy.Spider):
             dictionary[k] = {"scrapping_website_name": k, "scrapping_website_url": v["response"].URL,
                              "response": responselist}
             buisness_units.append(dictionary[k])
-            #Todo need to uncomment
-          #  restapis.Login.postReview({"business_units":buisness_units})
+            #restapis.Login.postReview({"business_units":buisness_units})
         with open("reviews.json","w") as f:
             json.dump({"business_units":buisness_units},f)
     def parse(self, response):
@@ -103,10 +121,9 @@ class ServiceController(scrapy.Spider):
         elif ('whoishostingthis.com' in response.url):
             crawler = WhoIsHostingCrawler()
         elif ('sitejabber.com' in response.url):
-            # sitejabber
             crawler = SiteJabberCrawler()
-        elif ('bestvpn.com'in response.url):
-            crawler = BestVPN()
+        #elif ('bestvpn.com'in response.url):
+         #   crawler = BestVPN()
         elif ('resellerratings.com' in response.url):
             crawler = ResellerRatingCrawler()
         elif ('capterra.com' in response.url):
@@ -177,11 +194,26 @@ class ServiceController(scrapy.Spider):
             crawler = BlackPeopleMeet_PissedConsumer()
         elif 'top20seniordatingsites.com' in response.url:
             crawler = SeniorDatingSites()
-        elif 'bestdatingreviews.org' in response.url:
+        elif 'bestdatingreviews.org'  in response.url:
             crawler = BestDatingReviews()
         elif 'totallyonlinedating.com' in response.url:
             crawler = TotallyOnlineDating()
+        elif('buybitcoinswithcreditcard.net' in response.url):
+            crawler = BuyBitcoinsWithCreditCardCrawler()
+        elif ('freedatinghelper' in response.url):
+            crawler = FreeDatingHelperCrawler()
+        elif ('pickuphost.com' in response.url):
+            crawler = PickuphostCrawler()
+        elif('datingsitesreviews.com' in response.url):
+            crawler = DatingSitesReviewsCrawler()
+        elif ('anblik.com' in response.url):
+            crawler = AnblikCrawler()
+        elif ('bestvpnprovider.com' in response.url):
+            crawler = BestVPNProvidersCrawler()
+        elif ('coinjabber.com' in response.url):
+            crawler = CoinJabberCrawler()
         elif 'seniordatingexpert.com' in response.url:
+
             crawler = SeniorDatingSites()
         elif 'reviewopedia.com' in response.url:
            crawler = ReviewOpedia()
@@ -190,18 +222,46 @@ class ServiceController(scrapy.Spider):
         elif 'freedatinghelper.com' in response.url:
             crawler = FreeDatingHelper()
 
+
+            crawler = SeniorDatingExpert()
+        elif 'datingwise.com' in response.url:
+            crawler = DatingSitesReviewsCrawler()
+        elif 'joomlahostingreviews.com' in response.url:
+            crawler = JoomlaHostingReviews()
+        elif 'revex.co' in response.url:
+            crawler = RevexCrawler()
+        elif 'reviewcentre.com' in response.url:
+            crawler = ReviewCentreCrawler()
+
         else:
-            print("kuch nhi mila")
-        if crawler != None:
+            print("Found Nothing")
+        if (crawler != None):
             return crawler.crawl(response, dict_url[response.url]["Category"], dict_url[response.url]["Service Name"])
 
+def f(q, ):
+    try:
+        configure_logging({'LOG_FORMAT': '%(levelname)s: %(message)s'})
+        runner = CrawlerRunner()
+        deferred = runner.crawl(ServiceController, q[1])
+        deferred.addBoth(lambda _: reactor.stop())
+        print("method f")
+        reactor.run()
+        q[0].put(None)
+    except Exception as e:
+        q[0].put(e)
 
+def run_spider(urls):
+    q = Queue()
+    p = Process(target=f, args=([q, urls],))
+    print("crawl_services()")
+    p.start()
+    result = q.get()
+    p.join()
+
+    if result is not None:
+        raise result
 def crawl_services(urls):
-    process = CrawlerProcess(get_project_settings())
-    process.crawl(ServiceController, urls)
-    process.start()
-    # print final_dict_reviews
+    q = Queue()
+    for i in urls:
+        run_spider(i)
 
-    # with open("reviews.json","w") as f:
-    #          json.dump(final_dict_reviews,f)
-    # print("Writing json file")

@@ -13,12 +13,15 @@ import requests
 from dateutil import parser as dateparser
 from lxml import html
 
+from utils import utils
+
 
 def ParseReviews(url):
     # for i in range(5):
     #     try:
     # This script has only been tested with Amazon.com
-    amazon_url = 'http://www.amazon.com' + url
+    #Todo: check for subcategory and append it in json
+    amazon_url =  url
     print(url)
     # Add some recent user agent to prevent amazon from blocking the request 
     # Find some chrome user agent strings  here https://udger.com/resources/ua-list/browser-detail?browser=Chrome
@@ -31,17 +34,19 @@ def ParseReviews(url):
     XPATH_AGGREGATE = '//span[@id="acrCustomerReviewText"]'
     XPATH_REVIEW_SECTION_1 = '//div[contains(@id,"reviews-summary")]'
     XPATH_REVIEW_SECTION_2 = '//div[@data-hook="review"]'
-
     XPATH_AGGREGATE_RATING = '//table[@id="histogramTable"]//tr'
     XPATH_PRODUCT_NAME = '//h1//span[@id="productTitle"]//text()'
     XPATH_PRODUCT_PRICE = '//span[@id="priceblock_ourprice"]/text()'
     XPATH_PRODUCT_AVAILABILITY = '//div[@id="availability"]/span/text()'
     XPATH_PRODUCT_CATEGORY = '//div[@id="wayfinding-breadcrumbs_feature_div"]/ul[@class="a-unordered-list a-horizontal a-size-small"]/li[1]/span[@class="a-list-item"]/a[@class="a-link-normal a-color-tertiary"]/text()'
     XPATH_PRODUCT_LIST_PRICE = '//span[@class="a-text-strike"]/text()'
+    XPATH_PRODUCT_BRAND = '//div[@class="a-section a-spacing-none"]/a[@id="bylineInfo"]/text()'
 
+    XPATH_SUB_CATEGORY = '//div[@id="wayfinding-breadcrumbs_feature_div"]/ul[@class="a-unordered-list a-horizontal a-size-small"]/li/span[@class="a-list-item"]/a[@class="a-link-normal a-color-tertiary"]/text()'
+    XPATH_PRODUCT_BRAND = '//div[@class="a-section a-spacing-none"]/a[@id="bylineInfo"]/text()'
     raw_product_price = parser.xpath(XPATH_PRODUCT_PRICE)
     product_price = ''.join(raw_product_price).replace(',', '')
-
+    product_brand = parser.xpath(XPATH_PRODUCT_BRAND)
     raw_product_name = parser.xpath(XPATH_PRODUCT_NAME)
     product_name = ''.join(raw_product_name).strip()
     total_ratings = parser.xpath(XPATH_AGGREGATE_RATING)
@@ -52,6 +57,8 @@ def ParseReviews(url):
     if (category):
         category = (category)[0].strip()
     list_price = parser.xpath(XPATH_PRODUCT_LIST_PRICE)
+    sub_category = parser.xpath(XPATH_SUB_CATEGORY)
+    product_brand = parser.xpath(XPATH_PRODUCT_BRAND)
     reviews = parser.xpath(XPATH_REVIEW_SECTION_1)
     if not reviews:
         reviews = parser.xpath(XPATH_REVIEW_SECTION_2)
@@ -79,6 +86,7 @@ def ParseReviews(url):
         XPATH_REVIEW_COMMENTS = './/span[@data-hook="review-comment"]//text()'
         XPATH_AUTHOR = './/span[contains(@class,"profile-name")]//text()'
         XPATH_REVIEW_TEXT_3 = './/div[contains(@id,"dpReviews")]/div/text()'
+
 
         raw_review_author = review.xpath(XPATH_AUTHOR)
         raw_review_rating = review.xpath(XPATH_RATING)
@@ -115,25 +123,37 @@ def ParseReviews(url):
         review_comments = re.sub('[A-Za-z]', '', review_comments).strip()
         review_dict = {
             # review_comment_count':review_comments,
-            'review_text': full_review_text,
-            'review_posted_date': review_posted_date,
-            'review_header': review_header,
-            'review_rating': review_rating,
-            'review_author': author
+            "absolute_url": "",
+            "rating": utils.getStarts(review_rating),
+            "review_title": review_header,
+            "reviewed_at": utils.convertDate(review_posted_date),
+            "reviewer_name": author,
+            "category": category,
+            "product_name": product_name,
+            "review_text": full_review_text,
+            "picture_urls": "",
+            "website_name": "AMAZON"
 
         }
         reviews_list.append(review_dict)
 
-    data = {
-        # 'ratings':ratings_dict,
-        'reviews': reviews_list,
-        'url': amazon_url,
-        'price': product_price,
-        'name': product_name,
-        'availability': availability,
-        'category': category,
-        'list price': list_price
-    }
+    data =  {"business_item_data": {
+            "business_type": "",
+            "absolute_url": amazon_url,
+            "category": category,
+            "name": product_name,
+            "sub_category": "",
+            "picture_urls": "",
+            "original_price": product_price,
+            "sale_price": list_price,
+            "availability": availability,
+            "specifications": "",
+            "website_name": "",
+            "description": ""
+        },
+            "reviews": reviews_list
+
+        }
 
     return data
     #     except ValueError:

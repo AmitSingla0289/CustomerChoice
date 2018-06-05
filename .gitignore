@@ -1,4 +1,13 @@
-.idea
-venv
-venv1
-review.json
+/.idea
+/venv/
+/venv1/
+reviews.json
+/.idea/
+/model/__pycache__/
+/product/__pycache__/
+/product/amazon/__pycache__/
+/restapis/__pycache__/
+/test.py
+/utils/__pycache__/
+/services/__pycache__/
+venv2
