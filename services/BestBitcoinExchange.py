@@ -2,9 +2,9 @@ from model.Servicemodel import ServiceRecord
 from scrapy import Spider, Request
 from utils.utils import getStarts
 
-
+# http://www.bestbitcoinexchange.net/en/bittrex-com/
 class BestBitcoinExchange(Spider):
-
+# TODO Paging pending because of #
     def __init__(self):
         pass
     def parsing(self, response):
@@ -15,7 +15,7 @@ class BestBitcoinExchange(Spider):
         reviews1 = []
         self.category = category
         self.servicename = servicename
-        # https: // www.webhostinghero.com / reviews / bluehost /
+
         for node in response.xpath(
                 "//div[@class='box']/ol[@class='comment-list']/li/div"):
             reviews1.append(node.xpath('string()').extract());
