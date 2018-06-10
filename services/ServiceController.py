@@ -7,9 +7,16 @@ from scrapy.crawler import CrawlerProcess, CrawlerRunner
 from scrapy.utils.log import configure_logging
 from scrapy.utils.project import get_project_settings
 from twisted.internet import reactor
+from services.InfluensterCrawler import InfluensterCrawler
+from services.BestBitcoinExchange import BestBitcoinExchange
+from services.AlterNativeTo import AlterNativeTo
+from services.FreeDatingHelper import FreeDatingHelper
+from services.DatingWiseCrawler import DatingWiseCrawler
+from services.ReviewOpedia import ReviewOpedia
 
 from services.PickuphostCrawler import PickuphostCrawler
 from services.SeniorDatingExpert import SeniorDatingExpert
+
 from services.TotallyOnlineDating import TotallyOnlineDating
 from services.BestDatingReviews import BestDatingReviews
 from services.SeniorDatingSites import SeniorDatingSites
@@ -202,12 +209,24 @@ class ServiceController(scrapy.Spider):
             crawler = DatingSitesReviewsCrawler()
         elif ('anblik.com' in response.url):
             crawler = AnblikCrawler()
-        elif ('bestvpnprovider.com' in response.url):
+        elif ('bestvpnprovider.co' in response.url):
             crawler = BestVPNProvidersCrawler()
         elif ('coinjabber.com' in response.url):
             crawler = CoinJabberCrawler()
         elif 'seniordatingexpert.com' in response.url:
             crawler = SeniorDatingExpert()
+
+        elif 'reviewopedia.com' in response.url:
+           crawler = ReviewOpedia()
+        elif 'datingwise.com' in response.url:
+            crawler = DatingWiseCrawler()
+        elif 'freedatinghelper.com' in response.url:
+            crawler = FreeDatingHelper()
+        elif 'bestbitcoinexchange.net' in response.url:
+            crawler = BestBitcoinExchange()
+
+
+
         elif 'datingwise.com' in response.url:
             crawler = DatingSitesReviewsCrawler()
         elif 'joomlahostingreviews.com' in response.url:
@@ -216,6 +235,10 @@ class ServiceController(scrapy.Spider):
             crawler = RevexCrawler()
         elif 'reviewcentre.com' in response.url:
             crawler = ReviewCentreCrawler()
+        elif 'influenster.com' in response.url:
+            crawler = InfluensterCrawler()
+
+
         else:
             print("Found Nothing")
         if (crawler != None):

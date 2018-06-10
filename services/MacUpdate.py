@@ -14,7 +14,7 @@ class MacUpdate():
         self.category = category
         self.servicename = servicename
         print("review from macupdate.com")
-        for node in response.xpath("//div/div[@class='yui3-u rcpb-content']/p[@class='rcpb-revcom-content']"):
+        for node in response.xpath("/div[@id='reviews_comments_container']/div[@id='rc_644247']/div[@class='yui3-u rcpb-content']/p[@class='rcpb-revcom-content']"):
             reviews.append(node.xpath('string()').extract())
         ratings = response.xpath("//div/div[@class='yui3-u rcpb-content']/div/input/@value/@text()").extract()
         dates = response.xpath("//div/div[@class='yui3-u rcpb-content']/span[@class='rcpb-postdate']/text()").extract()
