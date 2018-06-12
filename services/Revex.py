@@ -15,7 +15,7 @@ class Revex(Spider):
         reviews1 = []
         self.category = category
         self.servicename = servicename
-        # https: // www.webhostinghero.com / reviews / bluehost /
+
         for node in response.xpath(
                 "//ol[@class='commentlist']/li/div[@class='commbox']/div[@class='comment-content-withreview']/div[@class='user_reviews_view simple_color']/div[@class='user_reviews_view_proscons']/div[@class='comm_text_from_review']"):
             reviews.append(node.xpath('string()').extract());

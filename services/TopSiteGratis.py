@@ -15,7 +15,7 @@ class TopSiteGratis(Spider):
         reviews1 = []
         self.category = category
         self.servicename = servicename
-        # https: // www.webhostinghero.com / reviews / bluehost /
+
         for node in response.xpath(
                 "//div[@class='reviews product-reviews']/div[@class='item']/p[@class='excerpt']"):
             reviews.append(node.xpath('string()').extract());

@@ -16,7 +16,7 @@ class BestVPNProvidersCrawler(Spider):
         reviews1 = []
         self.category = category
         self.servicename = servicename
-        # https://www.bestvpnprovider.com/nordvpn-review/
+
         #TODO: Done
         for node in response.xpath("//div[@class='wpcr3_review_item']/div[@class='wpcr3_item wpcr3_product']/div/blockquote[@class='wpcr3_content']"):
             reviews.append(node.xpath('string()').extract());

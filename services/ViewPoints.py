@@ -2,7 +2,7 @@ from model.Servicemodel import ServiceRecord
 from scrapy import Spider, Request
 from utils.utils import getStarts
 
-
+# http://www.viewpoints.com/Kayak-com-reviews
 class ViewPoints(Spider):
 
     def __init__(self):
@@ -14,7 +14,7 @@ class ViewPoints(Spider):
         reviews = []
         self.category = category
         self.servicename = servicename
-        # https: // www.webhostinghero.com / reviews / bluehost /
+
         for node in response.xpath(
                 "//div[@class='pr-contents-wrapper']/div[@class='pr-review-wrap']/div[@class='pr-review-main-wrapper']/div[@class='pr-review-text']/p[@class='pr-comments']"):
             reviews.append(node.xpath('string()').extract());
@@ -26,12 +26,7 @@ class ViewPoints(Spider):
         # img_src = response.xpath(
         #     "//div[@class='tabBody']/ul[@id='commentsul']/li/div/div/div[@class='userAvatar']/img/@src").extract()
 
-        print("Reviews ", len(reviews), reviews)
-        print("Headings ", len(headings), headings)
-        print("Authors ", len(authors), authors)
-        print("Rating ", len(ratings), ratings)
-        print("Dates ", len(dates), dates)
-        print("websites ", len(website_name), website_name)
+
         for item in range(0, len(reviews)):
             servicename1 = ServiceRecord(response.url, ratings[item], headings[item], None, authors[item], category,
                                          servicename, reviews[item], None, website_name)
