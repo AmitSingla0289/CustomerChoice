@@ -1,7 +1,7 @@
 from model.Servicemodel import ServiceRecord
 from scrapy import Spider, Request
 from utils.utils import getStarts
-
+# https://www.virtualbanking.com/reviews/localbitcoins-review/
 
 class VirtualBanking(Spider):
 
@@ -14,10 +14,9 @@ class VirtualBanking(Spider):
         reviews = []
         self.category = category
         self.servicename = servicename
-        #https: // www.webhostinghero.com / reviews / bluehost /
+
         for node in response.xpath("//div[@id='user-reviews-wrap']/ul[@id='user-reviews']/li/div[@class='user-review']"):
             reviews.append(node.xpath('string()').extract());
-        print("Reviews ", len(reviews), reviews)
         ratings1 = response.xpath("//div[@id='user-reviews-wrap']/ul[@id='user-reviews']/li/div[@class='user-stars']/img/@src").extract()
         ratings = []
         i = 0
@@ -25,9 +24,7 @@ class VirtualBanking(Spider):
             ratings.append(getStarts(ratings1[i]))
             i = i + 1
         ratings = map(lambda foo: foo.replace('.', ''), ratings)
-        print("Ratings ", len(ratings), ratings)
         dates1 = response.xpath("//div[@id='user-reviews-wrap']/ul[@id='user-reviews']/li/div[@class='user-name']/text()").extract()
-        print("Dates ", len(dates1), dates1)
         dates = []
         dates2= []
         authors = []
@@ -37,8 +34,6 @@ class VirtualBanking(Spider):
             dates.append(dates2[5])
             authors.append(dates2[2])
             j = j+1
-        print("dates ", len(dates), dates)
-        print("Authors ", len(authors), authors)
         website_name =  response.xpath("//header/div[@class='wrapper']/a[@id='logo']/@href").extract()
         for item in range(0, len(reviews)):
             servicename1 =ServiceRecord(response.url, ratings[item],None, dates[item], authors[item], category,

@@ -13,7 +13,7 @@ class ReviewOpedia(Spider):
         reviews = []
         self.category = category
         self.servicename = servicename
-        #https: // www.webhostinghero.com / reviews / bluehost /
+
         for node in response.xpath("//div[@class='review_result']/div[@class='review_result_content']/div[@class='review_result_item']/div[@class='review_result_text']"):
             reviews.append(node.xpath('string()').extract());
         ratings =  response.xpath("//div[@class='review_result']/div[@class='review_result_content']/div[@class='review_result_item']/div[@class='review-result-rating-main']").extract()
