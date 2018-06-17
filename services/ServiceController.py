@@ -3,14 +3,14 @@ from multiprocessing import Process, Queue
 
 import scrapy
 from scrapy import Request
-from scrapy.crawler import CrawlerProcess, CrawlerRunner
+from scrapy.crawler import CrawlerRunner
 from scrapy.utils.log import configure_logging
-from scrapy.utils.project import get_project_settings
 from twisted.internet import reactor
-
-from VirtualBanking import VirtualBanking
-from ViewPoints import ViewPoints
-from TrustPilot import TrustPilot
+from services.Hellopeter import Hellopeter
+from services.SiteJabberCrawler import SiteJabberCrawler
+from services.VirtualBanking import VirtualBanking
+from services.ViewPoints import ViewPoints
+from services.TrustPilot import TrustPilot
 from services.NetBusinessRating import NetBusinessRating
 from services.TravelSiteCritic import TravelSiteCritic
 from services.InfluensterCrawler import InfluensterCrawler
@@ -32,6 +32,7 @@ from services.BestOnline import BestOnline
 from services.CompariTech import CompariTech
 from services.MacUpdate import MacUpdate
 from services.SecureThoughts import SecureThoughts
+from services.WebHostingHero import WebHostingHero
 from services.WebHostingHero import WebHostingHero
 from services.VPNpickCrawler import VPNpickCrawler
 from services.vpnRanks import vpnRanks
@@ -104,7 +105,6 @@ class ServiceController(scrapy.Spider):
         for url in self.start_urls:
             yield Request(url, headers=headers,meta={'dont_merge_cookies': True})
     def closed(self, reason):
-
         str1 = ""
         dictionary = {}
         buisness_units = []
@@ -221,7 +221,6 @@ class ServiceController(scrapy.Spider):
             crawler = CoinJabberCrawler()
         elif 'seniordatingexpert.com' in response.url:
             crawler = SeniorDatingExpert()
-
         elif 'reviewopedia.com' in response.url:
            crawler = ReviewOpedia()
         elif 'datingwise.com' in response.url:
@@ -230,9 +229,6 @@ class ServiceController(scrapy.Spider):
             crawler = FreeDatingHelper()
         elif 'bestbitcoinexchange.net' in response.url:
             crawler = BestBitcoinExchange()
-
-
-
         elif 'datingwise.com' in response.url:
             crawler = DatingSitesReviewsCrawler()
         elif 'joomlahostingreviews.com' in response.url:
@@ -255,9 +251,10 @@ class ServiceController(scrapy.Spider):
             crawler = ViewPoints()
         elif 'virtualbanking.com' in response.url:
             crawler = VirtualBanking()
-
+        elif 'hellopeter.com' in response.url:
+            crawler = Hellopeter()
         else:
-            ("Found Nothing")
+            print("Found Nothing")
         if (crawler != None):
             return crawler.crawl(response, dict_url[response.url]["Category"], dict_url[response.url]["Service Name"])
 
@@ -267,7 +264,7 @@ def f(q, ):
         runner = CrawlerRunner()
         deferred = runner.crawl(ServiceController, q[1])
         deferred.addBoth(lambda _: reactor.stop())
-        ("method f")
+        print("method f")
         reactor.run()
         q[0].put(None)
     except Exception as e:
@@ -276,7 +273,6 @@ def f(q, ):
 def run_spider(urls):
     q = Queue()
     p = Process(target=f, args=([q, urls],))
-    ("crawl_services()")
     p.start()
     result = q.get()
     p.join()
