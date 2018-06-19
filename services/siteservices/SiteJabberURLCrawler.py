@@ -3,7 +3,7 @@ from lxml import etree
 
 from services.SiteJabberCrawler import SiteJabberCrawler
 from services.Revex import Revex
-
+urlListt =[]
 urlssss = []
 class SiteJabberURLCrawler(Spider):
     def __init__(self):
@@ -31,8 +31,8 @@ class SiteJabberURLCrawler(Spider):
             if (len(root.xpath("//a")) > 0):
                 serviceList.append(root.xpath("//a/text()"))
 
-        print("serviceList  ", len(serviceList), serviceList)
-        print("URL ", len(url), url)
+        # print("serviceList  ", len(serviceList), serviceList)
+        print("URL ", len(url), len(url[0]), url)
         i=0
         # urlsssssssssss = {"Category": self.category,
         #                   "ServiceName": "",
@@ -51,7 +51,7 @@ class SiteJabberURLCrawler(Spider):
                 # print(url[i][j])
                 j = j+1
             i=i+1
-        next_page = response.xpath("div[@id='left_column']/div[@class='navigation']/div[@class='paginator_next']/span/a[@class='button outline']/@href").extract()
+        next_page = response.xpath("//div[@id='left_column']/div[@class='navigation']/div[@class='paginator_next']/span/a[@class='button outline']/@href").extract()
         if next_page is not None:
             next_page_url = "".join(next_page)
             if next_page_url and next_page_url.strip():
