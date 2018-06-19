@@ -49,7 +49,9 @@ class SiteJabberCrawler(BaseSiteURLCrawler):
                 authors.append(root.text)
         website = response.xpath("//div[@id='header_top']/a[@id='header_logo']/picture/img/@alt").extract()
         website_name = website[0];
-        #print(authors)
+        headings = map(lambda foo: foo.replace('...', ''), headings)
+        headings = map(lambda foo: foo.replace('""', ''), headings)
+        print(" headings ", headings)
         for item in range(0, len(reviews)):
             servicename1 =ServiceRecord(response.url, ratings[item],headings[item], dates[item], authors[item], categoryName,
                           servicename, reviews[item], None,website_name);
@@ -60,6 +62,6 @@ class SiteJabberCrawler(BaseSiteURLCrawler):
             next_page_url1 ="".join(next_page1)
             if next_page_url1 and next_page_url1.strip():
                 #print(type(next_page_url))
-                print(next_page_url1,"      innnnnnnnnnnnnnnnnnnnnnnnn crawler")
+                # print(next_page_url1,"      innnnnnnnnnnnnnnnnnnnnnnnn crawler")
                 yield response.follow(url=next_page_url1, callback=self.parsing)
         self.pushToServer()
