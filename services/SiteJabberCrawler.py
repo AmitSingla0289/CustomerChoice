@@ -50,7 +50,8 @@ class SiteJabberCrawler(BaseSiteURLCrawler):
         website = response.xpath("//div[@id='header_top']/a[@id='header_logo']/picture/img/@alt").extract()
         website_name = website[0];
         headings = map(lambda foo: foo.replace('...', ''), headings)
-        headings = map(lambda foo: foo.replace('""', ''), headings)
+        headings = map(lambda foo: foo.replace(u'\u201c', ''), headings)
+        headings = map(lambda foo: foo.replace(u'\u201d', ''), headings)
         print(" headings ", headings)
         for item in range(0, len(reviews)):
             servicename1 =ServiceRecord(response.url, ratings[item],headings[item], dates[item], authors[item], categoryName,
