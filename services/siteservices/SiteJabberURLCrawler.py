@@ -30,33 +30,33 @@ class SiteJabberURLCrawler(Spider):
                 print("[pageeeeee   ",page)
                 sss = SiteJabberURLWebHosting(category)
                 yield response.follow(page, callback=sss.parsing)
-        # for content1 in servicelist1:
-        #     content1 = content1.replace('<b>', '')
-        #     content1 = content1.replace('</b>', '')
-        #     # print(content1)
-        #     root = etree.HTML(content1)
-        #     if (len(root.xpath("//a")) > 0):
-        #         serviceList.append(root.xpath("//a/text()"))
-        #
-        # # print("serviceList  ", len(serviceList), serviceList)
-        # i=0
-        #
-        # while i< len(url):
-        #     j=0
-        #     while j < len(url[i]):
-        #         crawler = SiteJabberCrawler(self.category, serviceList[j][0], 'https://www.sitejabber.com' + url[i][j])
-        #         yield response.follow(url="https://www.sitejabber.com" + url[i][j], callback=crawler.parsing)
-        #         # print(url[i][j])
-        #         j = j+1
-        #     i=i+1
-        # next_page = response.xpath("//div[@id='left_column']/div[@class='navigation']/div[@class='paginator_next']/span/a[@class='button outline']/@href").extract()
-        # if next_page is not None:
-        #     next_page_url = "".join(next_page)
-        #     if next_page_url and next_page_url.strip():
-        #         print(type(next_page_url))
-        #         print(next_page_url)
-        #         # yield Request(url=next_page_url, callback=self.parse, dont_filter=True)
-        #         yield response.follow(next_page_url, callback=self.parsing)
+        for content1 in servicelist1:
+            content1 = content1.replace('<b>', '')
+            content1 = content1.replace('</b>', '')
+            # print(content1)
+            root = etree.HTML(content1)
+            if (len(root.xpath("//a")) > 0):
+                serviceList.append(root.xpath("//a/text()"))
+
+        # print("serviceList  ", len(serviceList), serviceList)
+        i=0
+
+        while i< len(url):
+            j=0
+            while j < len(url[i]):
+                crawler = SiteJabberCrawler(self.category, serviceList[j][0], 'https://www.sitejabber.com' + url[i][j])
+                yield response.follow(url="https://www.sitejabber.com" + url[i][j], callback=crawler.parsing)
+                # print(url[i][j])
+                j = j+1
+            i=i+1
+        next_page = response.xpath("//div[@id='left_column']/div[@class='navigation']/div[@class='paginator_next']/span/a[@class='button outline']/@href").extract()
+        if next_page is not None:
+            next_page_url = "".join(next_page)
+            if next_page_url and next_page_url.strip():
+                print(type(next_page_url))
+                print(next_page_url)
+                # yield Request(url=next_page_url, callback=self.parse, dont_filter=True)
+                yield response.follow(next_page_url, callback=self.parsing)
 
 
 
