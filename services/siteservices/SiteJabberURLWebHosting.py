@@ -18,7 +18,7 @@ class SiteJabberURLWebHosting(Spider):
         self.category = category
         # https://www.sitejabber.com/reviews/zoosk.com
         url1 = response.xpath("//div[@id='content_wrapper']/div[@class='section left']/div[@class='site_container']/div[@class='site_item']").extract()
-        servicelist1 = response.xpath("//div[@class='section left']/div[@class='site_container']/div[@class='site_item']/div[@class='site_item_content']").extract()
+        servicelist1 = response.xpath("//div[@class='section left']/div[@class='site_container']/div[@class='site_item']").extract()
         for content in url1:
             root =  etree.HTML(content)
             if(len(root.xpath("//div[@class='site_item_content']/div[@class='content']/h3/a"))>0):
@@ -27,8 +27,10 @@ class SiteJabberURLWebHosting(Spider):
                 url.append(root.xpath("//div[@class='site_item_content last']/div[@class='content']/h3/a/@href"))
         for content1 in servicelist1:
             root = etree.HTML(content1)
-            if (len(root.xpath("//div[@class='content']/h3/a")) > 0):
-                serviceList.append(root.xpath("//div[@class='content']/h3/a/text()"))
+            if (len(root.xpath("//div[@class='site_item_content']/div[@class='content']/h3/a")) > 0):
+                serviceList.append(root.xpath("//div[@class='site_item_content']/div[@class='content']/h3/a/text()"))
+            if (len(root.xpath("//div[@class='site_item_content last']/div[@class='content']/h3/a")) > 0):
+                serviceList.append(root.xpath("//div[@class='site_item_content last']/div[@class='content']/h3/a/text()"))
         print(len(url), url)
         print( len(serviceList), serviceList)
         i=0
