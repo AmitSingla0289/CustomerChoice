@@ -8,7 +8,7 @@ from scrapy.utils.log import configure_logging
 from twisted.internet import reactor
 from services.siteservices.SiteJabberURLCrawler import urlssss
 from services.siteservices.SiteJabberURLCrawler import SiteJabberURLCrawler
-from services.Hellopeter import Hellopeter
+from services.SiteJabberCrawler import SiteJabberCrawler
 
 final_dict_urls= {}
 dict_url = {}
@@ -33,12 +33,18 @@ class SiteServiceListController(scrapy.Spider):
     def parse(self, response):
         self.log('I just visited: ' + response.url)
         if ('sitejabber.com' in response.url):
-            crawler = SiteJabberURLCrawler()
+            if('reviews' in response.url):
+                service  = response.url.split("/");
+                serviceName = service[len(service)-1];
+                # print(" Servicesssss   ", serviceName)
+                crawler = SiteJabberCrawler( dict_url[response.url]["Category"],serviceName,response.url)
+            else:
+                crawler = SiteJabberURLCrawler(dict_url[response.url]["Category"])
 
         else:
             print("Found Nothing")
         if (crawler != None):
-            return crawler.crawl(response, dict_url[response.url]["Category"])
+            return crawler.crawl(response)
 
 def f(q, ):
     try:
