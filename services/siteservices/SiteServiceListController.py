@@ -6,7 +6,6 @@ from scrapy import Request
 from scrapy.crawler import  CrawlerRunner
 from scrapy.utils.log import configure_logging
 from twisted.internet import reactor
-from services.siteservices.SiteJabberURLCrawler import urlssss
 from services.siteservices.SiteJabberURLCrawler import SiteJabberURLCrawler
 from services.SiteJabberCrawler import SiteJabberCrawler
 
@@ -40,6 +39,7 @@ class SiteServiceListController(scrapy.Spider):
                 crawler = SiteJabberCrawler( dict_url[response.url]["Category"],serviceName,response.url)
             else:
                 crawler = SiteJabberURLCrawler(dict_url[response.url]["Category"])
+
 
         else:
             print("Found Nothing")

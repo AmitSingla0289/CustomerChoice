@@ -20,19 +20,16 @@ class SiteJabberCrawler(BaseSiteURLCrawler):
 
     def crawl(self, response):
         reviews = []
-        # categoryName="";
         name = response.xpath("//div[@id='view_category']/div[@class='crumbtrail']/a/text()").extract()
-        i=0;
-        categoryName = self.category+". ";
-        while i< len(name):
-            if(i == len(name)-1):
-                categoryName = categoryName+name[i];
-            else:
-                categoryName = categoryName + name[i]+" > ";
-            i = i+1;
+        i = 0
+        categoryName = self.category;
+        while i < len(name):
+            categoryName =  categoryName + " > "+ name[i]
+            i = i + 1
+
         # https://www.sitejabber.com/reviews/zoosk.com
         for node in response.xpath('//div[@class="review "]/p'):
-            reviews.append(node.xpath('string()').extract());
+            reviews.append(node.xpath('string()').extract())
         ratings = response.xpath("//div[@class='star_rating']/@title").extract()
         dates = response.xpath("//div[@class='time tiny_text faded_text']/text()").extract()
         headings = response.xpath("//div[@class='review_title']/a/text()").extract()
@@ -47,20 +44,19 @@ class SiteJabberCrawler(BaseSiteURLCrawler):
                 authors.append(root.text)
         website = response.xpath("//div[@id='header_top']/a[@id='header_logo']/picture/img/@alt").extract()
         website_name = website[0];
-        headings = map(lambda foo: foo.replace('...', ''), headings)
-        headings = map(lambda foo: foo.replace(u'\u201c', ''), headings)
-        headings = map(lambda foo: foo.replace(u'\u201d', ''), headings)
-        print(" headings ", headings)
+        headings = list(map(lambda foo: foo.replace('...', ''), headings))
+        headings = list(map(lambda foo: foo.replace(u'\u201c', ''), headings))
+        headings = list(map(lambda foo: foo.replace(u'\u201d', ''), headings))
+        # print(authors)
         for item in range(0, len(reviews)):
-            servicename1 =ServiceRecord(response.url, ratings[item],headings[item], dates[item], authors[item], categoryName,
-                          self.servicename, reviews[item], None,website_name);
+            servicename1 = ServiceRecord(response.url, ratings[item], headings[item], dates[item], authors[item],
+                                         categoryName,
+                                         self.servicename, reviews[item], None, website_name)
             self.save(servicename1)
 
         next_page1 = response.xpath("//div[ @class ='paginator_next']/span/a[@class ='button outline']/@href").extract()
         if next_page1 is not None:
             next_page_url1 ="".join(next_page1)
             if next_page_url1 and next_page_url1.strip():
-                #print(type(next_page_url))
-                # print(next_page_url1,"      innnnnnnnnnnnnnnnnnnnnnnnn crawler")
                 yield response.follow(url=next_page_url1, callback=self.parsing)
         self.pushToServer()

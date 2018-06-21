@@ -4,10 +4,11 @@ from datetime import datetime
 
 import eventlet
 
+import restapis
 from product.amazon import settings
 from product.amazon.Amazon import ParseReviews
 from product.amazon.extractors import get_url, get_primary_img
-from product.amazon.helpers import make_request, log, format_url, enqueue_url, dequeue_url
+from product.amazon.helpers import make_request, log, format_url, enqueue_url, dequeue_url,get_host
 
 crawl_time = datetime.now()
 
@@ -32,9 +33,7 @@ def begin_crawl(url):
             continue
         link = link["href"]
         count += 1
-        enqueue_url(link)
-
-    #log("Found {} subcategories on {}".format(count, line))
+        enqueue_url(link,url)
 
 
 def fetch_listing():
@@ -63,21 +62,23 @@ def fetch_listing():
         product_url = get_url(item)
         data = ParseReviews(product_url)
       #  product_price = get_price(item)
-        data
-        data.update({'Product URL': format_url(product_url),
-                     "Listing URL":format_url(url),
+        #data
+        data.update({'Product URL': format_url(product_url,url),
+                     "Listing URL":format_url(url,url),
                      "Product Image":product_image,
                      })
+        restapis.Login.postReview({"business_units": data})
         
         f = open('data.json','a')
         json.dump(data,f,indent=4)
+
         # download_image(product_image, product_id)
 
     # add next page to queue
     next_link = page.find("a", id="pagnNextLink")
     if next_link:
         log(" Found 'Next' link on {}: {}".format(url, next_link["href"]))
-        enqueue_url(next_link["href"])
+        enqueue_url(next_link["href"],url)
         pile.spawn(fetch_listing)
 
 

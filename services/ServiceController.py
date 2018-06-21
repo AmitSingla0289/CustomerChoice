@@ -3,11 +3,11 @@ from multiprocessing import Process, Queue
 
 import scrapy
 from scrapy import Request
-from scrapy.crawler import CrawlerRunner
+from scrapy.crawler import CrawlerProcess, CrawlerRunner
 from scrapy.utils.log import configure_logging
+from scrapy.utils.project import get_project_settings
 from twisted.internet import reactor
 from services.Hellopeter import Hellopeter
-from services.SiteJabberCrawler import SiteJabberCrawler
 from services.VirtualBanking import VirtualBanking
 from services.ViewPoints import ViewPoints
 from services.TrustPilot import TrustPilot
@@ -33,7 +33,6 @@ from services.CompariTech import CompariTech
 from services.MacUpdate import MacUpdate
 from services.SecureThoughts import SecureThoughts
 from services.WebHostingHero import WebHostingHero
-from services.WebHostingHero import WebHostingHero
 from services.VPNpickCrawler import VPNpickCrawler
 from services.vpnRanks import vpnRanks
 from services.vpnMentor import vpnMentor
@@ -56,7 +55,6 @@ from services.HostAdviceCrawler import HostAdviceCrawler
 from services.HostingFactsCrawler import HostingFactsCrawler
 from services.ResellerRatingCrawler import ResellerRatingCrawler
 from model.Response import Response
-from services.SiteJabberCrawler import SiteJabberCrawler
 from services.WhoIsHostingCrawler import WhoIsHostingCrawler
 from services.consumerAffairsCrawler import consumerAffairsCrawler
 from services.yelpCrawler import yelpCrawler
@@ -105,6 +103,7 @@ class ServiceController(scrapy.Spider):
         for url in self.start_urls:
             yield Request(url, headers=headers,meta={'dont_merge_cookies': True})
     def closed(self, reason):
+
         str1 = ""
         dictionary = {}
         buisness_units = []
@@ -127,8 +126,6 @@ class ServiceController(scrapy.Spider):
             crawler = HostAdviceCrawler()
         elif ('whoishostingthis.com' in response.url):
             crawler = WhoIsHostingCrawler()
-        elif ('sitejabber.com' in response.url):
-            crawler = SiteJabberCrawler()
         elif ('bestvpn.com'in response.url):
            crawler = BestVPN()
         elif ('resellerratings.com' in response.url):
@@ -221,6 +218,7 @@ class ServiceController(scrapy.Spider):
             crawler = CoinJabberCrawler()
         elif 'seniordatingexpert.com' in response.url:
             crawler = SeniorDatingExpert()
+
         elif 'reviewopedia.com' in response.url:
            crawler = ReviewOpedia()
         elif 'datingwise.com' in response.url:
@@ -229,6 +227,9 @@ class ServiceController(scrapy.Spider):
             crawler = FreeDatingHelper()
         elif 'bestbitcoinexchange.net' in response.url:
             crawler = BestBitcoinExchange()
+
+
+
         elif 'datingwise.com' in response.url:
             crawler = DatingSitesReviewsCrawler()
         elif 'joomlahostingreviews.com' in response.url:
@@ -255,6 +256,7 @@ class ServiceController(scrapy.Spider):
             crawler = Hellopeter()
         else:
             print("Found Nothing")
+
         if (crawler != None):
             return crawler.crawl(response, dict_url[response.url]["Category"], dict_url[response.url]["Service Name"])
 
@@ -264,7 +266,7 @@ def f(q, ):
         runner = CrawlerRunner()
         deferred = runner.crawl(ServiceController, q[1])
         deferred.addBoth(lambda _: reactor.stop())
-        print("method f")
+        ("method f")
         reactor.run()
         q[0].put(None)
     except Exception as e:
@@ -273,6 +275,7 @@ def f(q, ):
 def run_spider(urls):
     q = Queue()
     p = Process(target=f, args=([q, urls],))
+    ("crawl_services()")
     p.start()
     result = q.get()
     p.join()

@@ -2,9 +2,9 @@ from scrapy import Spider, Request
 from lxml import etree
 
 from services.SiteJabberCrawler import SiteJabberCrawler
+from services.Revex import Revex
 from services.siteservices.SiteJabberURLWebHosting import SiteJabberURLWebHosting
 
-urlListt =[]
 urlssss = []
 class SiteJabberURLCrawler(Spider):
     def __init__(self,category):
@@ -18,7 +18,6 @@ class SiteJabberURLCrawler(Spider):
         servicelistnext = []
         serviceList= []
 
-
         # https://www.sitejabber.com/reviews/zoosk.com
         url1 = response.xpath("//div[@id='content']/div[@id='search']/div[@id='content_wrapper']/div[@id='left_column']").extract()
         servicelist1 = response.xpath("//div[@id='content']/div[@id='search']/div[@id='content_wrapper']/div[@id='left_column']/div[@class='review']/div[@class='info left']/div[@class='url track-search']").extract()
@@ -26,11 +25,15 @@ class SiteJabberURLCrawler(Spider):
             root =  etree.HTML(content)
             if(len(root.xpath("//div[@class='review']/div[@class='info left']/div[@class='url track-search']/a/@href"))>0):
                 url.append(root.xpath("//div[@class='review']/div[@class='info left']/div[@class='url track-search']/a/@href"))
-            if(len(root.xpath("//div[@class='categories ']/div[@class='category']/div[@class='info_cat']/div[@class='name']/a/@href"))>0):
-                page = root.xpath("//div[@class='categories ']/div[@class='category']/div[@class='info_cat']/div[@class='name']/a/@href")[0]
-                print("[pageeeeee   ",page)
-                sss = SiteJabberURLWebHosting(self.category)
-                yield response.follow(page, callback=sss.parsing)
+        if (len(root.xpath(
+                "//div[@class='categories ']/div[@class='category']/div[@class='info_cat']/div[@class='name']/a/@href")) > 0):
+            page = root.xpath(
+                "//div[@class='categories ']/div[@class='category']/div[@class='info_cat']/div[@class='name']/a/@href")[
+                0]
+            print("[pageeeeee   ", page)
+            sss = SiteJabberURLWebHosting(self.category)
+            yield response.follow(page, callback=sss.parsing)
+
         for content1 in servicelist1:
             content1 = content1.replace('<b>', '')
             content1 = content1.replace('</b>', '')
@@ -39,18 +42,28 @@ class SiteJabberURLCrawler(Spider):
             if (len(root.xpath("//a")) > 0):
                 serviceList.append(root.xpath("//a/text()"))
 
-        # print("serviceList  ", len(serviceList), serviceList)
+        print("serviceList  ", len(serviceList), serviceList)
+        print("URL ", len(url), url)
         i=0
+        # urlsssssssssss = {"Category": self.category,
+        #                   "ServiceName": "",
+        #                   "url": 'https://revex.co/internet-of-people/'}
+        # crawler = Revex(self.category, "Services", 'https://revex.co/internet-of-people/')
+        # yield response.follow(url="https://revex.co/internet-of-people/", callback=crawler.parsing)
 
         while i< len(url):
             j=0
             while j < len(url[i]):
+                urlsssssssssss = {"Category": self.category,
+                 "ServiceName": "",
+                 "url": 'https://www.sitejabber.com' + url[i][j]}
                 crawler = SiteJabberCrawler(self.category, serviceList[j][0], 'https://www.sitejabber.com' + url[i][j])
                 yield response.follow(url="https://www.sitejabber.com" + url[i][j], callback=crawler.parsing)
                 # print(url[i][j])
                 j = j+1
             i=i+1
-        next_page = response.xpath("//div[@id='left_column']/div[@class='navigation']/div[@class='paginator_next']/span/a[@class='button outline']/@href").extract()
+            next_page = response.xpath(
+                "//div[@id='left_column']/div[@class='navigation']/div[@class='paginator_next']/span/a[@class='button outline']/@href").extract()
         if next_page is not None:
             next_page_url = "".join(next_page)
             if next_page_url and next_page_url.strip():
