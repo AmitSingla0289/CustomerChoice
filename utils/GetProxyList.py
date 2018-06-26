@@ -4,6 +4,8 @@ from twisted.internet import reactor
 from scrapy.utils.log import configure_logging
 from multiprocessing import Process, Queue
 
+from product.amazon.settings import updateProxies
+
 
 class GetProxyList(scrapy.Spider):
     start_urls = ["https://www.sslproxies.org/"]
@@ -19,6 +21,7 @@ class GetProxyList(scrapy.Spider):
         for propyip in self.proxy_ip_list:
             proxyips.append("http://"+propyip+":"+self.proxy_port_list[i])
             i = i+1
+        updateProxies(proxyips)
         reactor.stop()
 
 

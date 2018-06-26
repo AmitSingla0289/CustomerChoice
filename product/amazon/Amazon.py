@@ -12,7 +12,10 @@ from time import sleep
 import requests
 from dateutil import parser as dateparser
 from lxml import html
+from requests import RequestException
 
+from product.amazon import settings
+from product.amazon.helpers import get_proxy, log
 from utils import utils
 
 
@@ -25,11 +28,15 @@ def ParseReviews(url):
     print(url)
     # Add some recent user agent to prevent amazon from blocking the request 
     # Find some chrome user agent strings  here https://udger.com/resources/ua-list/browser-detail?browser=Chrome
-    headers = {
-        'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.90 Safari/537.36'}
-    page = requests.get(amazon_url, headers=headers, verify=False)
+    proxies = []
+    proxies = get_proxy()
+    print(proxies)
+    try:
+        page = requests.get(url, headers=settings.headers, proxies=proxies)
+    except RequestException as e:
+        log("WARNING: Request for {} failed, trying again.".format(url))
+          # try request again, recursively
     page_response = page.text
-
     parser = html.fromstring(page_response)
     XPATH_AGGREGATE = '//span[@id="acrCustomerReviewText"]'
     XPATH_REVIEW_SECTION_1 = '//div[contains(@id,"reviews-summary")]'
@@ -84,8 +91,8 @@ def ParseReviews(url):
         "//div[@id='reviewsMedley']/div[@class='a-column a-span8']/div[@id='cr-medley-top-reviews-wrapper']/div[@id='reviews-medley-footer']/div[@class='a-row a-spacing-large']/a[@class='a-link-emphasis a-text-bold']/@href")
     print("next_page url intially     ", next_page)
     if(len(next_page)>0):
-        print("on first page")
-        details =  gettingIndividualReviews("https://www.amazon.com"+next_page[0], headers, category, product_name, reviews_list)
+        print("on first page", product_name, category)
+        details =  gettingIndividualReviews("https://www.amazon.com"+next_page[0], settings.headers, category, product_name)
     # Parsing individual reviews
 
 
@@ -125,10 +132,17 @@ def ReadAsin():
     f = open('data.json', 'w')
     json.dump(extracted_data, f, indent=4)
 
-def gettingIndividualReviews(page_url, headers, category, product_name, reviews_list):
-    page = requests.get(page_url,headers=headers, verify=False)
+def gettingIndividualReviews(page_url, headers, category, product_name):
+    proxies = get_proxy()
+    page = requests.get(page_url, headers=settings.headers, proxies=proxies)
     page_response = page.text
     parser = html.fromstring(page_response)
+    reviews_list = []
+    next_page = parser.xpath(
+        ".//div[@id='cm_cr-review_list']/div[@class='a-form-actions a-spacing-top-extra-large']/span[@class='a-declarative']/div[@id='cm_cr-pagination_bar']/ul[@class='a-pagination']/li[@class='a-last']/a/@href")
+    print("next_page url in nexted     ", next_page, len(next_page))
+    if len(next_page) > 0:
+        reviews_list = gettingIndividualReviews("https://www.amazon.com" + next_page[0], headers, category, product_name)
 
     XPATH_REVIEW_SECTION_1 = '//div[contains(@id,"reviews-summary")]'
     XPATH_REVIEW_SECTION_2 = '//div[@data-hook="review"]'
@@ -195,14 +209,7 @@ def gettingIndividualReviews(page_url, headers, category, product_name, reviews_
 
         }
         reviews_list.append(review_dict)
-        next_page = parser.xpath(
-            ".//div[@id='cm_cr-review_list']/div[@class='a-form-actions a-spacing-top-extra-large']/span[@class='a-declarative']/div[@id='cm_cr-pagination_bar']/ul[@class='a-pagination']/li[@class='a-last']/a/@href")
-        print("next_page url in nexted     ", next_page, len(next_page))
-        if len(next_page)==0:
-            print("No Url Found for next Page")
-            return reviews_list
-        else:
-            gettingIndividualReviews("https://www.amazon.com"+next_page[0], headers, category, product_name, reviews_list)
+    return reviews_list
 
 
 if __name__ == '__main__':
