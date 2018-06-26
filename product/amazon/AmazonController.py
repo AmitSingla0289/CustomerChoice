@@ -4,7 +4,6 @@ from datetime import datetime
 
 import eventlet
 
-import restapis
 from product.amazon import settings
 from product.amazon.Amazon import ParseReviews
 from product.amazon.extractors import get_url, get_primary_img
@@ -67,7 +66,7 @@ def fetch_listing():
                      "Listing URL":format_url(url,url),
                      "Product Image":product_image,
                      })
-        restapis.Login.postReview({"business_units": data})
+        #restapis.Login.postReview({"business_units": data})
         
         f = open('data.json','a')
         json.dump(data,f,indent=4)
