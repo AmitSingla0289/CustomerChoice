@@ -9,10 +9,12 @@ from product.amazon.settings import updateProxies
 
 class GetProxyList(scrapy.Spider):
     start_urls = ["https://www.sslproxies.org/"]
-
-    def __init__(self, link):
+    q = Queue()
+    def __init__(self, link,q1):
         if (len(self.start_urls) > 0):
             self.start_urls.pop(0)
+        global q
+        q = q1
         self.start_urls.append(link)
 
     def closed(self, reason):
@@ -21,7 +23,8 @@ class GetProxyList(scrapy.Spider):
         for propyip in self.proxy_ip_list:
             proxyips.append("http://"+propyip+":"+self.proxy_port_list[i])
             i = i+1
-        updateProxies(proxyips)
+        global  q
+        q.put(proxyips)
         reactor.stop()
 
 
@@ -35,7 +38,7 @@ def f(q):
     try:
         configure_logging({'LOG_FORMAT': '%(levelname)s: %(message)s'})
         runner = CrawlerRunner()
-        deferred = runner.crawl(GetProxyList,"https://www.sslproxies.org/")
+        deferred = runner.crawl(GetProxyList,"https://www.sslproxies.org/",q)
         deferred.addBoth(lambda _: reactor.stop())
         print("method f")
         reactor.run()
@@ -49,5 +52,6 @@ def getProxy():
     print("crawl_services()")
     p.start()
     result = q.get()
+    updateProxies(result)
     p.join()
 
