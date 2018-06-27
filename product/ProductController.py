@@ -4,7 +4,8 @@ urllist = []
 def crawlAmazon(urls):
     global  urllist
     urllist = urls
-    GetProxyList.getProxy();
+    #GetProxyList.getProxy();
+    onProxyUpdated()
 def onProxyUpdated():
     for url in urllist:
         AmazonController.crawlamazon(url)
