@@ -85,6 +85,7 @@ def log(msg):
 
 def get_proxy():
     # choose a proxy server to use for this request, if we need one
+    print(settings.proxies)
     if not settings.proxies or len(settings.proxies) == 0:
         return None
 

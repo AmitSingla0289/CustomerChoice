@@ -42,7 +42,7 @@ def ParseReviews(url):
     XPATH_REVIEW_SECTION_1 = '//div[contains(@id,"reviews-summary")]'
     XPATH_REVIEW_SECTION_2 = '//div[@data-hook="review"]'
     XPATH_AGGREGATE_RATING = '//table[@id="histogramTable"]//tr'
-    XPATH_PRODUCT_NAME = '//h1//span[@id="productTitle"]//text()'
+    XPATH_PRODUCT_NAME = '//div[@id="product-title"]/h1//text()'
     XPATH_PRODUCT_PRICE = '//span[@id="priceblock_ourprice"]/text()'
     XPATH_PRODUCT_AVAILABILITY = '//div[@id="availability"]/span/text()'
     XPATH_PRODUCT_CATEGORY = '//div[@id="wayfinding-breadcrumbs_feature_div"]/ul[@class="a-unordered-list a-horizontal a-size-small"]/li[1]/span[@class="a-list-item"]/a[@class="a-link-normal a-color-tertiary"]/text()'
@@ -93,10 +93,13 @@ def ParseReviews(url):
     if(len(next_page)>0):
         print("on first page", product_name, category)
         details =  gettingIndividualReviews("https://www.amazon.com"+next_page[0], settings.headers, category, product_name)
-    # Parsing individual reviews
 
 
-    data =  {"business_item_data": {
+
+        # Parsing individual reviews
+
+
+    data = {"business_units":[{"response": [{"business_item_data": {
             "business_type": "",
             "absolute_url": amazon_url,
             "category": category,
@@ -110,9 +113,11 @@ def ParseReviews(url):
             "website_name": "",
             "description": ""
         },
-            "reviews": details
+            "reviews": details}],
 
-        }
+        "scrapping_website_url": url,
+        "scrapping_website_name": "amazon.com"}]}
+    print("details", len(data), data)
 
     return data
     #     except ValueError:
@@ -135,6 +140,7 @@ def ReadAsin():
 def gettingIndividualReviews(page_url, headers, category, product_name):
     proxies = get_proxy()
     page = requests.get(page_url, headers=settings.headers, proxies=proxies)
+    sleep(10)
     page_response = page.text
     parser = html.fromstring(page_response)
     reviews_list = []
@@ -157,7 +163,7 @@ def gettingIndividualReviews(page_url, headers, category, product_name):
         XPATH_REVIEW_TEXT_1 = '//span[@data-hook="review-body"]//text()'
         XPATH_REVIEW_TEXT_2 = './/div//span[@data-action="columnbalancing-showfullreview"]/@data-columnbalancing-showfullreview'
         XPATH_REVIEW_COMMENTS = './/span[@data-hook="review-comment"]//text()'
-        XPATH_AUTHOR = './/span[contains(@class,"profile-name")]//text()'
+        XPATH_AUTHOR = './/span[@data-hook="review-author"]/a//text()'
         XPATH_REVIEW_TEXT_3 = './/div[contains(@id,"dpReviews")]/div/text()'
 
 
