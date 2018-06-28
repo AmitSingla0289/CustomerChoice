@@ -7,7 +7,7 @@ from scrapy.crawler import CrawlerProcess, CrawlerRunner
 from scrapy.utils.log import configure_logging
 from scrapy.utils.project import get_project_settings
 from twisted.internet import reactor
-from services.Hellopeter import Hellopeter
+
 from services.VirtualBanking import VirtualBanking
 from services.ViewPoints import ViewPoints
 from services.TrustPilot import TrustPilot
@@ -55,6 +55,7 @@ from services.HostAdviceCrawler import HostAdviceCrawler
 from services.HostingFactsCrawler import HostingFactsCrawler
 from services.ResellerRatingCrawler import ResellerRatingCrawler
 from model.Response import Response
+from services.SiteJabberCrawler import SiteJabberCrawler
 from services.WhoIsHostingCrawler import WhoIsHostingCrawler
 from services.consumerAffairsCrawler import consumerAffairsCrawler
 from services.yelpCrawler import yelpCrawler
@@ -126,6 +127,8 @@ class ServiceController(scrapy.Spider):
             crawler = HostAdviceCrawler()
         elif ('whoishostingthis.com' in response.url):
             crawler = WhoIsHostingCrawler()
+        elif ('sitejabber.com' in response.url):
+            crawler = SiteJabberCrawler()
         elif ('bestvpn.com'in response.url):
            crawler = BestVPN()
         elif ('resellerratings.com' in response.url):
@@ -252,11 +255,9 @@ class ServiceController(scrapy.Spider):
             crawler = ViewPoints()
         elif 'virtualbanking.com' in response.url:
             crawler = VirtualBanking()
-        elif 'hellopeter.com' in response.url:
-            crawler = Hellopeter()
-        else:
-            print("Found Nothing")
 
+        else:
+            ("Found Nothing")
         if (crawler != None):
             return crawler.crawl(response, dict_url[response.url]["Category"], dict_url[response.url]["Service Name"])
 
