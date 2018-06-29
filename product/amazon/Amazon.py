@@ -50,15 +50,17 @@ def ParseReviews(url, productImage):
     XPATH_SUB_CATEGORY = '//div[@id="wayfinding-breadcrumbs_feature_div"]/ul[@class="a-unordered-list a-horizontal a-size-small"]/li/span[@class="a-list-item"]/a[@class="a-link-normal a-color-tertiary"]/text()'
     XPATH_PRODUCT_BRAND = '//div[@class="a-section a-spacing-none"]/a[@id="bylineInfo"]/text()'
     raw_product_price = parser.xpath(XPATH_PRODUCT_PRICE)
-
-    product_price = raw_product_price
+    if(len(raw_product_price) > 0):
+        product_price = raw_product_price[0]
+    else:
+        product_price = ""
     product_brand = parser.xpath(XPATH_PRODUCT_BRAND)
     raw_product_name = parser.xpath(XPATH_PRODUCT_NAME)
     product_name = ''.join(raw_product_name).strip()
     raw_product_description = parser.xpath(XPATH_PRODUCT_DESCRIPTION)
-    product_description =[]
+    product_description = ""
     for prod in raw_product_description:
-        product_description.append(prod.strip())
+        product_description += " " + (prod.strip())
     total_ratings = parser.xpath(XPATH_AGGREGATE_RATING)
     checkAvailability = ['Currently unavailable.', 'Currently unavailable', 'Out of stock', 'Out of stock.']
 
@@ -80,7 +82,11 @@ def ParseReviews(url, productImage):
             flag =1
     if (category):
         category = (category)[0].strip()
-    list_price = parser.xpath(XPATH_PRODUCT_LIST_PRICE)
+    price = parser.xpath(XPATH_PRODUCT_LIST_PRICE)
+    if(len(price)):
+        list_price = price[0]
+    else:
+        list_price = ""
 
     sub_category = parser.xpath(XPATH_SUB_CATEGORY)
     product_brand = parser.xpath(XPATH_PRODUCT_BRAND)
@@ -124,7 +130,7 @@ def ParseReviews(url, productImage):
             "sale_price": list_price,
             "availability": avail,
             "specifications": "",
-            "website_name": "AMAZON",
+            "website_name": get_host(url),
             "description": product_description
         },
             "reviews": details}],
