@@ -15,7 +15,7 @@ from lxml import html
 from requests import RequestException
 
 from product.amazon import settings
-from product.amazon.helpers import get_proxy, log
+from product.amazon.helpers import get_proxy, log, get_host
 from utils import utils
 from product.amazon.helpers import make_request
 
@@ -30,7 +30,8 @@ def ParseReviews(url, productImage):
     # Add some recent user agent to prevent amazon from blocking the request
     # Find some chrome user agent strings  here https://udger.com/resources/ua-list/browser-detail?browser=Chrome
 
-
+    product_image = []
+    product_image.append(productImage)
     page = make_request(url, False)
     page_response = page.text
     parser = html.fromstring(page_response)
@@ -38,42 +39,49 @@ def ParseReviews(url, productImage):
     XPATH_REVIEW_SECTION_1 = '//div[contains(@id,"reviews-summary")]'
     XPATH_REVIEW_SECTION_2 = '//div[@data-hook="review"]'
     XPATH_AGGREGATE_RATING = '//table[@id="histogramTable"]//tr'
-    XPATH_PRODUCT_NAME = '//div[@id="product-title"]/h1//text()'
-    XPATH_PRODUCT_PRICE = "//div[@id='product-price']/div[@class='a-row'][1]/div[@class='a-column a-span5 a-span-last']/span[@class='a-size-base-plus a-color-price']/text()"
+    XPATH_PRODUCT_NAME = "//div/h1/span[@class='a-size-large']/text()"
+    XPATH_PRODUCT_PRICE = "//span[@class='a-text-strike']/text()"
     XPATH_PRODUCT_AVAILABILITY = '//div[@id="availability"]/span/text()'
-    XPATH_PRODUCT_CATEGORY = '//div[@id="nav-subnav"]/a[@class="nav-a nav-b"]/span/text()'
-    XPATH_PRODUCT_LIST_PRICE = "//div[@id='product-price']/div[@class='a-row'][2]/div[@class='a-column a-span5 a-span-last']/span[@class='a-size-base-plus a-color-price']/text()"
+    XPATH_PRODUCT_CATEGORY = '//div[@id="wayfinding-breadcrumbs_feature_div"]/ul[@class="a-unordered-list a-horizontal a-size-small"]/li/span[@class="a-list-item"]/a[@class="a-link-normal a-color-tertiary"]/text()'
+    XPATH_PRODUCT_LIST_PRICE = "//span[@id='priceblock_ourprice']/text()"
     XPATH_PRODUCT_BRAND = '//div[@class="a-section a-spacing-none"]/a[@id="bylineInfo"]/text()'
-    XPATH_PRODUCT_DESCRIPTION = "//div[@class='a-expander-collapsed-height a-row a-expander-container a-spacing-base a-expander-partial-collapse-container']/div[@class='a-expander-content vdp-partial-collapse-expander-content a-expander-partial-collapse-content']/text()"
+    XPATH_PRODUCT_DESCRIPTION = "//div[@id='productDescription']/p/text()"
 
     XPATH_SUB_CATEGORY = '//div[@id="wayfinding-breadcrumbs_feature_div"]/ul[@class="a-unordered-list a-horizontal a-size-small"]/li/span[@class="a-list-item"]/a[@class="a-link-normal a-color-tertiary"]/text()'
     XPATH_PRODUCT_BRAND = '//div[@class="a-section a-spacing-none"]/a[@id="bylineInfo"]/text()'
     raw_product_price = parser.xpath(XPATH_PRODUCT_PRICE)
-    product_price = ''.join(raw_product_price).replace('\n            \n                \n                \n                    ', '')
-    product_price = ''.join(product_price).replace('\n                \n            \n        ', '')
-    product_price = ''.join(product_price).replace(
-        '\n            \n                \n                    ', '')
-    product_price = ''.join(product_price).replace('\n                ', '')
 
+    product_price = raw_product_price
     product_brand = parser.xpath(XPATH_PRODUCT_BRAND)
     raw_product_name = parser.xpath(XPATH_PRODUCT_NAME)
     product_name = ''.join(raw_product_name).strip()
     raw_product_description = parser.xpath(XPATH_PRODUCT_DESCRIPTION)
-    print("description+++++++    ", raw_product_description)
-    product_description = ''.join(raw_product_description).replace('\n                        \n                        \n                    \n                \n                    \n                    \n                        \n                            ','')
-    print("description+++++++    ", product_description)
+    product_description =[]
+    for prod in raw_product_description:
+        product_description.append(prod.strip())
     total_ratings = parser.xpath(XPATH_AGGREGATE_RATING)
+    checkAvailability = ['Currently unavailable.', 'Currently unavailable', 'Out of stock', 'Out of stock.']
+
     availability = parser.xpath(XPATH_PRODUCT_AVAILABILITY)
     if (availability):
         availability = (availability)[0].strip().rstrip('.')
+    if availability in checkAvailability:
+        avail = 'false'
+    else:
+        avail = 'true'
     category = parser.xpath(XPATH_PRODUCT_CATEGORY)
+    categories = ""
+    flag = 0
+    for cate in category:
+        if(flag == 1):
+            categories = categories + " > "+(cate).strip()
+        else:
+            categories = categories+ (cate).strip()
+            flag =1
     if (category):
         category = (category)[0].strip()
     list_price = parser.xpath(XPATH_PRODUCT_LIST_PRICE)
-    list_price = ''.join(list_price).replace(
-        '\n            \n                \n                \n                    ', '')
-    list_price = ''.join(list_price).replace(
-        '\n                \n            \n        ', '')
+
     sub_category = parser.xpath(XPATH_SUB_CATEGORY)
     product_brand = parser.xpath(XPATH_PRODUCT_BRAND)
     reviews = parser.xpath(XPATH_REVIEW_SECTION_1)
@@ -96,29 +104,25 @@ def ParseReviews(url, productImage):
     #getting url for all reviews
     next_page = parser.xpath(
         ".//div[@id='reviewsMedley']/div[@class='a-column a-span8']/div[@id='cr-medley-top-reviews-wrapper']/div[@id='reviews-medley-footer']/div[@class='a-row a-spacing-large']/a[@class='a-link-emphasis a-text-bold']/@href")
-    print("next_page url intially     ", next_page)
-    next_page = parser.xpath(
-        "//div[@id='reviewsMedley']/div[@class='a-column a-span8']/div[@id='cr-medley-top-reviews-wrapper']/div[@id='reviews-medley-footer']/div[@class='a-row a-spacing-large']/a[@class='a-link-emphasis a-text-bold']/@href")
-    print("next_page url intially     ", next_page)
     if(len(next_page)>0):
-        print("on first page", product_name, category)
-        details =  gettingIndividualReviews("https://www.amazon.com"+next_page[0], settings.headers, category, product_name, productImage)
+        print("on first page", product_name, categories)
+        details =  gettingIndividualReviews(get_host(url)+next_page[0], settings.headers, categories, product_name, product_image)
 
 
 
         # Parsing individual reviews
 
-
+    log(details)
     data = {"business_units":[{"response": [{"business_item_data": {
-            "business_type": "",
+            "business_type": "Product",
             "absolute_url": amazon_url,
-            "category": category,
+            "category": categories,
             "name": product_name,
             "sub_category": "",
-            "picture_urls": productImage,
+            "picture_urls": product_image,
             "original_price": product_price,
             "sale_price": list_price,
-            "availability": availability,
+            "availability": avail,
             "specifications": "",
             "website_name": "AMAZON",
             "description": product_description
@@ -126,8 +130,7 @@ def ParseReviews(url, productImage):
             "reviews": details}],
 
         "scrapping_website_url": url,
-        "scrapping_website_name": "amazon.com"}]}
-    print("details", len(data), data)
+        "scrapping_website_name":get_host(url) }]}
 
     return data
     #     except ValueError:
@@ -141,23 +144,22 @@ def ReadAsin():
     AsinList = ['B01K6FEU1I']
     extracted_data = []
     for asin in AsinList:
-        print("Downloading and processing page http://www.amazon.com/dp/" + asin)
         extracted_data.append(ParseReviews(asin))
         sleep(5)
     f = open('data.json', 'w')
     json.dump(extracted_data, f, indent=4)
 
-def gettingIndividualReviews(page_url, headers, category, product_name, productImage):
+def gettingIndividualReviews(page_url, headers, categories, product_name, product_image):
+    log("getting review for "+page_url)
     page = make_request(page_url, False)
-    sleep(3)
+    log("Request complete")
     page_response = page.text
     parser = html.fromstring(page_response)
     reviews_list = []
     next_page = parser.xpath(
-        ".//div[@id='cm_cr-review_list']/div[@class='a-form-actions a-spacing-top-extra-large']/span[@class='a-declarative']/div[@id='cm_cr-pagination_bar']/ul[@class='a-pagination']/li[@class='a-last']/a/@href")
-    print("next_page url in nexted     ", next_page, len(next_page))
+        ".//div[@id='cm_cr-pagination_bar']/ul[@class='a-pagination']/li[@class='a-last']/a/@href")
     if len(next_page) > 0:
-        reviews_list = gettingIndividualReviews("https://www.amazon.com" + next_page[0], headers, category, product_name, productImage)
+        reviews_list = gettingIndividualReviews(get_host(page_url) + next_page[0], headers, categories, product_name, product_image)
 
     XPATH_REVIEW_SECTION_1 = '//div[contains(@id,"reviews-summary")]'
     XPATH_REVIEW_SECTION_2 = '//div[@data-hook="review"]'
@@ -216,11 +218,11 @@ def gettingIndividualReviews(page_url, headers, category, product_name, productI
             "review_title": review_header,
             "reviewed_at": utils.convertDate(review_posted_date),
             "reviewer_name": author,
-            "category": category,
-            "product_name": product_name,
+            "category": categories,
+
             "review_text": full_review_text,
-            "picture_urls": productImage,
-            "website_name": "AMAZON"
+            "picture_urls": product_image,
+            "website_name": get_host(page_url)
 
         }
         reviews_list.append(review_dict)

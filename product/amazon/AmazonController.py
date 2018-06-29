@@ -66,7 +66,7 @@ def fetch_listing():
         #              })
         # restapis.Login.postReview({"business_units": data})
 
-        f = open('data.json', 'a')
+        f = open(data["business_units"][0]["response"][0]["business_item_data"]["name"]+'.json', 'w')
         json.dump(data, f, indent=4)
 
         # download_image(product_image, product_id)
