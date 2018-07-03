@@ -3,6 +3,8 @@ import os
 import requests
 import json
 from product.ProductController import crawlAmazon
+#from services.siteservices.SiteServiceListController import crawl_services1
+from services.siteservices.SiteServiceListController import crawl_services1
 
 param = {
   "email": "data_miner@example.com",
@@ -13,11 +15,15 @@ url = ""
 SUCCESS_STATUS = 200
 base_url ="http://52.0.49.246/api/v1/"
 custom_base_url = ""
+
+
 def login():
   response = requests.post( base_url+"users/login", param)
   print(response)
   data = response.json()
   return data
+
+
 def postReview(review):
   if(custom_base_url == ""):
       pass
@@ -27,6 +33,8 @@ def postReview(review):
   else:
     header = {'Content-Type': 'application/json'}
     requests.post(custom_base_url, data=json.dumps(review), headers=header)
+
+
 def crawling():
   data = login()
   header = {'Authorization': 'bearer ' + data['data']['token']['access_token']}
@@ -45,9 +53,12 @@ def crawling():
                          "url": element['url']})
   crawl_services1(website_list)
   crawlAmazon(amazon_list)
+
+
 def google_search_post(callbackurl,search):
   header = {'Content-Type': 'application/json'}
   requests.post(callbackurl, data=json.dumps(search), headers=header)
+
 def crawlURL(url,responseURL,categoryName):
     website_list = []
     amazon_list = []
@@ -57,7 +68,7 @@ def crawlURL(url,responseURL,categoryName):
         website_list.append({"ServiceName": "",
                                  "Category": categoryName,
                                  "url": url})
-    global  custom_base_url
+    global custom_base_url
     custom_base_url = responseURL
     crawl_services1(website_list)
     crawlAmazon(amazon_list)
@@ -68,6 +79,8 @@ class MyThread(threading.Thread):
     self.responseURL = callback_url
     self.URL = url
     self.categoryName = categoryName
+
+
   def run(self):
     print("Mythread start")
     if(self.URL == ""):
