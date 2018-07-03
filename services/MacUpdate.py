@@ -10,6 +10,7 @@ class MacUpdate():
         return self.crawl(response,self.category,self.servicename)
 
     def crawl(self, response, category, servicename):
+        print("review from macupdate.com")
         reviews = []
         headings = []
         authors = []
@@ -17,17 +18,12 @@ class MacUpdate():
         ratings1 = []
         self.category = category
         self.servicename = servicename
-        print("review from macupdate.com")
-        nodes = response.xpath("//div[@id='reviews_comments_container']").extract();
-        for content in nodes:
-            root = etree.HTML(content)
-            print(content)
-            if(len(root.xpath("/div/div[@class='yui3-u rcpb-content']/p[@class='rcpb-revcom-content']"))>0):
-                reviews.append(root.xpath("/div/div[@class='yui3-u rcpb-content']/p[@class='rcpb-revcom-content']")[0])
+
+
+        for node in response.xpath("div/div[@class='yui3-u rcpb-content']/p[@class='rcpb-revcom-content']"):
+            reviews.append(node.xpath('string()').extract())
         print("reviews ", len(reviews), reviews)
 
-        # for node in response.xpath("//div[@id='reviews_comments_container']/div[@id='rc_644247']/div[@class='yui3-u rcpb-content']/p[@class='rcpb-revcom-content']"):
-        #     reviews.append(node.xpath('string()').extract())
         # ratings = response.xpath("//div/div[@class='yui3-u rcpb-content']/div/input/@value/@text()").extract()
         # dates = response.xpath("//div/div[@class='yui3-u rcpb-content']/span[@class='rcpb-postdate']/text()").extract()
         # headings = response.xpath("//div[@class='box col-12 review-title']/h4/text()").extract()
@@ -44,10 +40,10 @@ class MacUpdate():
         print("Dates ", len(dates), dates)
         print("reviews ", len(reviews), reviews)
         # print("websites ", len(website_name), website_name)
-        for item in range(0, len(reviews)):
-            servicename1 = ServiceRecord(response.url, ratings[item], headings[item], dates[item], authors[item],
-                                         category, servicename, reviews[item], img_src, website_name)
-            servicename1.save()
+        # for item in range(0, len(reviews)):
+        #     servicename1 = ServiceRecord(response.url, ratings[item], headings[item], dates[item], authors[item],
+        #                                  category, servicename, reviews[item], img_src, website_name)
+        #     servicename1.save()
 
         # next_page = response.xpath("//div[@class ='navigator']/a[7]/@href").extract()
         # if next_page is not None:

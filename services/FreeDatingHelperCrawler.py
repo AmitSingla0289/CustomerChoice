@@ -11,34 +11,27 @@ class FreeDatingHelperCrawler():
         self.category = category
         self.servicename = servicename
         # http://www.freedatinghelper.com/reviews/fortyplus-singles/
-        #TODO Need to check pick only first review: Refer Sandy
+        #TODO Need to check pick only first review: Refer Sandy : Done
         authors = []
-        reviews=[]
+
         ratings =[]
-        data = response.xpath("//section[@id='comment-wrap']/ol[@class='commentlist clearfix']").extract()
-        for content in data:
-            # content = content.replace('<br>', '$')
+        for node in response.xpath("//div[@class='comment_area']/div[@class='comment-content clearfix']/div/span/p"):
+            reviews.append(node.xpath('string()').extract());
+        rat = response.xpath("//li/article/div[@class='comment_postinfo']/div[@itemscope]").extract()
+        authors = response.xpath("//div[@class='comment_postinfo']/div[2]/span[@class='fn']/span/text()").extract()
+        for content in rat:
+            # print(content)
             root = etree.HTML(content)
-            if(len(root.xpath("//li/article[@class='comment-body clearfix']/div[@class='comment_postinfo']/div/span[@class='fn']/span/text()"))>0):
-                authors.append(root.xpath("//li/article[@class='comment-body clearfix']/div[@class='comment_postinfo']/div/span[@class='fn']/span/text()")[0])
-            else:
-                authors.append("")
-            if(len(root.xpath("//li/article[@class='comment-body clearfix']/div[@class='comment_postinfo']/div/div[@class='comment_area']/div[@class='comment-content clearfix']/div/span/p/text()"))>0):
-                reviews.append(root.xpath("//li/article[@class='comment-body clearfix']/div[@class='comment_postinfo']/div/div[@class='comment_area']/div[@class='comment-content clearfix']/div/span/p/text()"))
-            else:
-                reviews.append("")
-            if(len(root.xpath("//li/article[@class='comment-body clearfix']/div[@class='comment_postinfo']/div/table[@class='ratings']/tbody/tr/td[@class='rating_value']/div/text()"))>0):
-                ratings = root.xpath("//li/article[@class='comment-body clearfix']/div[@class='comment_postinfo']/div/table[@class='ratings']/tbody/tr/td[@class='rating_value']/div/text()")
+            if(len(root.xpath("//table/tr/td/img/@alt"))>0):
+                ratings.append(root.xpath("//table/tr/td/img/@alt")[0])
             else:
                 ratings.append("")
 
+
         website_name= response.xpath("//html/head/meta[8]/@content").extract()[0]
         # print("Reviews ", len(reviews), reviews)
-        # # print("Headings ", len(headings), headings)
         # print("Authors ", len(authors), authors)
         # print("Rating ", len(ratings), ratings)
-        # # print("Dates ", len(dates), dates)
-        # # print("Img_src ", len(img_src), img_src)
         for item in range(0, len(reviews)):
             servicename1 = ServiceRecord(response.url, ratings[item], None, None, authors[item],
                                          category, servicename, reviews[item], None, website_name)

@@ -10,21 +10,21 @@ class NetBusinessRating(Spider):
         pass
     def parsing(self, response):
         return self.crawl(response,self.category,self.servicename)
-# TODO: only got some reviews not all from other page
+# TODO: only got some reviews not all from other page : Done
     def crawl(self, response, category, servicename):
         reviews = []
         reviews1 = []
         self.category = category
         self.servicename = servicename
 
-        data = response.xpath("//div[@id='posted']/div[@class='blc']").extract()
+
 
         for node in response.xpath(
-                "//div[@id='scn']/div[@id='posted']/div[@class='blc ']/div[@class='mc text']"):
+                "//div[@class='blc ']/div[@class='mc text']"):
             reviews.append(node.xpath('string()').extract());
-        ratings1 = response.xpath("//div[@id='posted']/div[@class='blc ']/div[@class='mc'][1]/div[@class='postingUser']").extract()
-        dates = response.xpath("//div[@id='posted']/div[@class='blc ']/div[@class='mc'][1]/div[@class='postingUser']/div[@class='clock icon-clock']/@title").extract()
-        authors = response.xpath("//div[@id='posted']/div[@class='blc ']/div[@class='mc']/div[@class='postingUser']/span[@class='help nopadding']/a[@class='titleLink']/text()").extract()
+        ratings1 = response.xpath("//div[@class='blc ']/div[@class='mc'][1]/div[@class='postingUser']").extract()
+        dates = response.xpath("//div[@class='blc ']/div[@class='mc'][1]/div[@class='postingUser']/div[@class='clock icon-clock']/@title").extract()
+        authors = response.xpath("//div[@class='blc ']/div[@class='mc']/div[@class='postingUser']/span[@class='help nopadding']/a[@class='titleLink']/text()").extract()
         img_src = response.xpath(
             "//div[@class='screenshotContainer']/img[@class='screenshot']/@src").extract()
         # headings = response.xpath("//div[@class='pr-review-wrap']/div[@class='pr-review-rating-wrapper']/div[@class='pr-review-rating']/p[@class='pr-review-rating-headline']/text()").extract()
@@ -60,6 +60,19 @@ class NetBusinessRating(Spider):
             servicename1 = ServiceRecord(response.url, None, None, dates[item], authors[item], category,
                                          servicename, reviews[item], img_src, website_name)
             servicename1.save()
+        next_page = []
+        next_page1 = response.xpath(
+            "//a[@class='reloadTL']/@onclick").extract()
+        if len(next_page1) > 0:
+            nextpage = next_page1[0].split('\'')
+            next_page.append(nextpage[1])
+            if next_page is not None:
+                next_page_url = "".join(next_page)
+                if next_page_url and next_page_url.strip():
+                    # print(type(next_page_url))
+                    # print(next_page_url)
+                    # yield Request(url=next_page_url, callback=self.parse, dont_filter=True)
+                    yield response.follow(next_page_url, callback=self.parsing)
 
 
 

@@ -19,11 +19,11 @@ class TotallyOnlineDating():
         img_src =  response.xpath("//div[@class='item-header-img']/span[@class='item-header-img-container']/img/@src").extract()
         website_name =  response.xpath("/html/head/meta[7]/@content").extract()
         dates = response.xpath("//div[@class='review-content']/div[@class='rating-md']/p/meta/@content").extract()
-        #print("dates ", len(dates), dates)
-        #print(" Reviews ", len(reviews), reviews)
-        #print(" headings ", len(headings), headings)
-        #print(" authors ", len(authors), authors)
-        #print(" website_name ", len(website_name), website_name)
+        print("dates ", len(dates), dates)
+        print(" Reviews ", len(reviews), reviews)
+        print(" headings ", len(headings), headings)
+        print(" authors ", len(authors), authors)
+        print(" website_name ", len(website_name), website_name)
         for item in range(0, len(reviews)):
             servicename1 = ServiceRecord(response.url, ratings[item], headings[item], dates[item], authors[item], category,
                           servicename, reviews[item],img_src,website_name);

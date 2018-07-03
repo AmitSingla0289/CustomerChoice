@@ -2,7 +2,7 @@ from model.Servicemodel import ServiceRecord
 from scrapy import Spider, Request
 
 
-
+# TODO: not fetching anything
 class Hellopeter(Spider):
 
     def __init__(self):
@@ -17,7 +17,7 @@ class Hellopeter(Spider):
         self.servicename = servicename
         # https: // www.webhostinghero.com / reviews / bluehost /
         for node in response.xpath(
-                "//div[@class='mt-0 grid__full py-2']/div[@class='grid']/div[@class='review-card px-0 review-card--verbose']/div[@class='grid__full review-card__info grid__5-6ths--sm m-0 ml-3 p-3 review-card__info--verbose']/h5[@class='text-nowrap-ellipsis mt-1 mb-2 review-card__title']/a"):
+                "//div[@class='grid']/div[@class='review-card px-0 review-card--verbose']/div[@class='grid__full review-card__info grid__5-6ths--sm m-0 ml-3 p-3 review-card__info--verbose']/h5[@class='text-nowrap-ellipsis mt-1 mb-2 review-card__title']/a"):
             reviews.append(node.xpath('string()').extract());
         ratings = response.xpath("//div[@class='mt-0 grid__full py-2']/div[@class='grid']/div[@class='review-card px-0 review-card--verbose']/div[@class='grid__full review-card__info grid__5-6ths--sm m-0 ml-3 p-3 review-card__info--verbose']/div/@title").extract()
         dates = response.xpath("//div[@class='mt-0 grid__full py-2']/div[@class='grid']/div[@class='review-card px-0 review-card--verbose']/div[@class='grid__full review-card__info grid__5-6ths--sm m-0 ml-3 p-3 review-card__info--verbose']/div[@class='mt-1 text-muted text-xsmall text-nowrap review-card__timestamp']/text()").extract()

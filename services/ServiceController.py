@@ -8,6 +8,8 @@ from scrapy.utils.log import configure_logging
 from scrapy.utils.project import get_project_settings
 from twisted.internet import reactor
 
+from services.Hellopeter import Hellopeter
+from services.TopSiteGratis import TopSiteGratis
 from services.VirtualBanking import VirtualBanking
 from services.ViewPoints import ViewPoints
 from services.TrustPilot import TrustPilot
@@ -190,6 +192,7 @@ class ServiceController(scrapy.Spider):
         elif 'securethoughts.com' in response.url:
             crawler = SecureThoughts()
         elif 'macupdate.com' in response.url:
+            print "Calling"
             crawler = MacUpdate()
         elif 'comparitech.com' in response.url:
              crawler = CompariTech()
@@ -255,6 +258,10 @@ class ServiceController(scrapy.Spider):
             crawler = ViewPoints()
         elif 'virtualbanking.com' in response.url:
             crawler = VirtualBanking()
+        elif 'topsitegratis.com' in response.url:
+            crawler = TopSiteGratis()
+        elif 'hellopeter.com' in response.url:
+            crawler = Hellopeter()
 
         else:
             ("Found Nothing")

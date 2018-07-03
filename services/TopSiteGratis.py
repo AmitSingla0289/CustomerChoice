@@ -1,7 +1,7 @@
 from model.Servicemodel import ServiceRecord
 from scrapy import Spider, Request
 
-
+# TODO: Done
 
 class TopSiteGratis(Spider):
 
@@ -19,7 +19,7 @@ class TopSiteGratis(Spider):
         for node in response.xpath(
                 "//div[@class='reviews product-reviews']/div[@class='item']/p[@class='excerpt']"):
             reviews.append(node.xpath('string()').extract());
-        ratings = response.xpath("//div[@class='reviews product-reviews']/div[@class='item']/div[@class='right-block']/div[@class='ratings']/span[@class='rate_False']/span").extract()
+        ratings = response.xpath("//div[@class='reviews product-reviews']/div[@class='item']/div[@class='right-block']/div[@class='ratings']/span[@class='rate_False']/span/text()").extract()
         dates = response.xpath("//div[@class='reviews product-reviews']/div[@class='item']/meta[@itemprop='datePublished']/@content").extract()
         authors = response.xpath("//div[@class='reviews product-reviews']/div[@class='item']/div[@class='author-info']/a/text()").extract()
         img_src = response.xpath(
@@ -34,12 +34,7 @@ class TopSiteGratis(Spider):
             break
             i = i+1
 
-        print("Reviews ", len(reviews), reviews)
-        print("Authors ", len(authors), authors)
-        print("Rating ", len(ratings), ratings)
-        print("Dates ", len(dates), dates)
-        print("img_src ", len(img_src), img_src)
-        print("websites ", len(website_name), website_name)
+
         for item in range(0, len(reviews)):
             servicename1 = ServiceRecord(response.url, ratings[item], None, dates[item], authors[item], category,
                                          servicename, reviews[item], img_src, website_name)
