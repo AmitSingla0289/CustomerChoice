@@ -7,7 +7,9 @@ from scrapy.crawler import  CrawlerRunner
 from scrapy.utils.log import configure_logging
 from twisted.internet import reactor
 from services.siteservices.SiteJabberURLCrawler import SiteJabberURLCrawler
+from services.siteservices.HostingFactsURLCrawler import HostingFactsURLCrawler
 from services.SiteJabberCrawler import SiteJabberCrawler
+from services.HostingFactsCrawler import HostingFactsCrawler
 
 final_dict_urls= {}
 dict_url = {}
@@ -39,6 +41,14 @@ class SiteServiceListController(scrapy.Spider):
                 crawler = SiteJabberCrawler( dict_url[response.url]["Category"],serviceName,response.url)
             else:
                 crawler = SiteJabberURLCrawler(dict_url[response.url]["Category"])
+        elif('hostingfacts.com' in response.url):
+            if ('reviews' in response.url):
+                service = response.url.split("/");
+                serviceName = service[len(service) - 1];
+                print(" Servicesssss   ", serviceName)
+                crawler = HostingFactsCrawler(dict_url[response.url]["Category"], serviceName, response.url)
+            else:
+                crawler = HostingFactsURLCrawler(dict_url[response.url]["Category"])
 
 
         else:
