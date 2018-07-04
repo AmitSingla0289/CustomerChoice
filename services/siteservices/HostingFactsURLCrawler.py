@@ -2,7 +2,7 @@ from scrapy import Spider, Request
 from lxml import etree
 
 from services.HostingFactsCrawler import HostingFactsCrawler
-
+# TODO: need to get next page url from javascript
 
 urlssss = []
 class HostingFactsURLCrawler(Spider):
@@ -49,14 +49,14 @@ class HostingFactsURLCrawler(Spider):
 
 
 
-
-        for content1 in servicelist1:
-            content1 = content1.replace('<b>', '')
-            content1 = content1.replace('</b>', '')
-            # print(content1)
-            root = etree.HTML(content1)
-            if (len(root.xpath("//a")) > 0):
-                serviceList.append(root.xpath("//a/text()"))
+        #
+        # for content1 in servicelist1:
+        #     content1 = content1.replace('<b>', '')
+        #     content1 = content1.replace('</b>', '')
+        #     # print(content1)
+        #     root = etree.HTML(content1)
+        #     if (len(root.xpath("//a")) > 0):
+        #         serviceList.append(root.xpath("//a/text()"))
 
         print("serviceList  ", len(serviceList), serviceList)
         print("URL ", len(url), url)

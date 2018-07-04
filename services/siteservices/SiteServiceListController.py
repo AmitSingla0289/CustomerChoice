@@ -8,8 +8,33 @@ from scrapy.utils.log import configure_logging
 from twisted.internet import reactor
 from services.siteservices.SiteJabberURLCrawler import SiteJabberURLCrawler
 from services.siteservices.HostingFactsURLCrawler import HostingFactsURLCrawler
+from services.siteservices.HighyaURLCrawler import HighyaURLCrawler
+from services.siteservices.AlterNativeToURLCrawler import AlterNativeToURLCrawler
+from services.siteservices.SeniorDatingExpertURLCrawler import SeniorDatingExpertURLCrawler
+from services.siteservices.TravelSiteCriticURLCrawler import TravelSiteCriticURLCrawler
+from services.siteservices.NetBusinessRatingURLCrawler import NetBusinessRatingURLCrawler
+from services.siteservices.ReviewCentreURLCrawler import ReviewCentreURLCrawler
+from services.siteservices.ViewpointsURLCrawler import ViewPointsURLCrawler
+from services.siteservices.CapterraURLCrawler import CapterraURLCrawler
+from services.siteservices.BuyBitcoinWithCreditCardURLCrawler import BuyBitcoinWithCreditCardURLCrawler
+from services.siteservices.AnblikURLCrawler import AnblikCrawlerURLCrawler
+from services.siteservices.CoinJabberURLCrawler import CoinJabberURLCrawler
+from services.siteservices.FreeDatingHelperURLCrawler import FreeDatingHelperURLCrawler
 from services.SiteJabberCrawler import SiteJabberCrawler
 from services.HostingFactsCrawler import HostingFactsCrawler
+from services.HighYaCrawler import HighYaCrawler
+from services.AlterNativeTo import AlterNativeTo
+from services.SeniorDatingExpert import SeniorDatingExpert
+from services.TravelSiteCritic import TravelSiteCritic
+from services.NetBusinessRating import NetBusinessRating
+from services.ReviewCentre import ReviewCentre
+from services.ViewPoints import ViewPoints
+from services.CapterraCrawler import CapterraCrawler
+from services.BuyBitcoinsWithCreditCardCrawler import BuyBitcoinsWithCreditCardCrawler
+from services.AnblikCrawler import AnblikCrawler
+from services.CoinJabber import CoinJabber
+from services.hostAdvisor import hostAdvisor
+from services.FreeDatingHelper import FreeDatingHelper
 
 final_dict_urls= {}
 dict_url = {}
@@ -49,6 +74,109 @@ class SiteServiceListController(scrapy.Spider):
                 crawler = HostingFactsCrawler(dict_url[response.url]["Category"], serviceName, response.url)
             else:
                 crawler = HostingFactsURLCrawler(dict_url[response.url]["Category"])
+        elif ('highya.com' in response.url):
+            if ('reviews' in response.url):
+                service = response.url.split("/");
+                serviceName = service[len(service) - 1];
+                print(" Servicesssss   ", serviceName)
+                crawler = HighYaCrawler(dict_url[response.url]["Category"], serviceName, response.url)
+            else:
+                crawler = HighyaURLCrawler(dict_url[response.url]["Category"])
+        elif ('alternativeto.net' in response.url):
+            if ('browse' in response.url):
+                crawler = AlterNativeToURLCrawler(dict_url[response.url]["Category"])
+            else:
+                service = response.url.split("/");
+                serviceName = service[len(service) - 1];
+                print(" Servicesssss   ", serviceName)
+                crawler = AlterNativeTo(dict_url[response.url]["Category"], serviceName, response.url)
+        elif ('seniordatingexpert.com' in response.url):
+            if len(response.url.split('/')) > 5:
+                service = response.url.split("/")
+                serviceName = service[len(service) - 1]
+                print(" Servicesssss   ", serviceName)
+                crawler = SeniorDatingExpert(dict_url[response.url]["Category"], serviceName, response.url)
+            else:
+                crawler = SeniorDatingExpertURLCrawler(dict_url[response.url]["Category"])
+        elif ('travelsitecritic.com' in response.url):
+            if len(response.url.split('/')) > 5:
+                service = response.url.split("/")
+                serviceName = service[len(service) - 1]
+                print(" Servicesssss   ", serviceName)
+                crawler = TravelSiteCritic(dict_url[response.url]["Category"], serviceName, response.url)
+            else:
+                crawler = TravelSiteCriticURLCrawler(dict_url[response.url]["Category"])
+        elif ('netbusinessrating.com' in response.url):
+            if ('search' in response.url):
+                crawler = NetBusinessRatingURLCrawler(dict_url[response.url]["Category"])
+            else:
+                service = response.url.split("/");
+                serviceName = service[len(service) - 1];
+                print(" Servicesssss   ", serviceName)
+                crawler = NetBusinessRating(dict_url[response.url]["Category"], serviceName, response.url)
+        elif ('reviewcentre.com' in response.url):
+            if('searchstring' not in response.url):
+                service  = response.url.split("/");
+                serviceName = service[len(service)-1];
+                print(" Servicesssss   ", serviceName)
+                crawler = ReviewCentre( dict_url[response.url]["Category"],serviceName,response.url)
+            else:
+                crawler = ReviewCentreURLCrawler(dict_url[response.url]["Category"])
+        elif ('viewpoints.com' in response.url):
+            if 'search' not in response.url:
+                service = response.url.split("/")
+                serviceName = service[len(service) - 1]
+                print(" Servicesssss   ", serviceName)
+                crawler = ViewPoints(dict_url[response.url]["Category"], serviceName, response.url)
+            else:
+                crawler = ViewPointsURLCrawler(dict_url[response.url]["Category"])
+        elif ('capterra.com' in response.url):
+            if 'search' not in response.url:
+                service = response.url.split("/")
+                serviceName = service[len(service) - 1]
+                print(" Servicesssss   ", serviceName)
+                crawler = CapterraCrawler(dict_url[response.url]["Category"], serviceName, response.url)
+            else:
+                crawler = CapterraURLCrawler(dict_url[response.url]["Category"])
+        elif ('buybitcoinswithcreditcard.net' in response.url):
+            if '?s=' not in response.url:
+                service = response.url.split("/")
+                serviceName = service[len(service) - 1]
+                print(" Servicesssss   ", serviceName)
+                crawler = BuyBitcoinsWithCreditCardCrawler(dict_url[response.url]["Category"], serviceName, response.url)
+            else:
+                crawler = BuyBitcoinWithCreditCardURLCrawler(dict_url[response.url]["Category"])
+        elif ('anblik.com' in response.url):
+            if '?s=' not in response.url:
+                service = response.url.split("/")
+                serviceName = service[len(service) - 1]
+                print(" Servicesssss   ", serviceName)
+                crawler = AnblikCrawler(dict_url[response.url]["Category"], serviceName, response.url)
+            else:
+                crawler = AnblikCrawlerURLCrawler(dict_url[response.url]["Category"])
+        elif ('coinjabber.com' in response.url):
+            if 'search' not in response.url:
+                service = response.url.split("/")
+                serviceName = service[len(service) - 1]
+                print(" Servicesssss   ", serviceName)
+                crawler = CoinJabber(dict_url[response.url]["Category"], serviceName, response.url)
+            else:
+                crawler = CoinJabberURLCrawler(dict_url[response.url]["Category"])
+        elif ('hostadvisor.com' in response.url):
+            if 'search' not in response.url:
+                service = response.url.split("/")
+                serviceName = service[len(service) - 1]
+                print(" Servicesssss   ", serviceName)
+                crawler = hostAdvisor(dict_url[response.url]["Category"], serviceName, response.url)
+        elif ('freedatinghelper.com' in response.url):
+            if '?s=' not in response.url:
+                service = response.url.split("/")
+                serviceName = service[len(service) - 1]
+                print(" Servicesssss   ", serviceName)
+                crawler = FreeDatingHelper(dict_url[response.url]["Category"], serviceName, response.url)
+            else:
+                crawler = FreeDatingHelperURLCrawler(dict_url[response.url]["Category"])
+
 
 
         else:

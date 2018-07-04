@@ -1,5 +1,6 @@
 from model.Servicemodel import ServiceRecord
 from services.siteservices.BaseSiteURLCrawler import BaseSiteURLCrawler
+from lxml import etree
 
 class HostingFactsCrawler(BaseSiteURLCrawler):
 
@@ -13,24 +14,39 @@ class HostingFactsCrawler(BaseSiteURLCrawler):
         super(HostingFactsCrawler,self).__init__()
         self.createCategory(self.link)
         pass
-    def parsing(self, response):
-        return self.crawl(response)
+    def parsing(self, response1):
+        return self.crawl(response1)
 
-    def crawl(self, response):
+    def crawl(self, response1):
         reviews = []
         print("review from Hostingfacts.com                    ", self.link["url"])
         # https://hostingfacts.com/hosting-reviews/hostgator-wordpress-managed/
-        print "reviews ", len(reviews)
-        for node in response.xpath('//div[@class="user-review-content/p"]'):
-            reviews.append(node.xpath('string()').extract());
-        ratings = response.xpath("//div[@class= 'user-review']/header/section/span[@class='user-review-rating']/span[@class='value']/text()").extract()
-        dates = response.xpath("//div[@class= 'user-review']/header/section/span[@class='user-review-meta']/text()").extract()
-        headings = response.xpath("//div[@class= 'user-review']/section/p[@class='user-review-title']/text()").extract()
-        authors = response.xpath("//div[@class='user-review']/header/section/p[@class='user-review-name']/a/span/text()").extract()
-        img_src = response.xpath("//div[@class='sidebar-padder']/aside/img[@class='img-responsive banner-image center-block']/@src").extract()
-        website_name = response.xpath("//div[@class='navbar-header']/a[@class='navbar-brand']/text()").extract()
+        data = response1.xpath(".//div[@class='user-review']").extract()
 
-        for item in range(0, len(reviews)):
-            servicename1 = ServiceRecord(response.url,ratings[item],headings[item],dates[item],authors[item],"category",self.servicename,reviews[item],img_src,website_name);
-            servicename1.save()
-        # self.pushToServer()
+        img_src = response1.xpath(
+            "//div[@class='sidebar-padder']/aside/img[@class='img-responsive banner-image center-block']/@src").extract()
+        website_name = response1.xpath("//div[@class='navbar-header']/a[@class='navbar-brand']/text()").extract()
+
+        for content in data:
+            response = etree.HTML(content)
+            etree.dump(response)
+            reviews = response.xpath('//div[@class="user-review-content"]/p/text()')
+            reviewdata = ""
+            for review in reviews:
+                reviewdata += review + "/n"
+            ratings = response.xpath("//span[@class='user-review-rating']/span[@class='value']/text()")[0]
+            dates = response.xpath("//span[@class='user-review-meta']/text()")[0]
+            headings = response.xpath("//p[@class='user-review-title']/text()")[0]
+            authors = response.xpath("//p[@class='user-review-name']/a/span/text()")[0]
+            servicename1 = ServiceRecord(response1.url, ratings, headings, dates, authors,
+                                     "category", self.servicename, reviews, img_src, website_name);
+            self.save(servicename1)
+        # print "reviews ", len(reviews)
+        # print(" ratings ", len(ratings))
+        #
+        # print("headings ", len(headings), headings)
+        # print("dates ", len(dates))
+        # print("authours ", len(authors))
+        # for item in range(0, len(reviews)):
+
+        self.pushToServer()
