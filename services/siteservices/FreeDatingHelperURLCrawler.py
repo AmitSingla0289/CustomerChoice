@@ -1,7 +1,7 @@
 from scrapy import Spider, Request
 from lxml import etree
 
-from services.FreeDatingHelper import FreeDatingHelper
+from services.FreeDatingHelperCrawler import FreeDatingHelperCrawler
 
 
 urlssss = []
@@ -27,7 +27,7 @@ class FreeDatingHelperURLCrawler(Spider):
 
 
         while i< len(url):
-            crawler = FreeDatingHelper(self.category, servicelist[i], url[i])
+            crawler = FreeDatingHelperCrawler(self.category, servicelist[i], url[i])
             # yield Request(url=url[i], callback=crawler.parsing)
             yield response.follow(url=url[i], callback=crawler.parsing)
             # print(url[i][j])

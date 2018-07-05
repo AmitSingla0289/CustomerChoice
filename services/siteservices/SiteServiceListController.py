@@ -34,7 +34,8 @@ from services.BuyBitcoinsWithCreditCardCrawler import BuyBitcoinsWithCreditCardC
 from services.AnblikCrawler import AnblikCrawler
 from services.CoinJabber import CoinJabber
 from services.hostAdvisor import hostAdvisor
-from services.FreeDatingHelper import FreeDatingHelper
+from services.FreeDatingHelperCrawler import FreeDatingHelperCrawler
+from services.siteservices.bestdatingreviews import BestDatingReviewsCrawlerFactory
 
 final_dict_urls= {}
 dict_url = {}
@@ -173,10 +174,11 @@ class SiteServiceListController(scrapy.Spider):
                 service = response.url.split("/")
                 serviceName = service[len(service) - 1]
                 print(" Servicesssss   ", serviceName)
-                crawler = FreeDatingHelper(dict_url[response.url]["Category"], serviceName, response.url)
+                crawler = FreeDatingHelperCrawler(dict_url[response.url]["Category"], serviceName, response.url)
             else:
                 crawler = FreeDatingHelperURLCrawler(dict_url[response.url]["Category"])
-
+        elif ('bestdatingreviews.org' in response.url):
+            crawler = BestDatingReviewsCrawlerFactory.getCrawler(response.url,dict_url[response.url]["Category"])
 
 
         else:
