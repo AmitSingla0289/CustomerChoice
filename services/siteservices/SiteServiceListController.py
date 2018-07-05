@@ -20,6 +20,8 @@ from services.siteservices.BuyBitcoinWithCreditCardURLCrawler import BuyBitcoinW
 from services.siteservices.AnblikURLCrawler import AnblikCrawlerURLCrawler
 from services.siteservices.CoinJabberURLCrawler import CoinJabberURLCrawler
 from services.siteservices.FreeDatingHelperURLCrawler import FreeDatingHelperURLCrawler
+from services.siteservices.bestdatingreviews import BestDatingReviewsCrawlerFactory
+from services.siteservices.InfluensterURLCrawler import InfluensterURLCrawler
 from services.SiteJabberCrawler import SiteJabberCrawler
 from services.HostingFactsCrawler import HostingFactsCrawler
 from services.HighYaCrawler import HighYaCrawler
@@ -35,7 +37,7 @@ from services.AnblikCrawler import AnblikCrawler
 from services.CoinJabber import CoinJabber
 from services.hostAdvisor import hostAdvisor
 from services.FreeDatingHelperCrawler import FreeDatingHelperCrawler
-from services.siteservices.bestdatingreviews import BestDatingReviewsCrawlerFactory
+from services.InfluensterCrawler import InfluensterCrawler
 
 final_dict_urls= {}
 dict_url = {}
@@ -179,6 +181,14 @@ class SiteServiceListController(scrapy.Spider):
                 crawler = FreeDatingHelperURLCrawler(dict_url[response.url]["Category"])
         elif ('bestdatingreviews.org' in response.url):
             crawler = BestDatingReviewsCrawlerFactory.getCrawler(response.url,dict_url[response.url]["Category"])
+        elif ('influenster.com' in response.url):
+            if 'search' not in response.url:
+                service = response.url.split("/")
+                serviceName = service[len(service) - 1]
+                print(" Servicesssss   ", serviceName)
+                crawler = InfluensterCrawler(dict_url[response.url]["Category"], serviceName, response.url)
+            else:
+                crawler = InfluensterURLCrawler(dict_url[response.url]["Category"])
 
 
         else:

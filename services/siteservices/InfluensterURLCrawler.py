@@ -26,12 +26,12 @@ class InfluensterURLCrawler(Spider):
         i=0
 
 
-        while i< len(url):
-            crawler = InfluensterCrawler(self.category, servicelist[i], url[i])
-            # yield Request(url=url[i], callback=crawler.parsing)
-            yield response.follow(url=url[i]+'reviews/', callback=crawler.parsing)
-            # print(url[i][j])
-            i=i+1
+        # while i< len(url):
+        #     crawler = InfluensterCrawler(self.category, servicelist[i], url[i])
+        #     # yield Request(url=url[i], callback=crawler.parsing)
+        #     yield response.follow(url=url[i]+'reviews/', callback=crawler.parsing)
+        #     # print(url[i][j])
+        #     i=i+1
         #     next_page = response.xpath(
         #         "//div[@id='left_column']/div[@class='navigation']/div[@class='paginator_next']/span/a[@class='button outline']/@href").extract()
         # if next_page is not None:
