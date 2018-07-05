@@ -1,9 +1,8 @@
 from scrapy import Spider, Request
 from lxml import etree
+# TODO: Need To fetch Url adfter searching
 
 from services.InfluensterCrawler import InfluensterCrawler
-
-
 urlssss = []
 class InfluensterURLCrawler(Spider):
     def __init__(self,category):

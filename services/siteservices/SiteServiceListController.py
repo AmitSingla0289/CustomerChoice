@@ -22,6 +22,11 @@ from services.siteservices.CoinJabberURLCrawler import CoinJabberURLCrawler
 from services.siteservices.FreeDatingHelperURLCrawler import FreeDatingHelperURLCrawler
 from services.siteservices.bestdatingreviews import BestDatingReviewsCrawlerFactory
 from services.siteservices.InfluensterURLCrawler import InfluensterURLCrawler
+from services.siteservices.RevexURLCrawler import RevexURLCrawler
+from services.siteservices.ReviewOpediaURLCrawler import ReviewOpediaURLCrawler
+from services.siteservices.AffgadgetsURLCrawler import AffgadgetsURLCrawler
+from services.siteservices.AffpayingURLCrawler import AffPayingURLCrawler
+from services.siteservices.BestVPNURLCrawler import BestVPNURLCrawler
 from services.SiteJabberCrawler import SiteJabberCrawler
 from services.HostingFactsCrawler import HostingFactsCrawler
 from services.HighYaCrawler import HighYaCrawler
@@ -38,6 +43,11 @@ from services.CoinJabber import CoinJabber
 from services.hostAdvisor import hostAdvisor
 from services.FreeDatingHelperCrawler import FreeDatingHelperCrawler
 from services.InfluensterCrawler import InfluensterCrawler
+from services.RevexCrawler import RevexCrawler
+from services.ReviewOpedia import ReviewOpedia
+from services.affgadgetsCrawler import affgadgetsCrawler
+from services.affPaying import affPaying
+from services.BestVPN import BestVPN
 
 final_dict_urls= {}
 dict_url = {}
@@ -189,6 +199,46 @@ class SiteServiceListController(scrapy.Spider):
                 crawler = InfluensterCrawler(dict_url[response.url]["Category"], serviceName, response.url)
             else:
                 crawler = InfluensterURLCrawler(dict_url[response.url]["Category"])
+        elif ('revex.co' in response.url):
+            if '/?s=' not in response.url:
+                service = response.url.split("/")
+                serviceName = service[len(service) - 1]
+                print(" Servicesssss   ", serviceName)
+                crawler = RevexCrawler(dict_url[response.url]["Category"], serviceName, response.url)
+            else:
+                crawler = RevexURLCrawler(dict_url[response.url]["Category"])
+        elif ('reviewopedia.com' in response.url):
+            if 'search' not in response.url:
+                service = response.url.split("/")
+                serviceName = service[len(service) - 1]
+                print(" Servicesssss   ", serviceName)
+                crawler = ReviewOpedia(dict_url[response.url]["Category"], serviceName, response.url)
+            else:
+                crawler = ReviewOpediaURLCrawler(dict_url[response.url]["Category"])
+        elif ('affgadgets.com' in response.url):
+            if '/?s=' not in response.url:
+                service = response.url.split("/")
+                serviceName = service[len(service) - 1]
+                print(" Servicesssss   ", serviceName)
+                crawler = affgadgetsCrawler(dict_url[response.url]["Category"], serviceName, response.url)
+            else:
+                crawler = AffgadgetsURLCrawler(dict_url[response.url]["Category"])
+        elif ('affpaying.com' in response.url):
+            if '/?s=' not in response.url:
+                service = response.url.split("/")
+                serviceName = service[len(service) - 1]
+                print(" Servicesssss   ", serviceName)
+                crawler = affPaying(dict_url[response.url]["Category"], serviceName, response.url)
+            else:
+                crawler = AffPayingURLCrawler(dict_url[response.url]["Category"])
+        elif ('bestvpn.com' in response.url):
+            if len(response.url.split('/')) > 5:
+                service = response.url.split("/")
+                serviceName = service[len(service) - 1]
+                print(" Servicesssss   ", serviceName)
+                crawler = BestVPN(dict_url[response.url]["Category"], serviceName, response.url)
+            else:
+                crawler = BestVPNURLCrawler(dict_url[response.url]["Category"])
 
 
         else:
