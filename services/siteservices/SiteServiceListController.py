@@ -27,6 +27,22 @@ from services.siteservices.ReviewOpediaURLCrawler import ReviewOpediaURLCrawler
 from services.siteservices.AffgadgetsURLCrawler import AffgadgetsURLCrawler
 from services.siteservices.AffpayingURLCrawler import AffPayingURLCrawler
 from services.siteservices.BestVPNURLCrawler import BestVPNURLCrawler
+from services.siteservices.BestVpnForYouURLCrawler import BestVpnForYouURLCrawler
+from services.siteservices.ProductReviewURLCrawler import ProductreviewURLCrawler
+from services.siteservices.ResellerRatingsURLCrawler import ResellerRatingsURLCrawler
+from services.siteservices.RestorePrivacyURLCrawler import RestorePrivacyURLCrawler
+from services.siteservices.TheWebMasterURLCrawler import ThewebmasterURLCrawler
+from services.siteservices.WhtopURLCrawler import WhtopURLCrawler
+from services.siteservices.YelpURLCrawler import YelpURLCrawler
+from services.siteservices.YscamURLCrawler import YscamURLCrawler
+from services.siteservices.DatingSitesReviewsURLCrawler import DatingSitesReviewsURLCrawler
+from services.siteservices.TopSiteGratisURLCrawler import TopSiteGratisURLCrawler
+from services.siteservices.VpnPickURLCrawler import VpnPickURLCrawler
+from services.siteservices.PickUpHostURLCrawler import PickuphostURLCrawler
+from services.siteservices.BestBitcoinExchnageURLCrawler import BestBitcoinExchangeURLCrawler
+from services.siteservices.TrustPilotURLCrawler import TrustPilotURLCrawler
+from services.siteservices.VirtualBankingURLCrawler import VirtualBankingURLCrawler
+
 from services.SiteJabberCrawler import SiteJabberCrawler
 from services.HostingFactsCrawler import HostingFactsCrawler
 from services.HighYaCrawler import HighYaCrawler
@@ -48,6 +64,27 @@ from services.ReviewOpedia import ReviewOpedia
 from services.affgadgetsCrawler import affgadgetsCrawler
 from services.affPaying import affPaying
 from services.BestVPN import BestVPN
+from services.HostAdviceCrawler import HostAdviceCrawler
+from services.bestVPNForYou import bestVPNForYou
+from services.ProductreviewCrawler import ProductreviewCrawler
+from services.ResellerRatingCrawler import ResellerRatingCrawler
+from services.restorePrivacy import restorePrivacy
+from services.ThewebmasterCrawler import ThewebmasterCrawler
+from services.vpnMentor import vpnMentor
+from services.webhostinggeeksCrawler import webhostinggeeksCrawler
+from services.WhoIsHostingCrawler import WhoIsHostingCrawler
+from services.whtop import whtop
+from services.yelpCrawler import yelpCrawler
+from services.Yscam import Yscam
+from services.hostingCharges import hostingCharges
+from services.DatingSitesReviewsCrawler import DatingSitesReviewsCrawler
+from services.TopSiteGratis import TopSiteGratis
+from services.DatingWiseCrawler import DatingWiseCrawler
+from services.VPNpickCrawler import VPNpickCrawler
+from services.PickuphostCrawler import PickuphostCrawler
+from services.BestBitcoinExchange import BestBitcoinExchange
+from services.TrustPilot import TrustPilot
+from services.VirtualBanking import VirtualBanking
 
 final_dict_urls= {}
 dict_url = {}
@@ -239,8 +276,154 @@ class SiteServiceListController(scrapy.Spider):
                 crawler = BestVPN(dict_url[response.url]["Category"], serviceName, response.url)
             else:
                 crawler = BestVPNURLCrawler(dict_url[response.url]["Category"])
-
-
+        elif ('hostadvice.com' in response.url):
+            if 'search' not in response.url:
+                service = response.url.split("/")
+                serviceName = service[len(service) - 1]
+                print(" Servicesssss   ", serviceName)
+                crawler = HostAdviceCrawler(dict_url[response.url]["Category"], serviceName, response.url)
+        elif ('bestvpnforyou.com' in response.url):
+            if '/?s=' not in response.url:
+                service = response.url.split("/")
+                serviceName = service[len(service) - 1]
+                print(" Servicesssss   ", serviceName)
+                crawler = bestVPNForYou(dict_url[response.url]["Category"], serviceName, response.url)
+            else:
+                crawler = BestVpnForYouURLCrawler(dict_url[response.url]["Category"])
+        elif ('productreview.com.au' in response.url):
+            if 'search' not in response.url:
+                service = response.url.split("/")
+                serviceName = service[len(service) - 1]
+                print(" Servicesssss   ", serviceName)
+                crawler = ProductreviewCrawler(dict_url[response.url]["Category"], serviceName, response.url)
+            else:
+                crawler = ProductreviewURLCrawler(dict_url[response.url]["Category"])
+        elif ('resellerratings.com' in response.url):
+            if 'search' not in response.url:
+                service = response.url.split("/")
+                serviceName = service[len(service) - 1]
+                print(" Servicesssss   ", serviceName)
+                crawler = ResellerRatingCrawler(dict_url[response.url]["Category"], serviceName, response.url)
+            else:
+                crawler = ResellerRatingsURLCrawler(dict_url[response.url]["Category"])
+        elif ('restoreprivacy.com' in response.url):
+            if '/?s=' not in response.url:
+                service = response.url.split("/")
+                serviceName = service[len(service) - 1]
+                print(" Servicesssss   ", serviceName)
+                crawler = restorePrivacy(dict_url[response.url]["Category"], serviceName, response.url)
+            else:
+                crawler = RestorePrivacyURLCrawler(dict_url[response.url]["Category"])
+        elif ('thewebmaster.com' in response.url):
+            if 'search' not in response.url:
+                service = response.url.split("/")
+                serviceName = service[len(service) - 1]
+                print(" Servicesssss   ", serviceName)
+                crawler = ThewebmasterCrawler(dict_url[response.url]["Category"], serviceName, response.url)
+            else:
+                crawler = ThewebmasterURLCrawler(dict_url[response.url]["Category"])
+        elif ('vpnmentor.com' in response.url):
+            if 'search' not in response.url:
+                service = response.url.split("/")
+                serviceName = service[len(service) - 2]
+                print(" Servicesssss   ", serviceName)
+                crawler = vpnMentor(dict_url[response.url]["Category"], serviceName, response.url)
+        elif ('webhostinggeeks.com' in response.url):
+            if 'search' not in response.url:
+                service = response.url.split("/")
+                serviceName = service[len(service) - 1]
+                print(" Servicesssss   ", serviceName)
+                crawler = webhostinggeeksCrawler(dict_url[response.url]["Category"], serviceName, response.url)
+        elif ('whoishostingthis.com' in response.url):
+            if 'search' not in response.url:
+                service = response.url.split("/")
+                serviceName = service[len(service) - 1]
+                print(" Servicesssss   ", serviceName)
+                crawler = WhoIsHostingCrawler(dict_url[response.url]["Category"], serviceName, response.url)
+        elif ('whtop.com' in response.url):
+            if 'search' not in response.url:
+                service = response.url.split("/")
+                serviceName = service[len(service) - 1]
+                print(" Servicesssss   ", serviceName)
+                crawler = whtop(dict_url[response.url]["Category"], serviceName, response.url)
+            else:
+                crawler = WhtopURLCrawler(dict_url[response.url]["Category"])
+        elif ('yelp.com' in response.url):
+            if 'search' not in response.url:
+                service = response.url.split("/")
+                serviceName = service[len(service) - 1]
+                print(" Servicesssss   ", serviceName)
+                crawler = yelpCrawler(dict_url[response.url]["Category"], serviceName, response.url)
+            else:
+                crawler = YelpURLCrawler(dict_url[response.url]["Category"])
+        elif ('yscam.com' in response.url):
+            if 'search' not in response.url:
+                service = response.url.split("/")
+                serviceName = service[len(service) - 1]
+                print(" Servicesssss   ", serviceName)
+                crawler = Yscam(dict_url[response.url]["Category"], serviceName, response.url)
+            else:
+                crawler = YscamURLCrawler(dict_url[response.url]["Category"])
+        elif ('hostingcharges.in' in response.url):
+            if 'search' not in response.url:
+                service = response.url.split("/")
+                serviceName = service[len(service) - 1]
+                print(" Servicesssss   ", serviceName)
+                crawler = hostingCharges(dict_url[response.url]["Category"], serviceName, response.url)
+        elif ('datingsitesreviews.com' in response.url):
+            if 'search' not in response.url:
+                service = response.url.split("/")
+                serviceName = service[len(service) - 1]
+                print(" Servicesssss   ", serviceName)
+                crawler = DatingSitesReviewsCrawler(dict_url[response.url]["Category"], serviceName, response.url)
+            else:
+                crawler = DatingSitesReviewsURLCrawler(dict_url[response.url]["Category"])
+        elif ('topsitegratis.com.br' in response.url):
+            if '/?q=' not in response.url:
+                service = response.url.split("/")
+                serviceName = service[len(service) - 1]
+                print(" Servicesssss   ", serviceName)
+                crawler = TopSiteGratis(dict_url[response.url]["Category"], serviceName, response.url)
+            else:
+                crawler = TopSiteGratisURLCrawler(dict_url[response.url]["Category"])
+        elif ('datingwise.com' in response.url):
+            if 'search' not in response.url:
+                service = response.url.split("/")
+                serviceName = service[len(service) - 2]
+                print(" Servicesssss   ", serviceName)
+                crawler = DatingWiseCrawler(dict_url[response.url]["Category"], serviceName, response.url)
+        elif ('vpnpick.com' in response.url):
+            if '/?s=' not in response.url:
+                service = response.url.split("/")
+                serviceName = service[len(service) - 2]
+                print(" Servicesssss   ", serviceName)
+                crawler = VPNpickCrawler(dict_url[response.url]["Category"], serviceName, response.url)
+            else:
+                crawler = VpnPickURLCrawler(dict_url[response.url]["Category"])
+        elif ('bestbitcoinexchange.net' in response.url):
+            if '/?s=' not in response.url:
+                service = response.url.split("/")
+                serviceName = service[len(service) - 2]
+                print(" Servicesssss   ", serviceName)
+                crawler = BestBitcoinExchange(dict_url[response.url]["Category"], serviceName, response.url)
+            else:
+                crawler = BestBitcoinExchangeURLCrawler(dict_url[response.url]["Category"])
+        elif ('trustpilot.com' in response.url):
+            if 'search' not in response.url:
+                service = response.url.split("/")
+                serviceName = service[len(service) - 1]
+                print(" Servicesssss   ", serviceName)
+                crawler = TrustPilot(dict_url[response.url]["Category"], serviceName, response.url)
+            else:
+                crawtler = TrustPilotURLCrawler(dict_url[response.url]["Category"])
+        elif ('virtualbanking.com' in response.url):
+            if '/?s=' not in response.url:
+                service = response.url.split("/")
+                serviceName = service[len(service) - 1]
+                print(" Servicesssss   ", serviceName)
+                crawler = VirtualBanking(dict_url[response.url]["Category"], serviceName, response.url)
+            else:
+                crawler = VirtualBankingURLCrawler(dict_url[response.url]["Category"])
         else:
             print("Found Nothing")
         if (crawler != None):

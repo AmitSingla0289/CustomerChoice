@@ -1,20 +1,28 @@
 from model.Servicemodel import ServiceRecord
 from scrapy import Spider, Request
 from utils.utils import getStarts
-
-# http://www.bestbitcoinexchange.net/en/bittrex-com/
-class BestBitcoinExchange(Spider):
 # TODO Paging pending because of #
-    def __init__(self):
-        pass
-    def parsing(self, response):
-        return self.crawl(response,self.category,self.servicename)
+# http://www.bestbitcoinexchange.net/en/bittrex-com/
+from services.siteservices.BaseSiteURLCrawler import BaseSiteURLCrawler
+class BestBitcoinExchange(BaseSiteURLCrawler):
 
-    def crawl(self, response, category, servicename):
-        reviews = []
-        reviews1 = []
+    def __init__(self,category,servicename,url):
+
         self.category = category
         self.servicename = servicename
+        self.link = {"ServiceName": servicename,
+                "Category": category,
+                "url": url}
+        super(BestBitcoinExchange,self).__init__()
+        self.createCategory(self.link)
+        pass
+    def parsing(self, response1):
+        return self.crawl(response1)
+
+    def crawl(self, response):
+        reviews = []
+        reviews1 = []
+
 
         for node in response.xpath(
                 "//div[@class='box']/ol[@class='comment-list']/li/div"):
@@ -43,9 +51,9 @@ class BestBitcoinExchange(Spider):
         # # print("img_src ", len(img_src), img_src)
         print("websites ", len(website_name), website_name)
         for item in range(0, len(reviews)):
-            servicename1 = ServiceRecord(response.url, None, None, dates[item], authors[item], category,
-                                         servicename, reviews[item], None, website_name)
-            servicename1.save()
+            servicename1 = ServiceRecord(response.url, None, None, dates[item], authors[item], "",
+                                         self.servicename, reviews[item], None, website_name)
+            self.save(servicename1)
         next_page = response.xpath(
             "//div[@class='box']/nav[@id='comment-nav-below']/div[@class='nav-previous']/a/@href").extract()
         if next_page is not None:
@@ -55,6 +63,7 @@ class BestBitcoinExchange(Spider):
                 print(next_page_url)
                 yield Request(next_page_url, callback=self.parsing)
                 # yield response.follow(next_page_url, callback=self.parsing)
+        self.pushToServer()
 
 
 
