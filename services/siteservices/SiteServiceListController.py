@@ -42,6 +42,12 @@ from services.siteservices.PickUpHostURLCrawler import PickuphostURLCrawler
 from services.siteservices.BestBitcoinExchnageURLCrawler import BestBitcoinExchangeURLCrawler
 from services.siteservices.TrustPilotURLCrawler import TrustPilotURLCrawler
 from services.siteservices.VirtualBankingURLCrawler import VirtualBankingURLCrawler
+from services.siteservices.Top11HostingUrlCrawler import Top11HostingURLCrawler
+from services.siteservices.BestOnlineURLCrawler import BestOnlineURLCrawler
+from services.siteservices.ComparitechURLCrawler import ComparitechURLCrawler
+from services.siteservices.JoomlaHostingReviewsURLCrawler import JoomlaHostingReviewsURLCrawler
+from services.siteservices.WebHostingReviewURLCrawler import WebsHostingReviewsURLCrawler
+from services.siteservices.WebHostingHeroURLCrawler import WebHostingHeroURLCrawler
 
 from services.SiteJabberCrawler import SiteJabberCrawler
 from services.HostingFactsCrawler import HostingFactsCrawler
@@ -85,6 +91,12 @@ from services.PickuphostCrawler import PickuphostCrawler
 from services.BestBitcoinExchange import BestBitcoinExchange
 from services.TrustPilot import TrustPilot
 from services.VirtualBanking import VirtualBanking
+from services.top11Hosting import top11Hosting
+from services.BestOnline import BestOnline
+from services.CompariTech import CompariTech
+from services.JoomlaHostingReviews import JoomlaHostingReviews
+from services.Hellopeter import Hellopeter
+from services.WebHostingHero import WebHostingHero
 
 final_dict_urls= {}
 dict_url = {}
@@ -424,6 +436,54 @@ class SiteServiceListController(scrapy.Spider):
                 crawler = VirtualBanking(dict_url[response.url]["Category"], serviceName, response.url)
             else:
                 crawler = VirtualBankingURLCrawler(dict_url[response.url]["Category"])
+        elif ('top11hosting.com' in response.url):
+            if len(response.url.split('/')) > 4:
+                service = response.url.split("/")
+                serviceName = service[len(service) - 1]
+                print(" Servicesssss   ", serviceName)
+                crawler = top11Hosting(dict_url[response.url]["Category"], serviceName, response.url)
+            else:
+                crawler = Top11HostingURLCrawler(dict_url[response.url]["Category"])
+        elif ('10bestonline.com' in response.url):
+            if len(response.url.split('/')) > 5:
+                service = response.url.split("/")
+                serviceName = service[len(service) - 1]
+                print(" Servicesssss   ", serviceName)
+                crawler = BestOnline(dict_url[response.url]["Category"], serviceName, response.url)
+            else:
+                crawler = BestOnlineURLCrawler(dict_url[response.url]["Category"])
+        elif ('comparitech.com' in response.url):
+            if '/?s=' not in response.url:
+                service = response.url.split("/")
+                serviceName = service[len(service) - 1]
+                print(" Servicesssss   ", serviceName)
+                crawler = CompariTech(dict_url[response.url]["Category"], serviceName, response.url)
+            else:
+                crawler = ComparitechURLCrawler(dict_url[response.url]["Category"])
+        elif ('joomlahostingreviews.com' in response.url):
+            if 'search' not in response.url:
+                service = response.url.split("/")
+                serviceName = service[len(service) - 1]
+                print(" Servicesssss   ", serviceName)
+                crawler = JoomlaHostingReviews(dict_url[response.url]["Category"], serviceName, response.url)
+            else:
+                crawler = JoomlaHostingReviewsURLCrawler(dict_url[response.url]["Category"])
+        elif ('webshosting.review' in response.url):
+            # if 'search' not in response.url:
+            #     service = response.url.split("/")
+            #     serviceName = service[len(service) - 1]
+            #     print(" Servicesssss   ", serviceName)
+            #     crawler = Hellopeter(dict_url[response.url]["Category"], serviceName, response.url)
+            # else:
+            crawler = WebsHostingReviewsURLCrawler(dict_url[response.url]["Category"])
+        elif ('webhostinghero.com' in response.url):
+            # if 'search' not in response.url:
+            service = response.url.split("/")
+            serviceName = service[len(service) - 1]
+            print(" Servicesssss   ", serviceName)
+            crawler = WebHostingHero(dict_url[response.url]["Category"], serviceName, response.url)
+            # else:
+            # crawler = WebHostingHeroURLCrawler(dict_url[response.url]["Category"])
         else:
             print("Found Nothing")
         if (crawler != None):

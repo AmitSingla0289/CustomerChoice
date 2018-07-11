@@ -2,17 +2,24 @@ from model.Servicemodel import ServiceRecord
 from lxml import etree
 
 #URL https://www.comparitech.com/vpn/reviews/expressvpn/
+from services.siteservices.BaseSiteURLCrawler import BaseSiteURLCrawler
+class CompariTech(BaseSiteURLCrawler):
 
-class CompariTech():
-    def __init__(self):
-        pass
-    def parsing(self, response):
-        return self.crawl(response,self.category,self.servicename)
+    def __init__(self,category,servicename,url):
 
-    def crawl(self, response, category, servicename):
-        reviews = []
         self.category = category
         self.servicename = servicename
+        self.link = {"ServiceName": servicename,
+                "Category": category,
+                "url": url}
+        super(CompariTech,self).__init__()
+        self.createCategory(self.link)
+        pass
+    def parsing(self, response1):
+        return self.crawl(response1)
+
+    def crawl(self, response):
+        reviews = []
         print("review from comparitech.com")
         for node in response.xpath("//div[@id='comments']/ul[@class='comment-list']/li/article/div[@class='comment-content']"):
             reviews.append(node.xpath('string()').extract());

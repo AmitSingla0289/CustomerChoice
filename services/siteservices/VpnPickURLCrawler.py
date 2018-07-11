@@ -17,6 +17,10 @@ class VpnPickURLCrawler(Spider):
         servicelistnext = []
         serviceList= []
 
+        print("url ", response.url)
+        ur = response.url.split('/?s=')
+        next = ur[0]+'/page/2/?s='+ur[1]
+        print(next)
         url = response.xpath("//header/h2[@class='title front-view-title']/a/@href").extract()
         servicelist = response.xpath("//header/h2[@class='title front-view-title']/a/text()").extract()
 

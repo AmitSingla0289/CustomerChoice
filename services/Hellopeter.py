@@ -2,20 +2,27 @@ from model.Servicemodel import ServiceRecord
 from scrapy import Spider, Request
 
 
+from services.siteservices.BaseSiteURLCrawler import BaseSiteURLCrawler
+class Hellopeter(BaseSiteURLCrawler):
 
-class Hellopeter(Spider):
+    def __init__(self,category,servicename,url):
 
-    def __init__(self):
-        pass
-    def parsing(self, response):
-        return self.crawl(response,self.category,self.servicename)
-
-    def crawl(self, response, category, servicename):
-        reviews = []
-        reviews1 = []
         self.category = category
         self.servicename = servicename
-        # https: // www.webhostinghero.com / reviews / bluehost /
+        self.link = {"ServiceName": servicename,
+                "Category": category,
+                "url": url}
+        super(Hellopeter,self).__init__()
+        self.createCategory(self.link)
+        pass
+    def parsing(self, response1):
+        return self.crawl(response1)
+
+    def crawl(self, response):
+        reviews = []
+        reviews1 = []
+
+
         for node in response.xpath(
                 "//div[@class='mt-0 grid__full py-2']/div[@class='grid']/div[@class='review-card px-0 review-card--verbose']/div[@class='grid__full review-card__info grid__5-6ths--sm m-0 ml-3 p-3 review-card__info--verbose']/h5[@class='text-nowrap-ellipsis mt-1 mb-2 review-card__title']/a"):
             reviews.append(node.xpath('string()').extract());
@@ -33,9 +40,10 @@ class Hellopeter(Spider):
         print("img_src ", len(img_src), img_src)
         print("websites ", len(website_name), website_name)
         for item in range(0, len(reviews)):
-            servicename1 = ServiceRecord(response.url, None, None, dates[item], authors[item], category,
-                                         servicename, reviews[item], img_src, website_name)
-            servicename1.save()
+            servicename1 = ServiceRecord(response.url, None, None, dates[item], authors[item], "",
+                                         self.servicename, reviews[item], img_src, website_name)
+            self.save(servicename1)
+        self.pushToServer()
 
 
 
