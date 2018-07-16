@@ -1,11 +1,11 @@
 from scrapy import Spider, Request
 from lxml import etree
 
-from services.WebHostingHeroCrawler import WebHostingHeroCrawler
+from services.MacUpdate import MacUpdate
 
 
 urlssss = []
-class WebHostingHeroURLCrawler(Spider):
+class MacUpdateURLCrawler(Spider):
     def __init__(self,category):
         self.url_list = []
         self.category = category
@@ -17,8 +17,8 @@ class WebHostingHeroURLCrawler(Spider):
         servicelistnext = []
         serviceList= []
 
-        url = response.xpath("//ol[@class='compact']/li/a/@href").extract()
-        servicelist = response.xpath("//ol[@class='compact']/li/a/text()").extract()
+        url = response.xpath("//a[@class='js-search-suggest-app stwb-boxcol']/@href").extract()
+        servicelist = response.xpath("//a[@class='js-search-suggest-app stwb-boxcol']/h4[@class='stwbbc-appname']/text()").extract()
 
 
 
@@ -28,7 +28,7 @@ class WebHostingHeroURLCrawler(Spider):
 
 
         while i< len(url):
-            crawler = WebHostingHeroCrawler(self.category, servicelist[i], url[i])
+            crawler = MacUpdate(self.category, servicelist[i], url[i])
             # yield Request(url=url[i], callback=crawler.parsing)
             yield response.follow(url=url[i], callback=crawler.parsing)
             # print(url[i][j])

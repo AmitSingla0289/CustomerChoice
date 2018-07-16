@@ -28,7 +28,7 @@ class PickuphostCrawler(BaseSiteURLCrawler):
         name = response.xpath("//div[@class='navbar-header']/a/@href").extract()
         website_name = name[0].split(".")[0].split("/")[-1]
         for item in range(1, len(reviews)):
-            servicename1 = ServiceRecord(response.url, ratings[item], headings[item], dates[item], authors[item], "",
+            servicename1 = ServiceRecord(response.url, ratings[item], headings[item], dates[item], authors[item], self.category,
                           self.servicename, reviews[item],"",website_name);
             self.save(servicename1)
         next_page = response.xpath("//div[@class='row']/div[@class='col-lg-8 col-lg-offset-3']/ul[@class='pagecount']/li[8]/a[@class='next page-numbers custom_page_link']/@href").extract()

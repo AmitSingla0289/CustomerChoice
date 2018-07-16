@@ -20,7 +20,7 @@ class FreeDatingHelper(BaseSiteURLCrawler):
     def crawl(self, response):
         reviews = []
         #https: // www.webhostinghero.com / reviews / bluehost /
-        for node in response.xpath("//ol[@class='commentlist clearfix']/li/article/div[@class='comment_postinfo']/div[2]/div[@class='comment_area']/div[@class='comment-content clearfix']/div[1]/span/p"):
+        for node in response.xpath("//div[@class='comment_postinfo']/div/div[@class='comment_area']/div[@class='comment-content clearfix']/div/span"):
             reviews.append(node.xpath('string()').extract());
         ratings =  response.xpath("//div[@class='comment_postinfo']/div[2]/table[@class='ratings']/tbody/tr/td[@class='rating_value']/div/span/text()").extract()
         # dates = response.xpath("//div[@class='tabBody']/ul[@id='commentsul']/li/div[@class='userComments']/div[@class='userDetails']/div[@class='userLocation']/p[1]/span[@class='pIcn']/text()").extract()
@@ -28,7 +28,7 @@ class FreeDatingHelper(BaseSiteURLCrawler):
         # headings = response.xpath("//div[@id='left-area']/section[@id='comment-wrap']/ol[@class='commentlist clearfix']/li/article/div[@class='comment_postinfo']/div[2]/div[@class='comment_area']/div[@class='comment-content clearfix']/div[@class='notrecommended']/text()").extract()
         website_name =  response.xpath("/html/head/meta[9]/@content").extract()
         img_src = response.xpath("//div[@class='tabBody']/ul[@id='commentsul']/li/div/div/div[@class='userAvatar']/img/@src").extract()
-        print("Reviews ", len(reviews), reviews)
+        print("Reviews ", len(reviews[0]), reviews[0])
 
         print("Authors ", len(authors), authors)
         print("Rating ", len(ratings), ratings)

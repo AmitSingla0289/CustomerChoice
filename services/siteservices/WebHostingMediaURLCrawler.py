@@ -1,11 +1,11 @@
 from scrapy import Spider, Request
 from lxml import etree
 
-from services.BestBitcoinExchange import BestBitcoinExchange
+from services.webHostingmedia import webHostingmedia
 
 
 urlssss = []
-class BestBitcoinExchangeURLCrawler(Spider):
+class WebHostingMediaURLCrawler(Spider):
     def __init__(self,category):
         self.url_list = []
         self.category = category
@@ -17,11 +17,10 @@ class BestBitcoinExchangeURLCrawler(Spider):
         servicelistnext = []
         servicelist= []
 
-        url = response.xpath("//div[@class='entry overview provider']/a[@class='title']/@href").extract()
-        serviceList = response.xpath("//div[@class='entry overview provider']/a[@class='title']/text()").extract()
+        url = response.xpath("//div[@class='the-content']/h2[@class='title']/a/@href").extract()
+        serviceList = response.xpath("//div[@class='the-content']/h2[@class='title']/a/text()").extract()
         for content in serviceList:
-            c= content.split(' ')
-            servicelist.append(c[0])
+            servicelist.append(content.strip())
 
 
 
@@ -31,12 +30,17 @@ class BestBitcoinExchangeURLCrawler(Spider):
 
 
         while i< len(url):
-            crawler = BestBitcoinExchange(self.category, servicelist[i], url[i])
+            crawler = webHostingmedia(self.category, servicelist[i], url[i])
             yield Request(url=url[i], callback=crawler.parsing)
             # yield response.follow(url=url[i], callback=crawler.parsing)
             # print(url[i][j])
             i=i+1
-        next_page = response.xpath("//nav[@class='navi postnavi']/div[@class='next']/a/@href").extract()
+        next_page = response.xpath("//div[@id='nav-below']/div[@class='blog-pagination']/a[5]/@href").extract()
+        if (len(next_page) > 0):
+            if 'page' not in response.url:
+                print next_page
+            else:
+                next_page = response.xpath("//div[@id='nav-below']/div[@class='blog-pagination']/a[7]/@href").extract()
         if next_page is not None:
             if len(next_page)>0:
                 next_page_url = "".join(next_page)

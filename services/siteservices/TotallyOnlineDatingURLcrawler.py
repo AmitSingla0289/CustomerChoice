@@ -1,11 +1,11 @@
 from scrapy import Spider, Request
 from lxml import etree
 
-from services.WebHostingHeroCrawler import WebHostingHeroCrawler
+from services.TotallyOnlineDating import TotallyOnlineDating
 
 
 urlssss = []
-class WebHostingHeroURLCrawler(Spider):
+class TotallyOnlineDatingURLCrawler(Spider):
     def __init__(self,category):
         self.url_list = []
         self.category = category
@@ -17,8 +17,8 @@ class WebHostingHeroURLCrawler(Spider):
         servicelistnext = []
         serviceList= []
 
-        url = response.xpath("//ol[@class='compact']/li/a/@href").extract()
-        servicelist = response.xpath("//ol[@class='compact']/li/a/text()").extract()
+        url = response.xpath("//td[@class='anakateinfo']/a[@class='oniki']/@href").extract()
+        servicelist = response.xpath("//td[@class='anakateinfo']/a[@class='oniki']/text()").extract()
 
 
 
@@ -28,9 +28,9 @@ class WebHostingHeroURLCrawler(Spider):
 
 
         while i< len(url):
-            crawler = WebHostingHeroCrawler(self.category, servicelist[i], url[i])
-            # yield Request(url=url[i], callback=crawler.parsing)
-            yield response.follow(url=url[i], callback=crawler.parsing)
+            crawler = TotallyOnlineDating(self.category, servicelist[i], url[i])
+            yield Request(url=url[i], callback=crawler.parsing)
+            # yield response.follow(url=url[i], callback=crawler.parsing)
             # print(url[i][j])
             i=i+1
         # next_page = response.xpath("//li[@class='pagination-next']/a[@class='hasTooltip pagenav']/@href").extract()

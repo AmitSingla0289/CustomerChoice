@@ -1,11 +1,11 @@
 from scrapy import Spider, Request
 from lxml import etree
 
-from services.NetBusinessRating import NetBusinessRating
+from services.BlackPeopleMeet_PissedConsumer import BlackPeopleMeet_PissedConsumer
 
 # https://netbusinessrating.com/inc/result.php?motclef=ripple&www=&lang=en
 urlssss = []
-class NetBusinessRatingURLCrawler(Spider):
+class PissedConsumerURLCrawler(Spider):
     def __init__(self,category):
         self.url_list = []
         self.category = category
@@ -15,11 +15,12 @@ class NetBusinessRatingURLCrawler(Spider):
         url = []
         urlnext = []
         servicelistnext = []
-        serviceList= []
+        servicelist= []
 
-        url = response.xpath("//div[@class='firstBox uk-width-large-3-10 uk-width-medium-4-10 uk-width-small-4-10']/a[@class='itemName']/@href").extract()
-        servicelist = response.xpath("//div[@class='firstBox uk-width-large-3-10 uk-width-medium-4-10 uk-width-small-4-10']/a[@class='itemName']/text()").extract()
-
+        url = response.xpath("//div[@class='company-info']/a[@class='company-name']/@href").extract()
+        serviceList = response.xpath("//div[@class='company-info']/a[@class='company-name']/text()").extract()
+        for con in serviceList:
+            servicelist.append(con.strip())
 
         print("serviceList  ", len(servicelist), servicelist)
         print("URL ", len(url), url)
@@ -27,9 +28,9 @@ class NetBusinessRatingURLCrawler(Spider):
 
 
         while i< len(url):
-            crawler = NetBusinessRating(self.category, servicelist[i], url[i])
-            # yield Request(url=url[i], callback=crawler.parsing)
-            yield response.follow(url=url[i], callback=crawler.parsing)
+            crawler = BlackPeopleMeet_PissedConsumer(self.category, servicelist[i], url[i])
+            yield Request(url=url[i], callback=crawler.parsing)
+            # yield response.follow(url=url[i], callback=crawler.parsing)
             # print(url[i][j])
             i=i+1
         #     next_page = response.xpath(

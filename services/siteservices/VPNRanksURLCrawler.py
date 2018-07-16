@@ -2,11 +2,11 @@ from scrapy import Spider, Request
 from lxml import etree
 import ast
 import json
-from services.ProductreviewCrawler import ProductreviewCrawler
+from services.vpnRanks import vpnRanks
 
 
 urlssss = []
-class ProductReviewURLCrawler(Spider):
+class VPNRanksURLCrawler(Spider):
     def __init__(self,category):
         self.url_list = []
         self.category = category
@@ -31,26 +31,26 @@ class ProductReviewURLCrawler(Spider):
         print("serviceList  ", len(servicelist), servicelist)
         print("URL ", len(url), url)
         i=0
-        while i< len(url):
-            crawler = ProductreviewCrawler(self.category, servicelist[i], url[i])
-            yield Request(url=url[i], callback=crawler.parsing)
-            # yield response.follow(url=url[i]+'reviews/', callback=crawler.parsing)
-            # print(url[i][j])
-            i=i+1
+        # while i< len(url):
+        #     crawler = vpnRanks(self.category, servicelist[i], url[i])
+        #     yield Request(url=url[i], callback=crawler.parsing)
+        #     # yield response.follow(url=url[i]+'reviews/', callback=crawler.parsing)
+        #     # print(url[i][j])
+        #     i=i+1
         next_page1 = response.url
         if 'start' not in response.url:
 
-            next_page = response.url+"&start=10"
+            next_page = response.url + "&start=10"
 
         else:
             c = next_page1.split('&')
-            count = int(c[14].replace('start=','0'))+10
+            count = int(c[14].replace('start=', '0')) + 10
             if count < int(data["cursor"]["estimatedResultCount"]):
-                next_page = next_page1.replace(c[14],'start='+str(count))
+                next_page = next_page1.replace(c[14], 'start=' + str(count))
             else:
                 next_page=""
         if next_page is not None:
-            if len(next_page)>0:
+            if len(next_page) > 0:
                 next_page_url = "".join(next_page)
                 if next_page_url and next_page_url.strip():
                     # print(next_page_url)

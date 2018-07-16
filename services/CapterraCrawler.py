@@ -27,17 +27,18 @@ class CapterraCrawler(BaseSiteURLCrawler):
         headings = response.xpath("//div[@class='cell seven-eighths  palm-one-whole']/h3/q/text()").extract()
         dates = response.xpath("//div[@class='grid']/div[@class='cell one-eighth  palm-one-whole']/div[@class='quarter-margin-bottom  micro  color-gray  weight-normal  text-right  palm-text-left']/text()").extract()
         img_src = response.xpath("//div[@class='thumbnail  no-hover  listing-thumbnail']/img/@src").extract()
-        website_name = response.xpath("//div[@class='site-logo-wrapper']/a/img[@class='site-logo']/@alt").extract()
+        website_name = "capterra.com"
+        authors = response.xpath("//div[@class='reviewer-details']/div[1]/text()").extract()
         print("Reviews ", len(reviews))
 
         print("ratings ", len(ratings))
         print("Heading ", len(headings))
         print("Dates ", len(dates))
-
+        print("Authors ", len(authors))
         print("websites ", len(website_name), website_name)
         for item in range(0, len(reviews)):
-            service1 = ServiceRecord(response.url, ratings[item],headings[item], dates[item], None, "",
-                          self.servicename, reviews[item], img_src,website_name);
+            service1 = ServiceRecord(response.url, ratings[item],headings[item], dates[item], authors[item], self.category,
+                          self.servicename, reviews[item], img_src[0],website_name);
             self.save(service1)
         next_page = response.xpath("//div[@class='base-margin-bottom']/a/@data-url").extract()
         if next_page is not None:

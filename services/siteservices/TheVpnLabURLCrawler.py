@@ -1,11 +1,11 @@
 from scrapy import Spider, Request
 from lxml import etree
 
-from services.BestBitcoinExchange import BestBitcoinExchange
+from services.TheVPNlabCrawler import TheVPNlabCrawler
 
 
 urlssss = []
-class BestBitcoinExchangeURLCrawler(Spider):
+class TheVpnLabCrawlerURLCrawler(Spider):
     def __init__(self,category):
         self.url_list = []
         self.category = category
@@ -17,11 +17,9 @@ class BestBitcoinExchangeURLCrawler(Spider):
         servicelistnext = []
         servicelist= []
 
-        url = response.xpath("//div[@class='entry overview provider']/a[@class='title']/@href").extract()
-        serviceList = response.xpath("//div[@class='entry overview provider']/a[@class='title']/text()").extract()
-        for content in serviceList:
-            c= content.split(' ')
-            servicelist.append(c[0])
+        url = response.xpath("//div[@class='blogtext']/a[@class='blogtitle']/@href").extract()
+        servicelist = response.xpath("//div[@class='blogtext']/a[@class='blogtitle']/h3/text()").extract()
+
 
 
 
@@ -31,12 +29,17 @@ class BestBitcoinExchangeURLCrawler(Spider):
 
 
         while i< len(url):
-            crawler = BestBitcoinExchange(self.category, servicelist[i], url[i])
+            crawler = TheVPNlabCrawler(self.category, servicelist[i], url[i])
             yield Request(url=url[i], callback=crawler.parsing)
             # yield response.follow(url=url[i], callback=crawler.parsing)
             # print(url[i][j])
             i=i+1
-        next_page = response.xpath("//nav[@class='navi postnavi']/div[@class='next']/a/@href").extract()
+        next_page = response.xpath("//main/div[@class='pagination']/a[3]/@href").extract()
+        if(len(next_page)>0):
+            if 'page' not in response.url:
+                print next_page
+            else:
+                next_page = response.xpath("//main/div[@class='pagination']/a[5]/@href").extract()
         if next_page is not None:
             if len(next_page)>0:
                 next_page_url = "".join(next_page)
