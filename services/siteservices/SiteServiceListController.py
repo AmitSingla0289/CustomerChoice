@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from multiprocessing import Process, Queue
-import urllib
+from product.amazon.helpers import make_request
 import scrapy
 from scrapy import Request
 from scrapy.crawler import  CrawlerRunner
@@ -145,7 +145,7 @@ class SiteServiceListController(scrapy.Spider):
         pass
 
     def start_requests(self):
-        headers = {'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64; rv:48.0) Gecko/20100101 Firefox/48.0'}
+        headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36'}
         for url in self.start_urls:
             yield Request(url, headers=headers,meta={'dont_merge_cookies': True})
 
@@ -525,12 +525,19 @@ class SiteServiceListController(scrapy.Spider):
                 crawler = BestOnlineURLCrawler(dict_url[response.url]["Category"])
         elif ('comparitech.com' in response.url):
             if '/?s=' not in response.url:
+                url = response.url
                 service = response.url.split("/")
                 serviceName = service[len(service) - 1]
                 print(" Servicesssss   ", serviceName)
-                crawler = CompariTech(dict_url[response.url]["Category"], serviceName, response.url)
+                r = make_request(response.url, False, False)
+                crawler = CompariTech(dict_url[response.url]["Category"], serviceName, url)
+                response = r.content
+                crawler.crawl(response)
+                crawler = None
             else:
+                r = make_request(response.url, False, False)
                 crawler = ComparitechURLCrawler(dict_url[response.url]["Category"])
+                response = r.content
         elif ('joomlahostingreviews.com' in response.url):
             if 'search' not in response.url:
                 service = response.url.split("/")
@@ -606,7 +613,7 @@ class SiteServiceListController(scrapy.Spider):
         elif ('pissedconsumer.com' in response.url):
             if ('review'  in response.url):
                 service = response.url.split("/");
-                serviceName = service[len(service) - 1];
+                serviceName = service[2].split('.')[0];
                 print(" Servicesssss   ", serviceName)
                 crawler = BlackPeopleMeet_PissedConsumer(dict_url[response.url]["Category"], serviceName, response.url)
             else:
@@ -669,8 +676,10 @@ def run_spider(urls):
         raise result
 def crawl_services1(urls):
     url = getAjax(urls)
+
     for i in url:
-        run_spider(i)
+        if callingBeautifulSoap(i) is False:
+            run_spider(i)
 
 def getAjax(urls):
     urllist = []
@@ -709,4 +718,35 @@ def getAjax(urls):
             urllist.append(url)
     return urllist
 
-
+def callingBeautifulSoap(dictURL):
+    url = dictURL["url"]
+    if('comparitech.com' in url):
+        if '/?s=' not in url:
+            service = url.split("/")
+            serviceName = service[len(service) - 2]
+            print(" Servicesssss   ", serviceName)
+            r = make_request(url, False, False)
+            crawler = CompariTech(dictURL["Category"], serviceName, url)
+            response = r.content
+            crawler.crawl(response)
+        else:
+            r = make_request(url, False, False)
+            crawler = ComparitechURLCrawler(dictURL["Category"])
+            response = r.content
+            crawler.crawl(response)
+    elif ('bestbitcoinexchange.net' in url):
+        if '/?s=' not in url:
+            service = url.split("/")
+            serviceName = service[len(service) - 2]
+            print(" Servicesssss   ", serviceName)
+            r = make_request(url, False, False)
+            crawler = BestBitcoinExchange(dictURL["Category"], serviceName, url)
+            response = r.content
+            crawler.crawl(response)
+        else:
+            r = make_request(url, False, False)
+            crawler = BestBitcoinExchangeURLCrawler(dictURL["Category"])
+            response = r.content
+            crawler.crawl(response)
+        return True
+    return False
