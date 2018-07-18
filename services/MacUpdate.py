@@ -21,28 +21,18 @@ class MacUpdate(BaseSiteURLCrawler):
 
     def crawl(self, response):
         reviews = []
-        headings = []
-        authors = []
-        dates = []
-        ratings1 = []
 
+        root = etree.HTML(response)
         print("review from macupdate.com")
-        # nodes = response.xpath("//div[@id='reviews_comments_container']").extract();
-        # for content in nodes:
-        #     root = etree.HTML(content)
-        #     print(content)
-        #     if(len(root.xpath("/div/div[@class='yui3-u rcpb-content']/p[@class='rcpb-revcom-content']"))>0):
-        #         reviews.append(root.xpath("/div/div[@class='yui3-u rcpb-content']/p[@class='rcpb-revcom-content']")[0])
-        # print("reviews ", len(reviews), reviews)
 
-        for node in response.xpath("//div[@id='reviews_comments_container']/div[@id='rc_644247']/div[@class='yui3-u rcpb-content']/p[@class='rcpb-revcom-content']"):
-            reviews.append(node.xpath('string()').extract())
-        ratings = response.xpath("//div/div[@class='yui3-u rcpb-content']/div/input/@value/@text()").extract()
-        dates = response.xpath("//div/div[@class='yui3-u rcpb-content']/span[@class='rcpb-postdate']/text()").extract()
-        headings = response.xpath("//div[@class='box col-12 review-title']/h4/text()").extract()
-        authors = response.xpath("//div[@class='box col-12 review-info']/strong/span/text()").extract()
-        website_name = response.xpath("//div[@class='wpcr3_item_name']/a/text()").extract()
-        img_src = response.xpath("//div[@class='avatar']/img/@src").extract()
+        for node in root.xpath(".//div[@class='yui3-u rcpb-content']/p[@class='rcpb-revcom-content']"):
+            reviews.append(node.xpath('string()'))
+        ratings = root.xpath(".//div/div[@class='yui3-u rcpb-content']/div/input/@value/@text()")
+        dates = root.xpath(".//div/div[@class='yui3-u rcpb-content']/span[@class='rcpb-postdate']/text()")
+        headings = root.xpath(".//div[@class='box col-12 review-title']/h4/text()")
+        authors = root.xpath(".//div[@class='box col-12 review-info']/strong/span/text()")
+        website_name = "macupdate.com"
+        img_src = root.xpath(".//div[@class='avatar']/img/@src")
         print(" raaaaaa")
         #
         # for i in range(len(ratings)):

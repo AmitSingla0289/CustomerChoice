@@ -748,5 +748,33 @@ def callingBeautifulSoap(dictURL):
             crawler = BestBitcoinExchangeURLCrawler(dictURL["Category"])
             response = r.content
             crawler.crawl(response)
+    elif ('viewpoints.com' in url):
+        if 'search' not in url:
+            service = url.split("/")
+            serviceName = service[len(service) - 1]
+            print(" Servicesssss   ", serviceName)
+            r = make_request(url, False, False)
+            crawler = ViewPoints(dictURL["Category"], serviceName, url)
+            response = r.content
+            crawler.crawl(response)
+        else:
+            r = make_request(url, False, False)
+            crawler = ViewPointsURLCrawler(dictURL["Category"])
+            response = r.content
+            crawler.crawl(response)
+    elif ('macupdate.com' in url):
+        if 'find' not in url:
+            service = url.split("/")
+            serviceName = service[len(service) - 1]
+            print(" Servicesssss   ", serviceName)
+            r = make_request(url, False, False)
+            crawler = MacUpdate(dictURL["Category"], serviceName, url)
+            response = r.content
+            crawler.crawl(response)
+        else:
+            r = make_request(url, False, False)
+            crawler = MacUpdateURLCrawler(dictURL["Category"])
+            response = r.content
+            crawler.crawl(response)
         return True
     return False
