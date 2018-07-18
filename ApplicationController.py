@@ -4,7 +4,7 @@ if __name__ == '__main__':
     urls=[]
     urls.append({"ServiceName": "Expressvpn",
                  "Category": "VPN Service",
-                 "url": "https://www.macupdate.com/app/mac/52417/purevpn"})
+                 "url": "http://www.bestdatingreviews.org/datingsites/?categories=Match-Making&regions=Asian-Dating&Submit=+"})
 
     crawl_services1(urls)
 
