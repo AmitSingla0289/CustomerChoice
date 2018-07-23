@@ -42,13 +42,13 @@ class CompariTech(BaseSiteURLCrawler):
             else:
                 authors.append("")
 
-        print("reviews ", len(reviews))
+        print("reviews ", len(reviews) , reviews)
         print("dates ", len(dates))
         print("authors ", len(authors), authors)
         # print("img_src ", len(img_src), img_src)
         for item in range(0, len(reviews)):
             servicename1 = ServiceRecord(self.link["url"], None, None, dates[item], authors[item],
-                                         self.category, self.servicename, reviews[item], None, website_name)
+                                         self.category, self.servicename, [reviews[item]], None, website_name)
             self.save(servicename1)
         self.pushToServer()
 

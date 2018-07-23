@@ -215,14 +215,7 @@ class SiteServiceListController(scrapy.Spider):
                 crawler = ReviewCentre( dict_url[response.url]["Category"],serviceName,response.url)
             else:
                 crawler = ReviewCentreURLCrawler(dict_url[response.url]["Category"])
-        elif ('viewpoints.com' in response.url):
-            if 'search' not in response.url:
-                service = response.url.split("/")
-                serviceName = service[len(service) - 1]
-                print(" Servicesssss   ", serviceName)
-                crawler = ViewPoints(dict_url[response.url]["Category"], serviceName, response.url)
-            else:
-                crawler = ViewPointsURLCrawler(dict_url[response.url]["Category"])
+
         elif ('capterra.com' in dict_url["url1"]["url1"]):
             if 'search' not in response.url:
                 service = response.url.split("/")
@@ -483,14 +476,7 @@ class SiteServiceListController(scrapy.Spider):
                 crawler = VPNpickCrawler(dict_url[response.url]["Category"], serviceName, response.url)
             else:
                 crawler = VpnPickURLCrawler(dict_url[response.url]["Category"])
-        elif ('bestbitcoinexchange.net' in response.url):
-            if '/?s=' not in response.url:
-                service = response.url.split("/")
-                serviceName = service[len(service) - 2]
-                print(" Servicesssss   ", serviceName)
-                crawler = BestBitcoinExchange(dict_url[response.url]["Category"], serviceName, response.url)
-            else:
-                crawler = BestBitcoinExchangeURLCrawler(dict_url[response.url]["Category"])
+
         elif ('trustpilot.com' in response.url):
             if 'search' not in response.url:
                 service = response.url.split("/")
@@ -523,21 +509,7 @@ class SiteServiceListController(scrapy.Spider):
                 crawler = BestOnline(dict_url[response.url]["Category"], serviceName, response.url)
             else:
                 crawler = BestOnlineURLCrawler(dict_url[response.url]["Category"])
-        elif ('comparitech.com' in response.url):
-            if '/?s=' not in response.url:
-                url = response.url
-                service = response.url.split("/")
-                serviceName = service[len(service) - 1]
-                print(" Servicesssss   ", serviceName)
-                r = make_request(response.url, False, False)
-                crawler = CompariTech(dict_url[response.url]["Category"], serviceName, url)
-                response = r.content
-                crawler.crawl(response)
-                crawler = None
-            else:
-                r = make_request(response.url, False, False)
-                crawler = ComparitechURLCrawler(dict_url[response.url]["Category"])
-                response = r.content
+
         elif ('joomlahostingreviews.com' in response.url):
             if 'search' not in response.url:
                 service = response.url.split("/")
@@ -546,14 +518,7 @@ class SiteServiceListController(scrapy.Spider):
                 crawler = JoomlaHostingReviews(dict_url[response.url]["Category"], serviceName, response.url)
             else:
                 crawler = JoomlaHostingReviewsURLCrawler(dict_url[response.url]["Category"])
-        elif ('macupdate.com' in response.url):
-            if 'find' not in response.url:
-                service = response.url.split("/")
-                serviceName = service[len(service) - 1]
-                print(" Servicesssss   ", serviceName)
-                crawler = MacUpdate(dict_url[response.url]["Category"], serviceName, response.url)
-            else:
-                crawler = MacUpdateURLCrawler(dict_url[response.url]["Category"])
+
         elif ('totallyonlinedating.com' in response.url):
             if len(response.url.split('/')) > 6:
                 service = response.url.split("/")
